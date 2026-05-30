@@ -1,0 +1,7 @@
+{
+  "name": "qf-gestion",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
