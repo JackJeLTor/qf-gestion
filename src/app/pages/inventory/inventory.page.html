@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Inventario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @for(product of products; track product.id){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>{{ product.name }}</h2>
+
+        <p>Código: {{ product.code }}</p>
+
+        <p>Categoría: {{ product.category }}</p>
+
+        <p>Laboratorio: {{ product.laboratory }}</p>
+
+        <p>Stock: {{ product.stock }}</p>
+
+        <p>Precio: S/. {{ product.price }}</p>
+
+        <p>Vence: {{ product.expirationDate }}</p>
+
+        @if(product.stock < 10){
+
+          <p class="low-stock">
+            ⚠ STOCK BAJO
+          </p>
+
+        } @else {
+
+          <p class="available-stock">
+            ✅ Disponible
+          </p>
+
+        }
+
+        @if(isNearExpiration(product.expirationDate)){
+
+          <p class="expiration-warning">
+            ⏰ Próximo a vencer
+          </p>
+
+        }
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

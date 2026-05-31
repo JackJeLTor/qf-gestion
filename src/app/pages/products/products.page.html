@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Productos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-input
+      label="Buscar producto"
+      labelPlacement="floating"
+      [(ngModel)]="searchText"
+      (ionInput)="searchProduct()">
+    </ion-input>
+  </ion-item>
+
+  <br>
+
+  <ion-item>
+    <ion-input
+      label="Nombre"
+      labelPlacement="floating"
+      [(ngModel)]="productName">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      type="number"
+      label="Stock"
+      labelPlacement="floating"
+      [(ngModel)]="productStock">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      type="number"
+      label="Precio"
+      labelPlacement="floating"
+      [(ngModel)]="productPrice">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+  <ion-input
+    label="Categoría"
+    labelPlacement="floating"
+    [(ngModel)]="productCategory">
+  </ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-input
+    label="Laboratorio"
+    labelPlacement="floating"
+    [(ngModel)]="productLaboratory">
+  </ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-input
+    type="date"
+    label="Vencimiento"
+    labelPlacement="floating"
+    [(ngModel)]="productExpirationDate">
+  </ion-input>
+</ion-item>
+
+  @if(editingProductId === null){
+
+    <ion-button
+      expand="block"
+      (click)="addProduct()">
+
+      Agregar Producto
+
+    </ion-button>
+
+  } @else {
+
+    <ion-button
+      expand="block"
+      color="warning"
+      (click)="updateProduct()">
+
+      Actualizar Producto
+
+    </ion-button>
+
+  }
+
+  @for(product of filteredProducts; track product.id){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>{{ product.name }}</h2>
+
+        <p>Código: {{ product.code }}</p>
+
+        <p>Stock: {{ product.stock }}</p>
+
+        <p>Precio: S/. {{ product.price }}</p>
+
+      </ion-card-content>
+
+      <ion-button
+        expand="block"
+        color="primary"
+        (click)="editProduct(product)">
+
+        Editar
+
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        color="danger"
+        (click)="deleteProduct(product.id)">
+
+        Eliminar
+
+      </ion-button>
+
+    </ion-card>
+
+  }
+
+</ion-content>

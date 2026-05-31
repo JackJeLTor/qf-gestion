@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Pedidos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-input
+      label="Cliente"
+      labelPlacement="floating"
+      [(ngModel)]="clientName">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+
+    <ion-select
+      label="Producto"
+      [(ngModel)]="selectedProduct">
+
+      @for(product of products; track product.id){
+
+        <ion-select-option
+          [value]="product.name">
+
+          {{ product.name }}
+
+        </ion-select-option>
+
+      }
+
+    </ion-select>
+
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      type="number"
+      label="Cantidad"
+      labelPlacement="floating"
+      [(ngModel)]="quantity">
+    </ion-input>
+  </ion-item>
+
+  <ion-button
+    expand="block"
+    (click)="createOrder()">
+
+    Registrar Pedido
+
+  </ion-button>
+
+  @for(order of orders; track order){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>{{ order.client }}</h2>
+
+        <p>Producto: {{ order.product }}</p>
+
+        <p>Cantidad: {{ order.quantity }}</p>
+
+        <p>Fecha: {{ order.date }}</p>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>
