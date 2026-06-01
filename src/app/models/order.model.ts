@@ -6,6 +6,8 @@ export interface Order {
 
   quantity: number;
 
+  total: number;
+
   date: string;
 
 }

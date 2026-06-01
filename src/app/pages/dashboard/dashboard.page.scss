@@ -1,19 +1,15 @@
 .header {
-  background: #1565c0;
-  color: white;
   text-align: center;
-  padding: 30px 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  padding: 20px;
 }
 
 .header h1 {
-  margin: 0;
   font-size: 28px;
+  font-weight: bold;
 }
 
 .header p {
-  margin-top: 8px;
+  color: gray;
 }
 
 .stat-card {
@@ -21,14 +17,14 @@
 }
 
 .stat-card h2 {
-  margin: 0;
-  color: #1565c0;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .menu {
-  padding: 20px;
+  padding: 16px;
 }
 
 ion-button {
-  margin-top: 12px;
+  margin-top: 10px;
 }

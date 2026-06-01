@@ -20,7 +20,8 @@
 
     <ion-select
       label="Producto"
-      [(ngModel)]="selectedProduct">
+      [(ngModel)]="selectedProduct"
+      (ionChange)="onProductChange()">
 
       @for(product of products; track product.id){
 
@@ -42,9 +43,33 @@
       type="number"
       label="Cantidad"
       labelPlacement="floating"
-      [(ngModel)]="quantity">
+      [(ngModel)]="quantity"
+      (ionInput)="calculateTotal()">
     </ion-input>
   </ion-item>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <p>
+        <strong>Precio:</strong>
+        S/. {{ selectedPrice }}
+      </p>
+
+      <p>
+        <strong>Stock Disponible:</strong>
+        {{ selectedStock }}
+      </p>
+
+      <p>
+        <strong>Total:</strong>
+        S/. {{ totalAmount.toFixed(2) }}
+      </p>
+
+    </ion-card-content>
+
+  </ion-card>
 
   <ion-button
     expand="block"
@@ -65,6 +90,8 @@
         <p>Producto: {{ order.product }}</p>
 
         <p>Cantidad: {{ order.quantity }}</p>
+
+        <p>Total: S/. {{ order.total }}</p>
 
         <p>Fecha: {{ order.date }}</p>
 

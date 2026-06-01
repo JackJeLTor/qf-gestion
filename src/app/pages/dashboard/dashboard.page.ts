@@ -13,6 +13,7 @@ import {
 
 import { ProductService } from '../../services/product.service';
 import { OrderService } from '../../services/order.service';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +35,7 @@ export class DashboardPage {
   totalProducts = 0;
   totalOrders = 0;
   lowStock = 0;
+  inventoryValue = 0;
 
   constructor(
     private router: Router,
@@ -43,7 +45,7 @@ export class DashboardPage {
 
   ionViewWillEnter() {
 
-    const products =
+    const products: Product[] =
       this.productService.getProducts();
 
     const orders =
@@ -59,6 +61,13 @@ export class DashboardPage {
       products.filter(
         product => product.stock < 10
       ).length;
+
+    this.inventoryValue =
+      products.reduce(
+        (total, product) =>
+          total + (product.stock * product.price),
+        0
+      );
   }
 
   goInventory() {
@@ -76,4 +85,5 @@ export class DashboardPage {
   goReports() {
     this.router.navigate(['/reports']);
   }
+
 }

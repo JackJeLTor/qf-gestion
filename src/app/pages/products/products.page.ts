@@ -14,6 +14,7 @@ import {
 } from '@ionic/angular/standalone';
 
 import { ProductService } from '../../services/product.service';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-products',
@@ -38,16 +39,17 @@ export class ProductsPage {
   productName = '';
   productStock = 0;
   productPrice = 0;
+
   productCategory = '';
-productLaboratory = '';
-productExpirationDate = '';
+  productLaboratory = '';
+  productExpirationDate = '';
 
   searchText = '';
 
   editingProductId: number | null = null;
 
-  products: any[] = [];
-  filteredProducts: any[] = [];
+  products: Product[] = [];
+  filteredProducts: Product[] = [];
 
   constructor(
     private productService: ProductService
@@ -57,7 +59,7 @@ productExpirationDate = '';
     this.loadProducts();
   }
 
-  loadProducts() {
+  loadProducts(): void {
 
     this.products =
       this.productService.getProducts();
@@ -66,41 +68,65 @@ productExpirationDate = '';
       [...this.products];
   }
 
-  addProduct() {
+  addProduct(): void {
 
     if (!this.productName.trim()) {
       return;
     }
 
-    this.productService.addProduct({
+    const newProduct: Product = {
+
       id: Date.now(),
+
       code: 'MED' + Date.now(),
+
       name: this.productName,
+
       category: this.productCategory,
-stock: this.productStock,
-price: this.productPrice,
-laboratory: this.productLaboratory,
-expirationDate: this.productExpirationDate
-    });
+
+      stock: this.productStock,
+
+      price: this.productPrice,
+
+      laboratory: this.productLaboratory,
+
+      expirationDate: this.productExpirationDate
+    };
+
+    this.productService.addProduct(
+      newProduct
+    );
 
     this.clearForm();
 
     this.loadProducts();
   }
 
-  editProduct(product: any) {
+  editProduct(product: Product): void {
 
-    this.editingProductId = product.id;
+    this.editingProductId =
+      product.id;
 
-    this.productName = product.name;
-    this.productStock = product.stock;
-    this.productPrice = product.price;
-    this.productCategory = product.category;
-this.productLaboratory = product.laboratory;
-this.productExpirationDate = product.expirationDate;
+    this.productName =
+      product.name;
+
+    this.productStock =
+      product.stock;
+
+    this.productPrice =
+      product.price;
+
+    this.productCategory =
+      product.category;
+
+    this.productLaboratory =
+      product.laboratory;
+
+    this.productExpirationDate =
+      product.expirationDate;
   }
 
-  updateProduct() {
+  updateProduct(): void {
 
     const product =
       this.products.find(
@@ -111,16 +137,25 @@ this.productExpirationDate = product.expirationDate;
       return;
     }
 
-    product.name = this.productName;
-    product.stock = this.productStock;
-    product.price = this.productPrice;
-    product.category = this.productCategory;
-product.laboratory = this.productLaboratory;
-product.expirationDate = this.productExpirationDate;
+    const updatedProduct: Product = {
 
-    localStorage.setItem(
-      'products',
-      JSON.stringify(this.products)
+      ...product,
+
+      name: this.productName,
+
+      stock: this.productStock,
+
+      price: this.productPrice,
+
+      category: this.productCategory,
+
+      laboratory: this.productLaboratory,
+
+      expirationDate: this.productExpirationDate
+    };
+
+    this.productService.updateProduct(
+      updatedProduct
     );
 
     this.clearForm();
@@ -128,27 +163,14 @@ product.expirationDate = this.productExpirationDate;
     this.loadProducts();
   }
 
-  deleteProduct(id: number) {
+  deleteProduct(id: number): void {
 
-    const index =
-      this.products.findIndex(
-        product => product.id === id
-      );
+    this.productService.deleteProduct(id);
 
-    if (index > -1) {
-
-      this.products.splice(index, 1);
-
-      localStorage.setItem(
-        'products',
-        JSON.stringify(this.products)
-      );
-
-      this.loadProducts();
-    }
+    this.loadProducts();
   }
 
-  searchProduct() {
+  searchProduct(): void {
 
     this.filteredProducts =
       this.products.filter(product =>
@@ -160,16 +182,17 @@ product.expirationDate = this.productExpirationDate;
       );
   }
 
-  clearForm() {
+  clearForm(): void {
 
     this.editingProductId = null;
 
     this.productName = '';
     this.productStock = 0;
     this.productPrice = 0;
+
     this.productCategory = '';
-this.productLaboratory = '';
-this.productExpirationDate = '';
+    this.productLaboratory = '';
+    this.productExpirationDate = '';
   }
 
 }

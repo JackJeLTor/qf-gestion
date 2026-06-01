@@ -10,29 +10,51 @@
 
   <ion-card>
     <ion-card-content>
-      <h2>Total Productos</h2>
+
+      <h2>📦 Total Productos</h2>
+
       <h1>{{ totalProducts }}</h1>
+
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-content>
-      <h2>Total Pedidos</h2>
+
+      <h2>🛒 Total Pedidos</h2>
+
       <h1>{{ totalOrders }}</h1>
+
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-content>
-      <h2>Stock Bajo</h2>
-      <h1>{{ lowStock }}</h1>
+
+      <h2>💰 Ventas Totales</h2>
+
+      <h1>S/. {{ totalSales.toFixed(2) }}</h1>
+
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-content>
-      <h2>Valor Inventario</h2>
-      <h1>S/. {{ inventoryValue }}</h1>
+
+      <h2>⚠ Productos con Stock Bajo</h2>
+
+      <h1>{{ lowStockProducts }}</h1>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+
+      <h2>📅 Próximos a Vencer</h2>
+
+      <h1>{{ expiringProducts }}</h1>
+
     </ion-card-content>
   </ion-card>
 

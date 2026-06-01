@@ -30,15 +30,16 @@ export class ReportsPage {
 
   totalProducts = 0;
   totalOrders = 0;
-  lowStock = 0;
-  inventoryValue = 0;
+  totalSales = 0;
+  lowStockProducts = 0;
+  expiringProducts = 0;
 
   constructor(
     private productService: ProductService,
     private orderService: OrderService
   ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
 
     const products =
       this.productService.getProducts();
@@ -52,17 +53,38 @@ export class ReportsPage {
     this.totalOrders =
       orders.length;
 
-    this.lowStock =
+    this.totalSales =
+      orders.reduce(
+        (total, order) =>
+          total + (order.total || 0),
+        0
+      );
+
+    this.lowStockProducts =
       products.filter(
         product => product.stock < 10
       ).length;
 
-    this.inventoryValue =
-      products.reduce(
-        (total, product) =>
-          total + (product.stock * product.price),
-        0
-      );
+    const currentDate =
+      new Date();
+
+    this.expiringProducts =
+      products.filter(product => {
+
+        const expirationDate =
+          new Date(product.expirationDate);
+
+        const difference =
+          expirationDate.getTime() -
+          currentDate.getTime();
+
+        const days =
+          difference /
+          (1000 * 60 * 60 * 24);
+
+        return days <= 180;
+
+      }).length;
   }
 
 }
