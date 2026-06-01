@@ -1,0 +1,86 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Mi Perfil
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <h2>
+
+        {{ user?.username }}
+
+      </h2>
+
+      <p>
+
+        Rol:
+        {{ user?.role }}
+
+      </p>
+
+      <p>
+
+        Sistema:
+        QF Gestión App
+
+      </p>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <h3>
+
+        Información del Sistema
+
+      </h3>
+
+      <p>
+
+        Gestión de Inventario
+
+      </p>
+
+      <p>
+
+        Control de Pedidos
+
+      </p>
+
+      <p>
+
+        Reportes Farmacéuticos
+
+      </p>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-button
+    expand="block"
+    color="danger"
+    (click)="logout()">
+
+    Cerrar Sesión
+
+  </ion-button>
+
+</ion-content>

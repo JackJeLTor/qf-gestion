@@ -1,33 +1,59 @@
-<ion-content class="ion-padding">
+<ion-content fullscreen>
 
   <div class="login-container">
 
-    <h1>QF Gestión</h1>
+    <div class="logo-section">
 
-    <p>Sistema de Gestión Farmacéutica</p>
+      <h1>QF</h1>
 
-    <ion-item>
-      <ion-input
-        label="Usuario"
-        labelPlacement="floating">
-      </ion-input>
-    </ion-item>
+      <h2>Farmacia Magistral</h2>
 
-    <ion-item>
-      <ion-input
-        type="password"
-        label="Contraseña"
-        labelPlacement="floating">
-      </ion-input>
-    </ion-item>
+      <p>
+        Sistema de Gestión de Pedidos e Inventario
+      </p>
 
-    <ion-button
-      expand="block"
-      (click)="login()">
+    </div>
 
-      Ingresar
+    <div class="login-card">
 
-    </ion-button>
+      <h3>Bienvenido</h3>
+
+      <p>
+        Inicia sesión para continuar
+      </p>
+
+      <ion-item>
+
+        <ion-input
+          label="Usuario"
+          labelPlacement="floating"
+          [(ngModel)]="username">
+
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          type="password"
+          label="Contraseña"
+          labelPlacement="floating"
+          [(ngModel)]="password">
+
+        </ion-input>
+
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        (click)="login()">
+
+        Iniciar Sesión
+
+      </ion-button>
+
+    </div>
 
   </div>
 

@@ -39,27 +39,31 @@ export class InventoryPage {
       this.productService.getProducts();
   }
 
-  isNearExpiration(date: string): boolean {
+  isExpired(date: string): boolean {
 
-    if (!date) {
-      return false;
-    }
+    return new Date(date) <
+      new Date();
+  }
+
+  isNearExpiration(
+    date: string
+  ): boolean {
+
+    const expirationDate =
+      new Date(date);
 
     const today =
       new Date();
 
-    const expiration =
-      new Date(date);
-
     const difference =
-      expiration.getTime() -
+      expirationDate.getTime() -
       today.getTime();
 
     const days =
       difference /
       (1000 * 60 * 60 * 24);
 
-    return days <= 90;
+    return days > 0 &&
+      days <= 180;
   }
-
 }

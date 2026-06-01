@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Movimientos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @for(
+    movement of movements;
+    track movement.id
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>
+          {{ movement.productName }}
+        </h2>
+
+        <p>
+          Tipo:
+          {{ movement.type }}
+        </p>
+
+        <p>
+          Cantidad:
+          {{ movement.quantity }}
+        </p>
+
+        <p>
+          Fecha:
+          {{ movement.date }}
+        </p>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

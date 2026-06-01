@@ -54,4 +54,22 @@ export const routes: Routes = [
         (m) => m.ReportsPage
       ),
   },
+
+  {
+  path: 'movements',
+  loadComponent: () =>
+    import(
+      './pages/movements/movements.page'
+    ).then(
+      m => m.MovementsPage
+    )
+},
+
+{
+  path: 'profile',
+  loadComponent: () =>
+    import('./pages/profile/profile.page').then(
+      (m) => m.ProfilePage
+    ),
+}
 ];

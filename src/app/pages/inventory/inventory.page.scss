@@ -1,23 +1,29 @@
-ion-card {
-  margin-bottom: 12px;
-}
-
-h2 {
-  font-weight: bold;
-  color: #1565c0;
-}
-
 .low-stock {
-  color: red;
+  color: #ff9800;
   font-weight: bold;
 }
 
 .available-stock {
-  color: green;
+  color: #4caf50;
   font-weight: bold;
 }
 
-.expiration-warning {
-  color: orange;
+.expired {
+  color: #e53935;
   font-weight: bold;
+}
+
+.near-expiration {
+  color: #fb8c00;
+  font-weight: bold;
+}
+
+.valid-product {
+  color: #43a047;
+  font-weight: bold;
+}
+
+ion-card {
+  border-radius: 16px;
+  margin-bottom: 12px;
 }

@@ -17,6 +17,7 @@ import {
 
 import { ProductService } from '../../services/product.service';
 import { OrderService } from '../../services/order.service';
+import { MovementService } from '../../services/movement.service';
 
 @Component({
   selector: 'app-orders',
@@ -53,7 +54,8 @@ export class OrdersPage {
 
   constructor(
     private productService: ProductService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private movementService: MovementService
   ) {}
 
   ngOnInit() {
@@ -102,6 +104,9 @@ export class OrdersPage {
       !this.clientName ||
       !this.selectedProduct
     ) {
+      alert(
+        'Complete todos los campos'
+      );
       return;
     }
 
@@ -121,14 +126,43 @@ export class OrdersPage {
     }
 
     this.orderService.addOrder({
+
       client: this.clientName,
+
       product: this.selectedProduct,
+
       quantity: this.quantity,
+
       total: this.totalAmount,
-      date: new Date().toLocaleDateString()
+
+      date:
+        new Date().toLocaleDateString()
+
     });
 
+    this.movementService.addMovement({
+
+      id: Date.now(),
+
+      productName:
+        this.selectedProduct,
+
+      type: 'Salida',
+
+      quantity: this.quantity,
+
+      date:
+        new Date().toLocaleString()
+
+    });
+
+    alert(
+      'Pedido registrado correctamente'
+    );
+
     this.loadData();
+
+    this.onProductChange();
 
     this.clientName = '';
     this.selectedProduct = '';

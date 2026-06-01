@@ -16,17 +16,15 @@
 
         <h2>{{ product.name }}</h2>
 
-        <p>Código: {{ product.code }}</p>
+        <p><strong>Código:</strong> {{ product.code }}</p>
 
-        <p>Categoría: {{ product.category }}</p>
+        <p><strong>Stock:</strong> {{ product.stock }}</p>
 
-        <p>Laboratorio: {{ product.laboratory }}</p>
+        <p><strong>Precio:</strong> S/. {{ product.price }}</p>
 
-        <p>Stock: {{ product.stock }}</p>
+        <p><strong>Laboratorio:</strong> {{ product.laboratory }}</p>
 
-        <p>Precio: S/. {{ product.price }}</p>
-
-        <p>Vence: {{ product.expirationDate }}</p>
+        <p><strong>Vencimiento:</strong> {{ product.expirationDate }}</p>
 
         @if(product.stock < 10){
 
@@ -42,10 +40,22 @@
 
         }
 
-        @if(isNearExpiration(product.expirationDate)){
+        @if(isExpired(product.expirationDate)){
 
-          <p class="expiration-warning">
-            ⏰ Próximo a vencer
+          <p class="expired">
+            🔴 PRODUCTO VENCIDO
+          </p>
+
+        } @else if(isNearExpiration(product.expirationDate)){
+
+          <p class="near-expiration">
+            🟠 PRÓXIMO A VENCER
+          </p>
+
+        } @else {
+
+          <p class="valid-product">
+            🟢 VIGENTE
           </p>
 
         }

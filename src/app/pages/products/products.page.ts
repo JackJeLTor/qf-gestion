@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MovementService }
+from '../../services/movement.service';
 
 import {
   IonContent,
@@ -52,8 +54,9 @@ export class ProductsPage {
   filteredProducts: Product[] = [];
 
   constructor(
-    private productService: ProductService
-  ) {}
+  private productService: ProductService,
+  private movementService: MovementService
+) {}
 
   ngOnInit() {
     this.loadProducts();
@@ -96,6 +99,20 @@ export class ProductsPage {
     this.productService.addProduct(
       newProduct
     );
+    
+    this.movementService.addMovement({
+
+  id: Date.now(),
+
+  productName: this.productName,
+
+  type: 'Ingreso',
+
+  quantity: this.productStock,
+
+  date: new Date()
+    .toLocaleString()
+});
 
     this.clearForm();
 

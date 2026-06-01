@@ -1,13 +1,48 @@
-ion-card {
-  margin-bottom: 15px;
+ion-content {
+  --background: #f5f7fb;
 }
 
-h1 {
-  font-size: 32px;
+.report-card {
+
+  border-radius: 18px;
+
+  margin-bottom: 16px;
+
+  text-align: center;
+}
+
+.report-card h1 {
+
+  font-size: 34px;
+
   font-weight: bold;
-  text-align: center;
+
+  margin-top: 10px;
 }
 
-h2 {
-  text-align: center;
+.report-card h2 {
+
+  font-size: 18px;
+
+  margin-bottom: 5px;
+}
+
+.products {
+  border-left: 6px solid #2144d8;
+}
+
+.orders {
+  border-left: 6px solid #00acc1;
+}
+
+.sales {
+  border-left: 6px solid #43a047;
+}
+
+.warning {
+  border-left: 6px solid #fb8c00;
+}
+
+.expire {
+  border-left: 6px solid #e53935;
 }

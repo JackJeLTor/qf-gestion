@@ -1,17 +1,29 @@
-ion-button {
+ion-content {
+  --background: #f5f7fb;
+}
+
+.product-card {
+
+  border-radius: 18px;
+
   margin-top: 15px;
-  margin-bottom: 20px;
+
+  overflow: hidden;
 }
 
-ion-card {
-  margin-bottom: 15px;
+.product-card h2 {
+
+  color: #2144d8;
+
+  margin-bottom: 12px;
 }
 
-h2 {
-  font-weight: bold;
-  color: #1565c0;
+ion-item {
+
+  margin-bottom: 10px;
 }
 
-p {
-  margin: 4px 0;
+ion-button {
+
+  margin-top: 8px;
 }

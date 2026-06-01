@@ -1,12 +1,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Productos
+      Gestión de Productos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+
+  <!-- BUSCADOR -->
 
   <ion-item>
     <ion-input
@@ -18,6 +20,8 @@
   </ion-item>
 
   <br>
+
+  <!-- FORMULARIO -->
 
   <ion-item>
     <ion-input
@@ -46,29 +50,29 @@
   </ion-item>
 
   <ion-item>
-  <ion-input
-    label="Categoría"
-    labelPlacement="floating"
-    [(ngModel)]="productCategory">
-  </ion-input>
-</ion-item>
+    <ion-input
+      label="Categoría"
+      labelPlacement="floating"
+      [(ngModel)]="productCategory">
+    </ion-input>
+  </ion-item>
 
-<ion-item>
-  <ion-input
-    label="Laboratorio"
-    labelPlacement="floating"
-    [(ngModel)]="productLaboratory">
-  </ion-input>
-</ion-item>
+  <ion-item>
+    <ion-input
+      label="Laboratorio"
+      labelPlacement="floating"
+      [(ngModel)]="productLaboratory">
+    </ion-input>
+  </ion-item>
 
-<ion-item>
-  <ion-input
-    type="date"
-    label="Vencimiento"
-    labelPlacement="floating"
-    [(ngModel)]="productExpirationDate">
-  </ion-input>
-</ion-item>
+  <ion-item>
+    <ion-input
+      type="date"
+      label="Fecha Vencimiento"
+      labelPlacement="floating"
+      [(ngModel)]="productExpirationDate">
+    </ion-input>
+  </ion-item>
 
   @if(editingProductId === null){
 
@@ -83,8 +87,8 @@
   } @else {
 
     <ion-button
+      color="success"
       expand="block"
-      color="warning"
       (click)="updateProduct()">
 
       Actualizar Producto
@@ -93,25 +97,54 @@
 
   }
 
+  <br>
+
+  <!-- LISTADO -->
+
   @for(product of filteredProducts; track product.id){
 
-    <ion-card>
+    <ion-card class="product-card">
 
       <ion-card-content>
 
-        <h2>{{ product.name }}</h2>
+        <h2>
+          💊 {{ product.name }}
+        </h2>
 
-        <p>Código: {{ product.code }}</p>
+        <p>
+          <strong>Código:</strong>
+          {{ product.code }}
+        </p>
 
-        <p>Stock: {{ product.stock }}</p>
+        <p>
+          <strong>Categoría:</strong>
+          {{ product.category }}
+        </p>
 
-        <p>Precio: S/. {{ product.price }}</p>
+        <p>
+          <strong>Laboratorio:</strong>
+          {{ product.laboratory }}
+        </p>
+
+        <p>
+          <strong>Stock:</strong>
+          {{ product.stock }}
+        </p>
+
+        <p>
+          <strong>Precio:</strong>
+          S/. {{ product.price }}
+        </p>
+
+        <p>
+          <strong>Vence:</strong>
+          {{ product.expirationDate }}
+        </p>
 
       </ion-card-content>
 
       <ion-button
         expand="block"
-        color="primary"
         (click)="editProduct(product)">
 
         Editar
@@ -119,8 +152,8 @@
       </ion-button>
 
       <ion-button
-        expand="block"
         color="danger"
+        expand="block"
         (click)="deleteProduct(product.id)">
 
         Eliminar
