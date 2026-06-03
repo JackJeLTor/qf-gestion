@@ -13,6 +13,9 @@ import {
 import { ProductService } from '../../services/product.service';
 import { OrderService } from '../../services/order.service';
 import { MovementService } from '../../services/movement.service';
+import { PrescriptionService } from '../../services/prescription.service';
+import { ProductionService } from '../../services/production.service';
+
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -37,32 +40,61 @@ export class DashboardPage {
   inventoryValue = 0;
   expiringProducts = 0;
 
+  totalPrescriptions = 0;
+  pendingPrescriptions = 0;
+
+  activeProductions = 0;
+  finishedProductions = 0;
+
   recentMovements: any[] = [];
 
   constructor(
     private router: Router,
     private productService: ProductService,
     private orderService: OrderService,
-    private movementService: MovementService
+    private movementService: MovementService,
+    private prescriptionService: PrescriptionService,
+    private productionService: ProductionService
   ) {}
 
   ionViewWillEnter() {
 
-    const products: Product[] =
+    const products =
       this.productService.getProducts();
 
     const orders =
       this.orderService.getOrders();
 
-    this.totalProducts =
-      products.length;
+    const prescriptions =
+      this.prescriptionService.getPrescriptions();
 
-    this.totalOrders =
-      orders.length;
+    const productions =
+      this.productionService.getProductions();
+
+    this.totalProducts = products.length;
+    this.totalOrders = orders.length;
+
+    this.totalPrescriptions =
+      prescriptions.length;
+
+    this.pendingPrescriptions =
+      prescriptions.filter(
+        p => p.status !== 'Entregada'
+      ).length;
+
+    this.activeProductions =
+      productions.filter(
+        p => p.status !== 'Finalizado'
+      ).length;
+
+    this.finishedProductions =
+      productions.filter(
+        p => p.status === 'Finalizado'
+      ).length;
 
     this.lowStock =
       products.filter(
-        product => product.stock < 10
+        p => p.stock < 10
       ).length;
 
     this.inventoryValue =
@@ -84,7 +116,7 @@ export class DashboardPage {
 
         const days =
           (expiration.getTime() -
-          today.getTime()) /
+            today.getTime()) /
           (1000 * 60 * 60 * 24);
 
         return days <= 90;
@@ -116,6 +148,14 @@ export class DashboardPage {
 
   goProfile() {
     this.router.navigate(['/profile']);
+  }
+
+  goPrescriptions() {
+    this.router.navigate(['/prescriptions']);
+  }
+
+  goProductions() {
+    this.router.navigate(['/productions']);
   }
 
 }

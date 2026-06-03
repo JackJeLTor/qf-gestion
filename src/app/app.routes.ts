@@ -71,5 +71,21 @@ export const routes: Routes = [
     import('./pages/profile/profile.page').then(
       (m) => m.ProfilePage
     ),
-}
+},
+
+{
+    path: 'prescriptions',
+    loadComponent: () => import('./pages/prescriptions/prescriptions.page').then( m => m.PrescriptionsPage)
+},
+
+{
+    path: 'productions',
+    loadComponent: () => import('./pages/productions/productions.page').then( m => m.ProductionsPage)
+},
+  
+  {
+    path: 'raw-materials',
+    loadComponent: () => import('./pages/raw-materials/raw-materials.page').then( m => m.RawMaterialsPage)
+  },
+
 ];

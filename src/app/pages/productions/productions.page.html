@@ -1,0 +1,116 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Producción Magistral
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @for(
+    production of productions;
+    track production.id
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>
+
+          {{ production.patientName }}
+
+        </h2>
+
+        <p>
+
+          Responsable:
+          {{ production.responsible }}
+
+        </p>
+
+        <p>
+
+          Fórmula:
+          {{ production.formula }}
+
+        </p>
+
+        <p>
+
+          Inicio:
+          {{ production.startDate }}
+
+        </p>
+
+        <p>
+
+          Estado:
+
+          <strong>
+
+            {{ production.status }}
+
+          </strong>
+
+        </p>
+
+        @if(
+          production.status ===
+          'Finalizado'
+        ){
+
+          <hr>
+
+          <p>
+
+            Fecha Fin:
+            {{ production.endDate }}
+
+          </p>
+
+          <p>
+
+            Calidad:
+            {{ production.qualityResult }}
+
+          </p>
+
+          <p>
+
+            Observación:
+            {{ production.observations }}
+
+          </p>
+
+        }
+
+        @if(
+          production.status !==
+          'Finalizado'
+        ){
+
+          <ion-button
+            expand="block"
+            (click)="nextStatus(production)">
+
+            Avanzar Producción
+
+          </ion-button>
+
+        }
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

@@ -59,7 +59,9 @@ export class OrdersPage {
   ) {}
 
   ngOnInit() {
+
     this.loadData();
+
   }
 
   loadData() {
@@ -69,6 +71,7 @@ export class OrdersPage {
 
     this.orders =
       this.orderService.getOrders();
+
   }
 
   onProductChange() {
@@ -89,6 +92,7 @@ export class OrdersPage {
       product.stock;
 
     this.calculateTotal();
+
   }
 
   calculateTotal() {
@@ -96,6 +100,7 @@ export class OrdersPage {
     this.totalAmount =
       this.selectedPrice *
       this.quantity;
+
   }
 
   createOrder() {
@@ -104,9 +109,6 @@ export class OrdersPage {
       !this.clientName ||
       !this.selectedProduct
     ) {
-      alert(
-        'Complete todos los campos'
-      );
       return;
     }
 
@@ -135,8 +137,7 @@ export class OrdersPage {
 
       total: this.totalAmount,
 
-      date:
-        new Date().toLocaleDateString()
+      date: new Date().toLocaleDateString()
 
     });
 
@@ -147,30 +148,32 @@ export class OrdersPage {
       productName:
         this.selectedProduct,
 
-      type: 'Salida',
+      type:
+        'Salida',
 
-      quantity: this.quantity,
+      quantity:
+        this.quantity,
 
       date:
-        new Date().toLocaleString()
+        new Date()
+        .toLocaleDateString()
 
     });
 
-    alert(
-      'Pedido registrado correctamente'
-    );
-
     this.loadData();
 
-    this.onProductChange();
-
     this.clientName = '';
+
     this.selectedProduct = '';
+
     this.quantity = 1;
 
     this.selectedPrice = 0;
+
     this.selectedStock = 0;
+
     this.totalAmount = 0;
+
   }
 
 }

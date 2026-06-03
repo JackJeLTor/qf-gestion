@@ -1,0 +1,115 @@
+import { Component } from '@angular/core';
+
+import {
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonCard,
+  IonCardContent,
+  IonButton
+} from '@ionic/angular/standalone';
+
+import { ProductionService }
+from '../../services/production.service';
+
+@Component({
+  selector: 'app-productions',
+  templateUrl: './productions.page.html',
+  styleUrls: ['./productions.page.scss'],
+  standalone: true,
+  imports: [
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonCard,
+    IonCardContent,
+    IonButton
+  ]
+})
+export class ProductionsPage {
+
+  productions: any[] = [];
+
+  constructor(
+    private productionService:
+      ProductionService
+  ) {}
+
+  ngOnInit() {
+
+    this.loadProductions();
+
+  }
+
+  loadProductions() {
+
+    this.productions =
+      this.productionService
+        .getProductions();
+
+  }
+
+  nextStatus(
+    production: any
+  ) {
+
+    switch (
+      production.status
+    ) {
+
+      case 'Pendiente':
+
+        this.productionService
+          .updateStatus(
+            production.id,
+            'En Producción'
+          );
+
+        break;
+
+      case 'En Producción':
+
+        this.productionService
+          .updateStatus(
+            production.id,
+            'Control Calidad'
+          );
+
+        break;
+
+      case 'Control Calidad':
+
+        production.endDate =
+          new Date()
+            .toLocaleDateString();
+
+        production.qualityResult =
+          'Aprobado';
+
+        production.observations =
+          'Producción completada correctamente';
+
+        this.productionService
+          .updateStatus(
+            production.id,
+            'Finalizado'
+          );
+
+        break;
+
+    }
+
+    localStorage.setItem(
+      'productions',
+      JSON.stringify(
+        this.productions
+      )
+    );
+
+    this.loadProductions();
+
+  }
+
+}

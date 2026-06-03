@@ -1,0 +1,77 @@
+import { Injectable } from '@angular/core';
+
+import { Production }
+from '../models/production.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductionService {
+
+  private productions:
+    Production[] = [];
+
+  constructor() {
+
+    const data =
+      localStorage.getItem(
+        'productions'
+      );
+
+    if (data) {
+
+      this.productions =
+        JSON.parse(data);
+
+    }
+
+  }
+
+  getProductions() {
+
+    return this.productions;
+  }
+
+  addProduction(
+    production: Production
+  ) {
+
+    this.productions.push(
+      production
+    );
+
+    this.save();
+  }
+
+  updateStatus(
+    id: number,
+    status: string
+  ) {
+
+    const production =
+      this.productions.find(
+        p => p.id === id
+      );
+
+    if (production) {
+
+      production.status =
+        status;
+
+      this.save();
+    }
+
+  }
+
+  private save() {
+
+    localStorage.setItem(
+      'productions',
+      JSON.stringify(
+        this.productions
+      )
+    );
+
+  }
+
+}

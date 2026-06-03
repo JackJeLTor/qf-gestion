@@ -1,0 +1,193 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Recetas Magistrales
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card class="form-card">
+
+    <ion-card-content>
+
+      <ion-item>
+
+        <ion-input
+          label="Paciente"
+          labelPlacement="floating"
+          [(ngModel)]="patientName">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          label="Médico"
+          labelPlacement="floating"
+          [(ngModel)]="doctorName">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          label="Prioridad"
+          labelPlacement="floating"
+          [(ngModel)]="priority">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          label="Responsable"
+          labelPlacement="floating"
+          [(ngModel)]="responsible">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          type="date"
+          label="Fecha Entrega"
+          labelPlacement="floating"
+          [(ngModel)]="deliveryDate">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-textarea
+          label="Fórmula Magistral"
+          labelPlacement="floating"
+          [(ngModel)]="formula">
+        </ion-textarea>
+
+        
+
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        (click)="createPrescription()">
+
+        Registrar Receta
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <div class="section-title">
+
+    Producción Magistral
+
+  </div>
+
+  @for(
+    prescription of prescriptions;
+    track prescription.id
+  ){
+
+    <ion-card class="prescription-card">
+
+      <ion-card-content>
+
+        <h2>
+
+          {{ prescription.patientName }}
+
+        </h2>
+
+        <p>
+
+          👨‍⚕️ {{ prescription.doctorName }}
+
+        </p>
+
+        <p>
+
+          ⚡ Prioridad:
+          {{ prescription.priority }}
+
+        </p>
+
+        <p>
+
+          👤 Responsable:
+          {{ prescription.responsible }}
+
+        </p>
+
+        <p>
+
+          📅 Entrega:
+          {{ prescription.deliveryDate }}
+
+        </p>
+
+        <p>
+
+          🧪 {{ prescription.formula }}
+
+        </p>
+
+        <p
+  class="status"
+  [style.background]="
+    prescription.status === 'Pendiente'
+      ? '#fde68a'
+      : prescription.status === 'Validada'
+      ? '#bfdbfe'
+      : prescription.status === 'En Preparación'
+      ? '#c4b5fd'
+      : prescription.status === 'Control de Calidad'
+      ? '#fbcfe8'
+      : prescription.status === 'Lista para Entrega'
+      ? '#86efac'
+      : '#22c55e'
+  "
+>
+
+  {{ prescription.status }}
+
+</p>
+
+        @if(
+          prescription.status !==
+          'Entregada'
+        ){
+
+          <ion-button
+            expand="block"
+            size="small"
+            (click)="nextStatus(prescription)">
+
+            Avanzar Estado
+
+          </ion-button>
+
+        }
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

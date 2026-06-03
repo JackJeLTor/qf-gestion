@@ -1,0 +1,136 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Materias Primas
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+
+    <ion-input
+      label="Nombre"
+      labelPlacement="floating"
+      [(ngModel)]="name">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Proveedor"
+      labelPlacement="floating"
+      [(ngModel)]="supplier">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      type="number"
+      label="Stock"
+      labelPlacement="floating"
+      [(ngModel)]="stock">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Unidad"
+      labelPlacement="floating"
+      [(ngModel)]="unit">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      type="date"
+      label="Vencimiento"
+      labelPlacement="floating"
+      [(ngModel)]="expirationDate">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-button
+    expand="block"
+    (click)="addRawMaterial()">
+
+    Registrar Materia Prima
+
+  </ion-button>
+
+  @for(
+    material of rawMaterials;
+    track material.id
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>
+
+          {{ material.name }}
+
+        </h2>
+
+        <p>
+
+          Código:
+          {{ material.code }}
+
+        </p>
+
+        <p>
+
+          Proveedor:
+          {{ material.supplier }}
+
+        </p>
+
+        <p>
+
+          Stock:
+          {{ material.stock }}
+          {{ material.unit }}
+
+        </p>
+
+        <p>
+
+          Vence:
+          {{ material.expirationDate }}
+
+        </p>
+
+      </ion-card-content>
+
+      <ion-button
+        color="danger"
+        expand="block"
+        (click)="deleteRawMaterial(material.id)">
+
+        Eliminar
+
+      </ion-button>
+
+    </ion-card>
+
+  }
+
+</ion-content>

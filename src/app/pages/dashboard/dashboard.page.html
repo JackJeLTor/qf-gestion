@@ -72,6 +72,62 @@
 
   <ion-card>
 
+  <ion-card-content>
+
+    🧪 Recetas Registradas:
+
+    <strong>
+      {{ totalPrescriptions }}
+    </strong>
+
+  </ion-card-content>
+
+</ion-card>
+
+<ion-card>
+
+  <ion-card-content>
+
+    ⏳ Recetas Pendientes:
+
+    <strong>
+      {{ pendingPrescriptions }}
+    </strong>
+
+  </ion-card-content>
+
+</ion-card>
+
+<ion-card>
+
+  <ion-card-content>
+
+    🏭 Producciones Activas:
+
+    <strong>
+      {{ activeProductions }}
+    </strong>
+
+  </ion-card-content>
+
+</ion-card>
+
+<ion-card>
+
+  <ion-card-content>
+
+    ✅ Producciones Finalizadas:
+
+    <strong>
+      {{ finishedProductions }}
+    </strong>
+
+  </ion-card-content>
+
+</ion-card>
+
+  <ion-card>
+
     <ion-card-content>
 
       💰 Valor del Inventario:
@@ -177,5 +233,15 @@
     👤<br>
     Perfil
   </button>
+
+  <button (click)="goPrescriptions()">
+  🧪<br>
+  Recetas
+</button>
+
+<button (click)="goProductions()">
+  🏭<br>
+  Producción
+</button>
 
 </div>
