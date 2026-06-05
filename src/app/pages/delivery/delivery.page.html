@@ -1,0 +1,80 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Entregas
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @for(
+    delivery of deliveries;
+    track delivery.id
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>
+
+          {{ delivery.patientName }}
+
+        </h2>
+
+        <p>
+
+          Fórmula:
+          {{ delivery.formula }}
+
+        </p>
+
+        <p>
+
+          Responsable:
+          {{ delivery.responsible }}
+
+        </p>
+
+        <p>
+
+          Estado:
+
+          <strong>
+
+            {{ delivery.status }}
+
+          </strong>
+
+        </p>
+
+        @if(
+          delivery.status !==
+          'Entregado'
+        ){
+
+          <ion-button
+            expand="block"
+            color="success"
+            (click)="deliver(delivery)">
+
+            Confirmar Entrega
+
+          </ion-button>
+
+        }
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

@@ -4,7 +4,7 @@
 
     <ion-title>
 
-      Materias Primas
+      Médicos
 
     </ion-title>
 
@@ -17,9 +17,9 @@
   <ion-item>
 
     <ion-input
-      label="Nombre"
+      label="CMP"
       labelPlacement="floating"
-      [(ngModel)]="name">
+      [(ngModel)]="cmp">
     </ion-input>
 
   </ion-item>
@@ -27,9 +27,9 @@
   <ion-item>
 
     <ion-input
-      label="Laboratorio"
+      label="Nombre Completo"
       labelPlacement="floating"
-      [(ngModel)]="laboratoryName">
+      [(ngModel)]="fullName">
     </ion-input>
 
   </ion-item>
@@ -37,10 +37,9 @@
   <ion-item>
 
     <ion-input
-      type="number"
-      label="Stock"
+      label="Especialidad"
       labelPlacement="floating"
-      [(ngModel)]="stock">
+      [(ngModel)]="specialty">
     </ion-input>
 
   </ion-item>
@@ -48,9 +47,9 @@
   <ion-item>
 
     <ion-input
-      label="Unidad"
+      label="Teléfono"
       labelPlacement="floating"
-      [(ngModel)]="unit">
+      [(ngModel)]="phone">
     </ion-input>
 
   </ion-item>
@@ -58,25 +57,24 @@
   <ion-item>
 
     <ion-input
-      type="date"
-      label="Vencimiento"
+      label="Correo"
       labelPlacement="floating"
-      [(ngModel)]="expirationDate">
+      [(ngModel)]="email">
     </ion-input>
 
   </ion-item>
 
   <ion-button
     expand="block"
-    (click)="addRawMaterial()">
+    (click)="addDoctor()">
 
-    Registrar Materia Prima
+    Registrar Médico
 
   </ion-button>
 
   @for(
-    material of rawMaterials;
-    track material.id
+    doctor of doctors;
+    track doctor.id
   ){
 
     <ion-card>
@@ -85,45 +83,24 @@
 
         <h2>
 
-          {{ material.name }}
+          {{ doctor.fullName }}
 
         </h2>
 
-        <p>
+        <p>CMP: {{ doctor.cmp }}</p>
 
-          Código:
-          {{ material.code }}
+        <p>Especialidad: {{ doctor.specialty }}</p>
 
-        </p>
+        <p>Teléfono: {{ doctor.phone }}</p>
 
-        <p>
-
-          Laboratorio:
-          {{ material.laboratoryName }}
-
-        </p>
-
-        <p>
-
-          Stock:
-          {{ material.stock }}
-          {{ material.unit }}
-
-        </p>
-
-        <p>
-
-          Vence:
-          {{ material.expirationDate }}
-
-        </p>
+        <p>Correo: {{ doctor.email }}</p>
 
       </ion-card-content>
 
       <ion-button
         color="danger"
         expand="block"
-        (click)="deleteRawMaterial(material.id)">
+        (click)="deleteDoctor(doctor.id)">
 
         Eliminar
 

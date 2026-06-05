@@ -16,6 +16,9 @@ import {
 import { RawMaterialService }
 from '../../services/raw-material.service';
 
+import { LaboratoryService }
+from '../../services/laboratory.service';
+
 @Component({
   selector: 'app-raw-materials',
   templateUrl: './raw-materials.page.html',
@@ -38,7 +41,9 @@ export class RawMaterialsPage {
 
   name = '';
 
-  supplier = '';
+  laboratoryId = 0;
+
+  laboratoryName = '';
 
   stock = 0;
 
@@ -48,14 +53,21 @@ export class RawMaterialsPage {
 
   rawMaterials: any[] = [];
 
+  laboratories: any[] = [];
+
   constructor(
     private rawMaterialService:
-      RawMaterialService
+      RawMaterialService,
+
+    private laboratoryService:
+      LaboratoryService
   ) {}
 
   ngOnInit() {
 
     this.loadRawMaterials();
+
+    this.loadLaboratories();
 
   }
 
@@ -63,13 +75,24 @@ export class RawMaterialsPage {
 
     this.rawMaterials =
       this.rawMaterialService
-      .getRawMaterials();
+        .getRawMaterials();
+
+  }
+
+  loadLaboratories() {
+
+    this.laboratories =
+      this.laboratoryService
+        .getLaboratories();
 
   }
 
   addRawMaterial() {
 
-    if (!this.name) {
+    if (
+      !this.name ||
+      !this.laboratoryName
+    ) {
       return;
     }
 
@@ -84,8 +107,11 @@ export class RawMaterialsPage {
         name:
           this.name,
 
-        supplier:
-          this.supplier,
+        laboratoryId:
+          this.laboratoryId,
+
+        laboratoryName:
+          this.laboratoryName,
 
         stock:
           this.stock,
@@ -102,7 +128,9 @@ export class RawMaterialsPage {
 
     this.name = '';
 
-    this.supplier = '';
+    this.laboratoryId = 0;
+
+    this.laboratoryName = '';
 
     this.stock = 0;
 

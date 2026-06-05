@@ -87,5 +87,26 @@ export const routes: Routes = [
     path: 'raw-materials',
     loadComponent: () => import('./pages/raw-materials/raw-materials.page').then( m => m.RawMaterialsPage)
   },
+  {
+    path: 'quality-control',
+    loadComponent: () => import('./pages/quality-control/quality-control.page').then( m => m.QualityControlPage)
+  },
+  {
+    path: 'laboratories',
+    loadComponent: () => import('./pages/laboratories/laboratories.page').then( m => m.LaboratoriesPage)
+  },
+  {
+    path: 'delivery',
+    loadComponent: () => import('./pages/delivery/delivery.page').then( m => m.DeliveriesPage)
+  },
+  {
+    path: 'patients',
+    loadComponent: () => import('./pages/patients/patients.page').then( m => m.PatientsPage)
+  },
+  {
+    path: 'doctors',
+    loadComponent: () => import('./pages/doctors/doctors.page').then( m => m.DoctorsPage)
+  },
+  
 
 ];

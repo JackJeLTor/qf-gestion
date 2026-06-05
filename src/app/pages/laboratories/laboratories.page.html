@@ -4,7 +4,7 @@
 
     <ion-title>
 
-      Materias Primas
+      Laboratorios
 
     </ion-title>
 
@@ -27,9 +27,9 @@
   <ion-item>
 
     <ion-input
-      label="Laboratorio"
+      label="RUC"
       labelPlacement="floating"
-      [(ngModel)]="laboratoryName">
+      [(ngModel)]="ruc">
     </ion-input>
 
   </ion-item>
@@ -37,10 +37,9 @@
   <ion-item>
 
     <ion-input
-      type="number"
-      label="Stock"
+      label="Contacto"
       labelPlacement="floating"
-      [(ngModel)]="stock">
+      [(ngModel)]="contact">
     </ion-input>
 
   </ion-item>
@@ -48,9 +47,9 @@
   <ion-item>
 
     <ion-input
-      label="Unidad"
+      label="Teléfono"
       labelPlacement="floating"
-      [(ngModel)]="unit">
+      [(ngModel)]="phone">
     </ion-input>
 
   </ion-item>
@@ -58,25 +57,34 @@
   <ion-item>
 
     <ion-input
-      type="date"
-      label="Vencimiento"
+      label="Correo"
       labelPlacement="floating"
-      [(ngModel)]="expirationDate">
+      [(ngModel)]="email">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Dirección"
+      labelPlacement="floating"
+      [(ngModel)]="address">
     </ion-input>
 
   </ion-item>
 
   <ion-button
     expand="block"
-    (click)="addRawMaterial()">
+    (click)="addLaboratory()">
 
-    Registrar Materia Prima
+    Registrar Laboratorio
 
   </ion-button>
 
   @for(
-    material of rawMaterials;
-    track material.id
+    laboratory of laboratories;
+    track laboratory.id
   ){
 
     <ion-card>
@@ -85,36 +93,53 @@
 
         <h2>
 
-          {{ material.name }}
+          {{ laboratory.name }}
 
         </h2>
 
         <p>
 
-          Código:
-          {{ material.code }}
+          RUC:
+          {{ laboratory.ruc }}
 
         </p>
 
         <p>
 
-          Laboratorio:
-          {{ material.laboratoryName }}
+          Contacto:
+          {{ laboratory.contact }}
 
         </p>
 
         <p>
 
-          Stock:
-          {{ material.stock }}
-          {{ material.unit }}
+          Teléfono:
+          {{ laboratory.phone }}
 
         </p>
 
         <p>
 
-          Vence:
-          {{ material.expirationDate }}
+          Correo:
+          {{ laboratory.email }}
+
+        </p>
+
+        <p>
+
+          Dirección:
+          {{ laboratory.address }}
+
+        </p>
+
+        <p>
+
+          Estado:
+          <strong>
+
+            {{ laboratory.status }}
+
+          </strong>
 
         </p>
 
@@ -123,7 +148,9 @@
       <ion-button
         color="danger"
         expand="block"
-        (click)="deleteRawMaterial(material.id)">
+        (click)="deleteLaboratory(
+          laboratory.id
+        )">
 
         Eliminar
 

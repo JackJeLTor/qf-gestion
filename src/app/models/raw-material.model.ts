@@ -6,7 +6,9 @@ export interface RawMaterial {
 
   name: string;
 
-  supplier: string;
+  laboratoryId: number;
+
+  laboratoryName: string;
 
   stock: number;
 

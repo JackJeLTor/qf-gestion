@@ -63,6 +63,35 @@ export class ProductionService {
 
   }
 
+  updateQuality(
+  id: number,
+  qualityResult: string,
+  observations: string
+) {
+
+  const production =
+    this.productions.find(
+      p => p.id === id
+    );
+
+  if (production) {
+
+    production.qualityResult =
+      qualityResult;
+
+    production.observations =
+      observations;
+
+    production.endDate =
+      new Date()
+      .toLocaleDateString();
+
+    this.save();
+
+  }
+
+}
+
   private save() {
 
     localStorage.setItem(

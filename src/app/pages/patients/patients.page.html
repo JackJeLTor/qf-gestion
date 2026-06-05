@@ -1,0 +1,138 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Pacientes
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+
+    <ion-input
+      label="DNI"
+      labelPlacement="floating"
+      [(ngModel)]="dni">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Nombre Completo"
+      labelPlacement="floating"
+      [(ngModel)]="fullName">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      type="number"
+      label="Edad"
+      labelPlacement="floating"
+      [(ngModel)]="age">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Sexo"
+      labelPlacement="floating"
+      [(ngModel)]="gender">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Teléfono"
+      labelPlacement="floating"
+      [(ngModel)]="phone">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Correo"
+      labelPlacement="floating"
+      [(ngModel)]="email">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Dirección"
+      labelPlacement="floating"
+      [(ngModel)]="address">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-button
+    expand="block"
+    (click)="addPatient()">
+
+    Registrar Paciente
+
+  </ion-button>
+
+  @for(
+    patient of patients;
+    track patient.id
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>
+
+          {{ patient.fullName }}
+
+        </h2>
+
+        <p>DNI: {{ patient.dni }}</p>
+
+        <p>Edad: {{ patient.age }}</p>
+
+        <p>Sexo: {{ patient.gender }}</p>
+
+        <p>Teléfono: {{ patient.phone }}</p>
+
+        <p>Correo: {{ patient.email }}</p>
+
+        <p>Dirección: {{ patient.address }}</p>
+
+      </ion-card-content>
+
+      <ion-button
+        color="danger"
+        expand="block"
+        (click)="deletePatient(patient.id)">
+
+        Eliminar
+
+      </ion-button>
+
+    </ion-card>
+
+  }
+
+</ion-content>
