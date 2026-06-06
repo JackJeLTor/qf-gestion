@@ -20,4 +20,14 @@ export interface Production {
 
   status: string;
 
+  batchNumber: string;
+
+  quantity: number;
+
+  productionDate: string;
+
+  rawMaterialsUsed: string[];
+
+  history: string[];
+
 }

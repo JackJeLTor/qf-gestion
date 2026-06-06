@@ -36,13 +36,15 @@ from '../../services/patient.service';
 })
 export class PatientsPage {
 
-  dni = '';
+  documentType = 'DNI';
 
-  fullName = '';
+  documentNumber = '';
 
-  age = 0;
+  firstName = '';
 
-  gender = '';
+  lastName = '';
+
+  birthDate = '';
 
   phone = '';
 
@@ -67,15 +69,15 @@ export class PatientsPage {
 
     this.patients =
       this.patientService
-      .getPatients();
+        .getPatients();
 
   }
 
   addPatient() {
 
     if (
-      !this.dni ||
-      !this.fullName
+      !this.firstName ||
+      !this.lastName
     ) {
       return;
     }
@@ -85,17 +87,20 @@ export class PatientsPage {
 
         id: Date.now(),
 
-        dni:
-          this.dni,
+        documentType:
+          this.documentType,
 
-        fullName:
-          this.fullName,
+        documentNumber:
+          this.documentNumber,
 
-        age:
-          this.age,
+        firstName:
+          this.firstName,
 
-        gender:
-          this.gender,
+        lastName:
+          this.lastName,
+
+        birthDate:
+          this.birthDate,
 
         phone:
           this.phone,
@@ -110,10 +115,11 @@ export class PatientsPage {
 
     this.loadPatients();
 
-    this.dni = '';
-    this.fullName = '';
-    this.age = 0;
-    this.gender = '';
+    this.documentType = 'DNI';
+    this.documentNumber = '';
+    this.firstName = '';
+    this.lastName = '';
+    this.birthDate = '';
     this.phone = '';
     this.email = '';
     this.address = '';

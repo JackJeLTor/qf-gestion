@@ -2,9 +2,9 @@ export interface Doctor {
 
   id: number;
 
-  cmp: string;
+  name: string;
 
-  fullName: string;
+  cmp: string;
 
   specialty: string;
 

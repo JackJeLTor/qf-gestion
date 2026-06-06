@@ -33,6 +33,16 @@ export class DoctorService {
 
   }
 
+  getDoctorById(
+    id: number
+  ) {
+
+    return this.doctors.find(
+      d => d.id === id
+    );
+
+  }
+
   addDoctor(
     doctor: Doctor
   ) {

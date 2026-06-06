@@ -38,6 +38,52 @@
 
         <p>
 
+  Lote:
+  {{ production.batchNumber }}
+
+</p>
+
+<p>
+
+  Cantidad:
+  {{ production.quantity }}
+
+</p>
+
+<p>
+
+  Elaboración:
+  {{ production.productionDate }}
+
+</p>
+
+<p>
+
+  Materias primas utilizadas:
+
+</p>
+
+@if(
+  production.rawMaterialsUsed.length > 0
+){
+
+  @for(
+    material of production.rawMaterialsUsed;
+    track material
+  ){
+
+    <p>
+
+      • {{ material }}
+
+    </p>
+
+  }
+
+}
+
+        <p>
+
           Fórmula:
           {{ production.formula }}
 
@@ -87,6 +133,27 @@
 
             Observación:
             {{ production.observations }}
+
+          </p>
+
+        }
+
+        <hr>
+
+        <h3>
+
+          Historial
+
+        </h3>
+
+        @for(
+          item of production.history;
+          track item
+        ){
+
+          <p>
+
+            • {{ item }}
 
           </p>
 

@@ -15,74 +15,68 @@
 <ion-content class="ion-padding">
 
   <ion-item>
-
     <ion-input
-      label="DNI"
+      label="Tipo Documento"
       labelPlacement="floating"
-      [(ngModel)]="dni">
+      [(ngModel)]="documentType">
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
-      label="Nombre Completo"
+      label="Número Documento"
       labelPlacement="floating"
-      [(ngModel)]="fullName">
+      [(ngModel)]="documentNumber">
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
-      type="number"
-      label="Edad"
+      label="Nombres"
       labelPlacement="floating"
-      [(ngModel)]="age">
+      [(ngModel)]="firstName">
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
-      label="Sexo"
+      label="Apellidos"
       labelPlacement="floating"
-      [(ngModel)]="gender">
+      [(ngModel)]="lastName">
     </ion-input>
-
   </ion-item>
 
   <ion-item>
+    <ion-input
+      type="date"
+      label="Fecha Nacimiento"
+      labelPlacement="floating"
+      [(ngModel)]="birthDate">
+    </ion-input>
+  </ion-item>
 
+  <ion-item>
     <ion-input
       label="Teléfono"
       labelPlacement="floating"
       [(ngModel)]="phone">
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
       label="Correo"
       labelPlacement="floating"
       [(ngModel)]="email">
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
       label="Dirección"
       labelPlacement="floating"
       [(ngModel)]="address">
     </ion-input>
-
   </ion-item>
 
   <ion-button
@@ -104,21 +98,26 @@
 
         <h2>
 
-          {{ patient.fullName }}
+          {{ patient.firstName }}
+          {{ patient.lastName }}
 
         </h2>
 
-        <p>DNI: {{ patient.dni }}</p>
+        <p>
+          Documento:
+          {{ patient.documentType }}
+          {{ patient.documentNumber }}
+        </p>
 
-        <p>Edad: {{ patient.age }}</p>
+        <p>
+          Teléfono:
+          {{ patient.phone }}
+        </p>
 
-        <p>Sexo: {{ patient.gender }}</p>
-
-        <p>Teléfono: {{ patient.phone }}</p>
-
-        <p>Correo: {{ patient.email }}</p>
-
-        <p>Dirección: {{ patient.address }}</p>
+        <p>
+          Correo:
+          {{ patient.email }}
+        </p>
 
       </ion-card-content>
 

@@ -6,8 +6,6 @@ export interface RawMaterial {
 
   name: string;
 
-  laboratoryId: number;
-
   laboratoryName: string;
 
   stock: number;
@@ -15,5 +13,7 @@ export interface RawMaterial {
   unit: string;
 
   expirationDate: string;
+
+  status: string;
 
 }

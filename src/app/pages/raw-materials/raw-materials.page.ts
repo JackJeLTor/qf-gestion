@@ -16,9 +16,6 @@ import {
 import { RawMaterialService }
 from '../../services/raw-material.service';
 
-import { LaboratoryService }
-from '../../services/laboratory.service';
-
 @Component({
   selector: 'app-raw-materials',
   templateUrl: './raw-materials.page.html',
@@ -41,8 +38,6 @@ export class RawMaterialsPage {
 
   name = '';
 
-  laboratoryId = 0;
-
   laboratoryName = '';
 
   stock = 0;
@@ -53,21 +48,14 @@ export class RawMaterialsPage {
 
   rawMaterials: any[] = [];
 
-  laboratories: any[] = [];
-
   constructor(
     private rawMaterialService:
-      RawMaterialService,
-
-    private laboratoryService:
-      LaboratoryService
+      RawMaterialService
   ) {}
 
   ngOnInit() {
 
     this.loadRawMaterials();
-
-    this.loadLaboratories();
 
   }
 
@@ -75,24 +63,48 @@ export class RawMaterialsPage {
 
     this.rawMaterials =
       this.rawMaterialService
-        .getRawMaterials();
+      .getRawMaterials();
 
   }
 
-  loadLaboratories() {
+  calculateStatus() {
 
-    this.laboratories =
-      this.laboratoryService
-        .getLaboratories();
+    const today =
+      new Date();
+
+    const expiration =
+      new Date(
+        this.expirationDate
+      );
+
+    const days =
+      (
+        expiration.getTime() -
+        today.getTime()
+      ) /
+      (
+        1000 * 60 * 60 * 24
+      );
+
+    if (this.stock <= 10) {
+
+      return 'Stock Bajo';
+
+    }
+
+    if (days <= 90) {
+
+      return 'Próximo a Vencer';
+
+    }
+
+    return 'Disponible';
 
   }
 
   addRawMaterial() {
 
-    if (
-      !this.name ||
-      !this.laboratoryName
-    ) {
+    if (!this.name) {
       return;
     }
 
@@ -107,9 +119,6 @@ export class RawMaterialsPage {
         name:
           this.name,
 
-        laboratoryId:
-          this.laboratoryId,
-
         laboratoryName:
           this.laboratoryName,
 
@@ -120,15 +129,16 @@ export class RawMaterialsPage {
           this.unit,
 
         expirationDate:
-          this.expirationDate
+          this.expirationDate,
+
+        status:
+          this.calculateStatus()
 
       });
 
     this.loadRawMaterials();
 
     this.name = '';
-
-    this.laboratoryId = 0;
 
     this.laboratoryName = '';
 

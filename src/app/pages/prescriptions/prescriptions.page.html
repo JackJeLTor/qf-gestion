@@ -20,21 +20,52 @@
 
       <ion-item>
 
-        <ion-input
+        <ion-select
           label="Paciente"
           labelPlacement="floating"
-          [(ngModel)]="patientName">
-        </ion-input>
+          [(ngModel)]="patientId">
+
+          @for(
+            patient of patients;
+            track patient.id
+          ){
+
+            <ion-select-option
+              [value]="patient.id">
+
+              {{ patient.firstName }}
+              {{ patient.lastName }}
+
+            </ion-select-option>
+
+          }
+
+        </ion-select>
 
       </ion-item>
 
       <ion-item>
 
-        <ion-input
+        <ion-select
           label="Médico"
           labelPlacement="floating"
-          [(ngModel)]="doctorName">
-        </ion-input>
+          [(ngModel)]="doctorId">
+
+          @for(
+            doctor of doctors;
+            track doctor.id
+          ){
+
+            <ion-select-option
+              [value]="doctor.id">
+
+              {{ doctor.name }}
+
+            </ion-select-option>
+
+          }
+
+        </ion-select>
 
       </ion-item>
 
@@ -76,8 +107,6 @@
           labelPlacement="floating"
           [(ngModel)]="formula">
         </ion-textarea>
-
-        
 
       </ion-item>
 
@@ -148,25 +177,25 @@
         </p>
 
         <p
-  class="status"
-  [style.background]="
-    prescription.status === 'Pendiente'
-      ? '#fde68a'
-      : prescription.status === 'Validada'
-      ? '#bfdbfe'
-      : prescription.status === 'En Preparación'
-      ? '#c4b5fd'
-      : prescription.status === 'Control de Calidad'
-      ? '#fbcfe8'
-      : prescription.status === 'Lista para Entrega'
-      ? '#86efac'
-      : '#22c55e'
-  "
->
+          class="status"
+          [style.background]="
+            prescription.status === 'Pendiente'
+              ? '#fde68a'
+              : prescription.status === 'Validada'
+              ? '#bfdbfe'
+              : prescription.status === 'En Preparación'
+              ? '#c4b5fd'
+              : prescription.status === 'Control de Calidad'
+              ? '#fbcfe8'
+              : prescription.status === 'Lista para Entrega'
+              ? '#86efac'
+              : '#22c55e'
+          "
+        >
 
-  {{ prescription.status }}
+          {{ prescription.status }}
 
-</p>
+        </p>
 
         @if(
           prescription.status !==

@@ -30,6 +30,7 @@ export class ProductionService {
   getProductions() {
 
     return this.productions;
+
   }
 
   addProduction(
@@ -41,6 +42,7 @@ export class ProductionService {
     );
 
     this.save();
+
   }
 
   updateStatus(
@@ -58,39 +60,52 @@ export class ProductionService {
       production.status =
         status;
 
+      if (
+        !production.history
+      ) {
+
+        production.history = [];
+
+      }
+
+      production.history.push(
+        `${new Date().toLocaleDateString()} - ${status}`
+      );
+
       this.save();
+
     }
 
   }
 
   updateQuality(
-  id: number,
-  qualityResult: string,
-  observations: string
-) {
+    id: number,
+    qualityResult: string,
+    observations: string
+  ) {
 
-  const production =
-    this.productions.find(
-      p => p.id === id
-    );
+    const production =
+      this.productions.find(
+        p => p.id === id
+      );
 
-  if (production) {
+    if (production) {
 
-    production.qualityResult =
-      qualityResult;
+      production.qualityResult =
+        qualityResult;
 
-    production.observations =
-      observations;
+      production.observations =
+        observations;
 
-    production.endDate =
-      new Date()
-      .toLocaleDateString();
+      production.endDate =
+        new Date()
+          .toLocaleDateString();
 
-    this.save();
+      this.save();
+
+    }
 
   }
-
-}
 
   private save() {
 

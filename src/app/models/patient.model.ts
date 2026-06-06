@@ -2,13 +2,15 @@ export interface Patient {
 
   id: number;
 
-  dni: string;
+  documentType: string;
 
-  fullName: string;
+  documentNumber: string;
 
-  age: number;
+  firstName: string;
 
-  gender: string;
+  lastName: string;
+
+  birthDate: string;
 
   phone: string;
 

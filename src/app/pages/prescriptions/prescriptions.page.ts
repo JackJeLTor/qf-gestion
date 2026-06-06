@@ -11,7 +11,9 @@ import {
   IonTextarea,
   IonButton,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/angular/standalone';
 
 import { PrescriptionService }
@@ -19,6 +21,12 @@ from '../../services/prescription.service';
 
 import { ProductionService }
 from '../../services/production.service';
+
+import { PatientService }
+from '../../services/patient.service';
+
+import { DoctorService }
+from '../../services/doctor.service';
 
 @Component({
   selector: 'app-prescriptions',
@@ -36,14 +44,16 @@ from '../../services/production.service';
     IonTextarea,
     IonButton,
     IonCard,
-    IonCardContent
+    IonCardContent,
+    IonSelect,
+    IonSelectOption
   ]
 })
 export class PrescriptionsPage {
 
-  patientName = '';
+  patientId = 0;
 
-  doctorName = '';
+  doctorId = 0;
 
   formula = '';
 
@@ -55,17 +65,35 @@ export class PrescriptionsPage {
 
   prescriptions: any[] = [];
 
+  patients: any[] = [];
+
+  doctors: any[] = [];
+
   constructor(
     private prescriptionService:
       PrescriptionService,
 
     private productionService:
-      ProductionService
+      ProductionService,
+
+    private patientService:
+      PatientService,
+
+    private doctorService:
+      DoctorService
   ) {}
 
   ngOnInit() {
 
     this.loadPrescriptions();
+
+    this.patients =
+      this.patientService
+        .getPatients();
+
+    this.doctors =
+      this.doctorService
+        .getDoctors();
 
   }
 
@@ -73,15 +101,27 @@ export class PrescriptionsPage {
 
     this.prescriptions =
       this.prescriptionService
-      .getPrescriptions();
+        .getPrescriptions();
 
   }
 
   createPrescription() {
 
+    const patient =
+      this.patientService
+        .getPatientById(
+          this.patientId
+        );
+
+    const doctor =
+      this.doctorService
+        .getDoctorById(
+          this.doctorId
+        );
+
     if (
-      !this.patientName ||
-      !this.doctorName ||
+      !patient ||
+      !doctor ||
       !this.formula ||
       !this.responsible ||
       !this.deliveryDate
@@ -94,11 +134,19 @@ export class PrescriptionsPage {
 
         id: Date.now(),
 
+        patientId:
+          patient.id,
+
         patientName:
-          this.patientName,
+          patient.firstName +
+          ' ' +
+          patient.lastName,
+
+        doctorId:
+          doctor.id,
 
         doctorName:
-          this.doctorName,
+          doctor.name,
 
         formula:
           this.formula,
@@ -123,12 +171,18 @@ export class PrescriptionsPage {
 
     this.loadPrescriptions();
 
-    this.patientName = '';
-    this.doctorName = '';
+    this.patientId = 0;
+
+    this.doctorId = 0;
+
     this.formula = '';
+
     this.priority = 'Media';
+
     this.responsible = '';
+
     this.deliveryDate = '';
+
   }
 
   nextStatus(
@@ -148,36 +202,50 @@ export class PrescriptionsPage {
           );
 
         this.productionService
-          .addProduction({
+  .addProduction({
 
-            id: Date.now(),
+    id: Date.now(),
 
-            prescriptionId:
-              prescription.id,
+    prescriptionId:
+      prescription.id,
 
-            patientName:
-              prescription.patientName,
+    patientName:
+      prescription.patientName,
 
-            formula:
-              prescription.formula,
+    formula:
+      prescription.formula,
 
-            responsible:
-              prescription.responsible,
+    responsible:
+      prescription.responsible,
 
-            startDate:
-              new Date()
-              .toLocaleDateString(),
- endDate: '',
+    startDate:
+      new Date()
+      .toLocaleDateString(),
+
+    endDate: '',
 
     qualityResult: '',
 
     observations: '',
 
-    status:
-      'Pendiente'
+  status:
+  'Pendiente',
 
-          });
+batchNumber:
+  'LOT-' + Date.now(),
 
+quantity: 1,
+
+productionDate:
+  new Date()
+  .toLocaleDateString(),
+
+rawMaterialsUsed: [],
+
+history: [
+  'Producción creada'
+]
+  });
         break;
 
       case 'Validada':

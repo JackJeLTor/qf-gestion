@@ -15,6 +15,13 @@ import { OrderService } from '../../services/order.service';
 import { MovementService } from '../../services/movement.service';
 import { PrescriptionService } from '../../services/prescription.service';
 import { ProductionService } from '../../services/production.service';
+import { PatientService } from '../../services/patient.service';
+
+import { DoctorService } from '../../services/doctor.service';
+
+import { LaboratoryService } from '../../services/laboratory.service';
+
+import { RawMaterialService } from '../../services/raw-material.service';
 
 import { Product } from '../../models/product.model';
 
@@ -45,17 +52,46 @@ export class DashboardPage {
 
   activeProductions = 0;
   finishedProductions = 0;
+  totalPatients = 0;
+
+totalDoctors = 0;
+
+totalLaboratories = 0;
+
+totalRawMaterials = 0;
 
   recentMovements: any[] = [];
 
-  constructor(
-    private router: Router,
-    private productService: ProductService,
-    private orderService: OrderService,
-    private movementService: MovementService,
-    private prescriptionService: PrescriptionService,
-    private productionService: ProductionService
-  ) {}
+constructor(
+  private router: Router,
+
+  private productService:
+    ProductService,
+
+  private orderService:
+    OrderService,
+
+  private movementService:
+    MovementService,
+
+  private prescriptionService:
+    PrescriptionService,
+
+  private productionService:
+    ProductionService,
+
+  private patientService:
+    PatientService,
+
+  private doctorService:
+    DoctorService,
+
+  private laboratoryService:
+    LaboratoryService,
+
+  private rawMaterialService:
+    RawMaterialService
+) {}
 
   ionViewWillEnter() {
 
@@ -70,6 +106,22 @@ export class DashboardPage {
 
     const productions =
       this.productionService.getProductions();
+
+      const patients =
+  this.patientService
+    .getPatients();
+
+const doctors =
+  this.doctorService
+    .getDoctors();
+
+const laboratories =
+  this.laboratoryService
+    .getLaboratories();
+
+const rawMaterials =
+  this.rawMaterialService
+    .getRawMaterials();
 
     this.totalProducts = products.length;
     this.totalOrders = orders.length;
@@ -91,6 +143,18 @@ export class DashboardPage {
       productions.filter(
         p => p.status === 'Finalizado'
       ).length;
+
+this.totalPatients =
+  patients.length;
+
+this.totalDoctors =
+  doctors.length;
+
+this.totalLaboratories =
+  laboratories.length;
+
+this.totalRawMaterials =
+  rawMaterials.length;
 
     this.lowStock =
       products.filter(

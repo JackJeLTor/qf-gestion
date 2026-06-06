@@ -36,9 +36,9 @@ from '../../services/doctor.service';
 })
 export class DoctorsPage {
 
-  cmp = '';
+  name = '';
 
-  fullName = '';
+  cmp = '';
 
   specialty = '';
 
@@ -69,10 +69,7 @@ export class DoctorsPage {
 
   addDoctor() {
 
-    if (
-      !this.cmp ||
-      !this.fullName
-    ) {
+    if (!this.name) {
       return;
     }
 
@@ -81,11 +78,11 @@ export class DoctorsPage {
 
         id: Date.now(),
 
+        name:
+          this.name,
+
         cmp:
           this.cmp,
-
-        fullName:
-          this.fullName,
 
         specialty:
           this.specialty,
@@ -100,10 +97,14 @@ export class DoctorsPage {
 
     this.loadDoctors();
 
+    this.name = '';
+
     this.cmp = '';
-    this.fullName = '';
+
     this.specialty = '';
+
     this.phone = '';
+
     this.email = '';
 
   }

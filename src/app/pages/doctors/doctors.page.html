@@ -17,9 +17,9 @@
   <ion-item>
 
     <ion-input
-      label="CMP"
+      label="Nombre"
       labelPlacement="floating"
-      [(ngModel)]="cmp">
+      [(ngModel)]="name">
     </ion-input>
 
   </ion-item>
@@ -27,9 +27,9 @@
   <ion-item>
 
     <ion-input
-      label="Nombre Completo"
+      label="CMP"
       labelPlacement="floating"
-      [(ngModel)]="fullName">
+      [(ngModel)]="cmp">
     </ion-input>
 
   </ion-item>
@@ -83,17 +83,37 @@
 
         <h2>
 
-          {{ doctor.fullName }}
+          {{ doctor.name }}
 
         </h2>
 
-        <p>CMP: {{ doctor.cmp }}</p>
+        <p>
 
-        <p>Especialidad: {{ doctor.specialty }}</p>
+          CMP:
+          {{ doctor.cmp }}
 
-        <p>Teléfono: {{ doctor.phone }}</p>
+        </p>
 
-        <p>Correo: {{ doctor.email }}</p>
+        <p>
+
+          Especialidad:
+          {{ doctor.specialty }}
+
+        </p>
+
+        <p>
+
+          Teléfono:
+          {{ doctor.phone }}
+
+        </p>
+
+        <p>
+
+          Correo:
+          {{ doctor.email }}
+
+        </p>
 
       </ion-card-content>
 
