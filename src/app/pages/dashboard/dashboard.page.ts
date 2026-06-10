@@ -16,14 +16,10 @@ import { MovementService } from '../../services/movement.service';
 import { PrescriptionService } from '../../services/prescription.service';
 import { ProductionService } from '../../services/production.service';
 import { PatientService } from '../../services/patient.service';
-
 import { DoctorService } from '../../services/doctor.service';
-
 import { LaboratoryService } from '../../services/laboratory.service';
-
 import { RawMaterialService } from '../../services/raw-material.service';
-
-import { Product } from '../../models/product.model';
+import { DeliveryService } from '../../services/delivery.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -52,46 +48,36 @@ export class DashboardPage {
 
   activeProductions = 0;
   finishedProductions = 0;
+
+  qualityProductions = 0;
+  observedProductions = 0;
+
   totalPatients = 0;
+  totalDoctors = 0;
+  totalLaboratories = 0;
+  totalRawMaterials = 0;
 
-totalDoctors = 0;
+  lowRawMaterials = 0;
+  expiringRawMaterials = 0;
 
-totalLaboratories = 0;
-
-totalRawMaterials = 0;
+  pendingDeliveries = 0;
+  deliveredOrders = 0;
 
   recentMovements: any[] = [];
 
-constructor(
-  private router: Router,
-
-  private productService:
-    ProductService,
-
-  private orderService:
-    OrderService,
-
-  private movementService:
-    MovementService,
-
-  private prescriptionService:
-    PrescriptionService,
-
-  private productionService:
-    ProductionService,
-
-  private patientService:
-    PatientService,
-
-  private doctorService:
-    DoctorService,
-
-  private laboratoryService:
-    LaboratoryService,
-
-  private rawMaterialService:
-    RawMaterialService
-) {}
+  constructor(
+    private router: Router,
+    private productService: ProductService,
+    private orderService: OrderService,
+    private movementService: MovementService,
+    private prescriptionService: PrescriptionService,
+    private productionService: ProductionService,
+    private patientService: PatientService,
+    private doctorService: DoctorService,
+    private laboratoryService: LaboratoryService,
+    private rawMaterialService: RawMaterialService,
+    private deliveryService: DeliveryService
+  ) {}
 
   ionViewWillEnter() {
 
@@ -107,24 +93,28 @@ constructor(
     const productions =
       this.productionService.getProductions();
 
-      const patients =
-  this.patientService
-    .getPatients();
+    const patients =
+      this.patientService.getPatients();
 
-const doctors =
-  this.doctorService
-    .getDoctors();
+    const doctors =
+      this.doctorService.getDoctors();
 
-const laboratories =
-  this.laboratoryService
-    .getLaboratories();
+    const laboratories =
+      this.laboratoryService.getLaboratories();
 
-const rawMaterials =
-  this.rawMaterialService
-    .getRawMaterials();
+    const rawMaterials =
+      this.rawMaterialService.getRawMaterials();
+
+    const deliveries =
+      this.deliveryService.getDeliveries();
 
     this.totalProducts = products.length;
     this.totalOrders = orders.length;
+
+    this.totalPatients = patients.length;
+    this.totalDoctors = doctors.length;
+    this.totalLaboratories = laboratories.length;
+    this.totalRawMaterials = rawMaterials.length;
 
     this.totalPrescriptions =
       prescriptions.length;
@@ -136,25 +126,43 @@ const rawMaterials =
 
     this.activeProductions =
       productions.filter(
-        p => p.status !== 'Finalizado'
+        p =>
+          p.status !== 'Finalizado'
       ).length;
 
     this.finishedProductions =
       productions.filter(
-        p => p.status === 'Finalizado'
+        p =>
+          p.status === 'Finalizado'
       ).length;
 
-this.totalPatients =
-  patients.length;
+    this.qualityProductions =
+      productions.filter(
+        p =>
+          p.status ===
+          'Control Calidad'
+      ).length;
 
-this.totalDoctors =
-  doctors.length;
+    this.observedProductions =
+      productions.filter(
+        p =>
+          p.status ===
+          'Observado'
+      ).length;
 
-this.totalLaboratories =
-  laboratories.length;
+    this.pendingDeliveries =
+      deliveries.filter(
+        d =>
+          d.status !==
+          'Entregado'
+      ).length;
 
-this.totalRawMaterials =
-  rawMaterials.length;
+    this.deliveredOrders =
+      deliveries.filter(
+        d =>
+          d.status ===
+          'Entregado'
+      ).length;
 
     this.lowStock =
       products.filter(
@@ -164,7 +172,9 @@ this.totalRawMaterials =
     this.inventoryValue =
       products.reduce(
         (total, product) =>
-          total + (product.stock * product.price),
+          total +
+          (product.stock *
+            product.price),
         0
       );
 
@@ -179,13 +189,53 @@ this.totalRawMaterials =
           );
 
         const days =
-          (expiration.getTime() -
-            today.getTime()) /
-          (1000 * 60 * 60 * 24);
+          (
+            expiration.getTime() -
+            today.getTime()
+          ) /
+          (
+            1000 *
+            60 *
+            60 *
+            24
+          );
 
         return days <= 90;
 
       }).length;
+
+    this.lowRawMaterials =
+      rawMaterials.filter(
+        m =>
+          m.stock <=
+          m.minimumStock
+      ).length;
+
+    this.expiringRawMaterials =
+      rawMaterials.filter(
+        material => {
+
+          const expiration =
+            new Date(
+              material.expirationDate
+            );
+
+          const days =
+            (
+              expiration.getTime() -
+              today.getTime()
+            ) /
+            (
+              1000 *
+              60 *
+              60 *
+              24
+            );
+
+          return days <= 90;
+
+        }
+      ).length;
 
     this.recentMovements =
       this.movementService

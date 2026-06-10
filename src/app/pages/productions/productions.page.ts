@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { Production }
+from '../../models/production.model';
 
-import {
+
+  import {
   IonContent,
   IonHeader,
   IonToolbar,
@@ -30,7 +33,7 @@ from '../../services/production.service';
 })
 export class ProductionsPage {
 
-  productions: any[] = [];
+productions: Production[] = [];
 
   constructor(
     private productionService:
@@ -51,65 +54,78 @@ export class ProductionsPage {
 
   }
 
-  nextStatus(
-    production: any
+ nextStatus(
+  production: any
+) {
+
+  switch (
+    production.status
   ) {
 
-    switch (
-      production.status
-    ) {
+    case 'Pendiente':
 
-      case 'Pendiente':
+      this.productionService
+        .updateStatus(
+          production.id,
+          'En Producción'
+        );
 
-        this.productionService
-          .updateStatus(
-            production.id,
-            'En Producción'
-          );
+      break;
 
-        break;
+    case 'En Producción':
 
-      case 'En Producción':
+      if (
+        !production.rawMaterialsUsed ||
+        production.rawMaterialsUsed.length === 0
+      ) {
 
-        this.productionService
-          .updateStatus(
-            production.id,
-            'Control Calidad'
-          );
+        alert(
+          'Debe registrar materias primas consumidas antes de continuar.'
+        );
 
-        break;
+        return;
 
-      case 'Control Calidad':
+      }
 
-        production.endDate =
-          new Date()
-            .toLocaleDateString();
+      this.productionService
+        .updateStatus(
+          production.id,
+          'Control Calidad'
+        );
 
-        production.qualityResult =
-          'Aprobado';
+      break;
 
-        production.observations =
-          'Producción completada correctamente';
+    case 'Control Calidad':
 
-        this.productionService
-          .updateStatus(
-            production.id,
-            'Finalizado'
-          );
+      production.endDate =
+        new Date()
+          .toLocaleDateString();
 
-        break;
+      production.qualityResult =
+        'Aprobado';
 
-    }
+      production.observations =
+        'Producción completada correctamente';
 
-    localStorage.setItem(
-      'productions',
-      JSON.stringify(
-        this.productions
-      )
-    );
+      this.productionService
+        .updateStatus(
+          production.id,
+          'Finalizado'
+        );
 
-    this.loadProductions();
+      break;
 
   }
+
+  localStorage.setItem(
+    'productions',
+    JSON.stringify(
+      this.productions
+    )
+  );
+
+  this.loadProductions();
+
+}
 
 }

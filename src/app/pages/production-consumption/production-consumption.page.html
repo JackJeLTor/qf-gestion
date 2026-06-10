@@ -1,0 +1,128 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Consumo de Materias Primas
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+
+    <ion-select
+      label="Producción"
+      labelPlacement="floating"
+      [(ngModel)]="productionId">
+
+      @for(
+        production of productions;
+        track production.id
+      ){
+
+        <ion-select-option
+          [value]="production.id">
+
+          {{ production.patientName }}
+
+        </ion-select-option>
+
+      }
+
+    </ion-select>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-select
+      label="Materia Prima"
+      labelPlacement="floating"
+      [(ngModel)]="rawMaterialId">
+
+      @for(
+        material of rawMaterials;
+        track material.id
+      ){
+
+        <ion-select-option
+          [value]="material.id">
+
+          {{ material.name }}
+
+        </ion-select-option>
+
+      }
+
+    </ion-select>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      type="number"
+      label="Cantidad"
+      labelPlacement="floating"
+      [(ngModel)]="quantity">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-button
+    expand="block"
+    (click)="registerConsumption()">
+
+    Registrar Consumo
+
+  </ion-button>
+
+  @for(
+    item of consumptions;
+    track item.id
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>
+
+          {{ item.productionPatient }}
+
+        </h2>
+
+        <p>
+
+          {{ item.rawMaterialName }}
+
+        </p>
+
+        <p>
+
+          Cantidad:
+          {{ item.quantity }}
+          {{ item.unit }}
+
+        </p>
+
+        <p>
+
+          Fecha:
+          {{ item.date }}
+
+        </p>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

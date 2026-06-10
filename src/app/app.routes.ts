@@ -107,6 +107,14 @@ export const routes: Routes = [
     path: 'doctors',
     loadComponent: () => import('./pages/doctors/doctors.page').then( m => m.DoctorsPage)
   },
+  {
+    path: 'production-consumption',
+    loadComponent: () => import('./pages/production-consumption/production-consumption.page').then( m => m.ProductionConsumptionPage)
+  },
+  {
+    path: 'production-materials',
+    loadComponent: () => import('./pages/production-materials/production-materials.page').then( m => m.ProductionMaterialsPage)
+  },
   
 
 ];

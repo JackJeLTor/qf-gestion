@@ -67,6 +67,72 @@
 
         </ion-select>
 
+        <ion-item>
+
+  <ion-select
+    label="Forma Farmacéutica"
+    labelPlacement="floating"
+    [(ngModel)]="pharmaceuticalForm">
+
+    <ion-select-option value="Crema">
+      Crema
+    </ion-select-option>
+
+    <ion-select-option value="Gel">
+      Gel
+    </ion-select-option>
+
+    <ion-select-option value="Loción">
+      Loción
+    </ion-select-option>
+
+    <ion-select-option value="Champú">
+      Champú
+    </ion-select-option>
+
+    <ion-select-option value="Cápsulas">
+      Cápsulas
+    </ion-select-option>
+
+    <ion-select-option value="Jarabe">
+      Jarabe
+    </ion-select-option>
+
+  </ion-select>
+
+</ion-item>
+
+<ion-item>
+
+  <ion-select
+    label="Especialidad"
+    labelPlacement="floating"
+    [(ngModel)]="specialty">
+
+    <ion-select-option value="Dermatología">
+      Dermatología
+    </ion-select-option>
+
+    <ion-select-option value="Pediatría">
+      Pediatría
+    </ion-select-option>
+
+    <ion-select-option value="Ginecología">
+      Ginecología
+    </ion-select-option>
+
+    <ion-select-option value="Urología">
+      Urología
+    </ion-select-option>
+
+    <ion-select-option value="Medicina Funcional">
+      Medicina Funcional
+    </ion-select-option>
+
+  </ion-select>
+
+</ion-item>
+
       </ion-item>
 
       <ion-item>
@@ -148,6 +214,22 @@
           👨‍⚕️ {{ prescription.doctorName }}
 
         </p>
+
+        <p>
+
+  💊 Forma:
+
+  {{ prescription.pharmaceuticalForm }}
+
+</p>
+
+<p>
+
+  🏥 Especialidad:
+
+  {{ prescription.specialty }}
+
+</p>
 
         <p>
 

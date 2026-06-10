@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import { Production }
-from '../models/production.model';
+import {
+  Production,
+  ProductionMaterial
+} from '../models/production.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductionService {
 
-  private productions:
-    Production[] = [];
+  private productions: Production[] = [];
 
   constructor() {
 
@@ -100,6 +101,48 @@ export class ProductionService {
       production.endDate =
         new Date()
           .toLocaleDateString();
+
+      this.save();
+
+    }
+
+  }
+
+  addRawMaterial(
+    productionId: number,
+    material: ProductionMaterial
+  ) {
+
+    const production =
+      this.productions.find(
+        p => p.id === productionId
+      );
+
+    if (production) {
+
+      if (
+        !production.rawMaterialsUsed
+      ) {
+
+        production.rawMaterialsUsed = [];
+
+      }
+
+      production.rawMaterialsUsed.push(
+        material
+      );
+
+      if (
+        !production.history
+      ) {
+
+        production.history = [];
+
+      }
+
+      production.history.push(
+        `${new Date().toLocaleDateString()} - ${material.materialName} (${material.quantity} ${material.unit}) lote ${material.lotNumber}`
+      );
 
       this.save();
 

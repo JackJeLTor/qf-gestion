@@ -57,11 +57,15 @@ export class PrescriptionsPage {
 
   formula = '';
 
-  priority = 'Media';
+  pharmaceuticalForm = '';
 
-  responsible = '';
+specialty = '';
 
-  deliveryDate = '';
+priority = 'Media';
+
+responsible = '';
+
+deliveryDate = '';
 
   prescriptions: any[] = [];
 
@@ -132,42 +136,48 @@ export class PrescriptionsPage {
     this.prescriptionService
       .addPrescription({
 
-        id: Date.now(),
+    id: Date.now(),
 
-        patientId:
-          patient.id,
+    patientId:
+      patient.id,
 
-        patientName:
-          patient.firstName +
-          ' ' +
-          patient.lastName,
+    patientName:
+      patient.firstName +
+      ' ' +
+      patient.lastName,
 
-        doctorId:
-          doctor.id,
+    doctorId:
+      doctor.id,
 
-        doctorName:
-          doctor.name,
+    doctorName:
+      doctor.name,
 
-        formula:
-          this.formula,
+    formula:
+      this.formula,
 
-        priority:
-          this.priority,
+    pharmaceuticalForm:
+      this.pharmaceuticalForm,
 
-        responsible:
-          this.responsible,
+    specialty:
+      this.specialty,
 
-        deliveryDate:
-          this.deliveryDate,
+    priority:
+      this.priority,
 
-        status:
-          'Pendiente',
+    responsible:
+      this.responsible,
 
-        date:
-          new Date()
-          .toLocaleDateString()
+    deliveryDate:
+      this.deliveryDate,
 
-      });
+    status:
+      'Pendiente',
+
+    date:
+      new Date()
+      .toLocaleDateString()
+
+  });
 
     this.loadPrescriptions();
 
@@ -177,11 +187,15 @@ export class PrescriptionsPage {
 
     this.formula = '';
 
-    this.priority = 'Media';
+this.pharmaceuticalForm = '';
 
-    this.responsible = '';
+this.specialty = '';
 
-    this.deliveryDate = '';
+this.priority = 'Media';
+
+this.responsible = '';
+
+this.deliveryDate = '';
 
   }
 
@@ -228,24 +242,34 @@ export class PrescriptionsPage {
 
     observations: '',
 
-  status:
-  'Pendiente',
+    status:
+      'Pendiente',
 
-batchNumber:
-  'LOT-' + Date.now(),
+    batchNumber:
+      'LOT-' + Date.now(),
 
-quantity: 1,
+    quantity: 1,
 
-productionDate:
-  new Date()
-  .toLocaleDateString(),
+    productionDate:
+      new Date()
+      .toLocaleDateString(),
 
-rawMaterialsUsed: [],
+    pharmaceuticalForm:
+      prescription.pharmaceuticalForm,
 
-history: [
-  'Producción creada'
-]
-  });
+    specialty:
+      prescription.specialty,
+
+    priority:
+      prescription.priority,
+
+    rawMaterialsUsed: [],
+
+    history: [
+      'Producción creada desde receta validada'
+    ]
+});
+
         break;
 
       case 'Validada':

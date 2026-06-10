@@ -54,6 +54,24 @@
           </strong>
 
         </p>
+        
+        @if(
+  delivery.deliveryDate
+){
+
+  <p>
+
+    Fecha Entrega:
+
+    <strong>
+
+      {{ delivery.deliveryDate }}
+
+    </strong>
+
+  </p>
+
+}
 
         @if(
           delivery.status !==

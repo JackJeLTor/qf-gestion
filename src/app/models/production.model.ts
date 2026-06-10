@@ -1,3 +1,15 @@
+export interface ProductionMaterial {
+
+  materialName: string;
+
+  quantity: number;
+
+  unit: string;
+
+  lotNumber: string;
+
+}
+
 export interface Production {
 
   id: number;
@@ -26,7 +38,13 @@ export interface Production {
 
   productionDate: string;
 
-  rawMaterialsUsed: string[];
+  pharmaceuticalForm: string;
+
+  specialty: string;
+
+  priority: string;
+
+  rawMaterialsUsed: ProductionMaterial[];
 
   history: string[];
 

@@ -45,26 +45,36 @@ export class DeliveryService {
 
   }
 
-  updateStatus(
-    id: number,
-    status: string
-  ) {
+ updateStatus(
+  id: number,
+  status: string
+) {
 
-    const delivery =
-      this.deliveries.find(
-        d => d.id === id
-      );
+  const delivery =
+    this.deliveries.find(
+      d => d.id === id
+    );
 
-    if (delivery) {
+  if (delivery) {
 
-      delivery.status =
-        status;
+    delivery.status =
+      status;
 
-      this.save();
+    if (
+      status === 'Entregado'
+    ) {
+
+      delivery.deliveryDate =
+        new Date()
+          .toLocaleString();
 
     }
 
+    this.save();
+
   }
+
+}
 
   private save() {
 

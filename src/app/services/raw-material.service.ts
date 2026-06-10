@@ -59,6 +59,36 @@ export class RawMaterialService {
 
   }
 
+consumeStock(
+  id: number,
+  quantity: number
+) {
+
+  const material =
+    this.rawMaterials.find(
+      m => m.id === id
+    );
+
+  if (material) {
+
+    material.stock -= quantity;
+
+    if (
+      material.stock <
+      material.minimumStock
+    ) {
+
+      material.status =
+        'Stock Bajo';
+
+    }
+
+    this.save();
+
+  }
+
+}
+
   private save() {
 
     localStorage.setItem(

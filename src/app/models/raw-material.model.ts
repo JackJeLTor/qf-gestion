@@ -6,7 +6,11 @@ export interface RawMaterial {
 
   name: string;
 
+  category: string;
+
   laboratoryName: string;
+
+  lotNumber: string;
 
   stock: number;
 
@@ -15,5 +19,7 @@ export interface RawMaterial {
   expirationDate: string;
 
   status: string;
+
+  minimumStock: number;
 
 }

@@ -12,6 +12,10 @@ export interface Prescription {
 
   formula: string;
 
+  pharmaceuticalForm: string;
+
+  specialty: string;
+
   priority: string;
 
   responsible: string;

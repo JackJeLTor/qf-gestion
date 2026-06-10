@@ -33,8 +33,32 @@
 
           Responsable:
           {{ production.responsible }}
-
+          
         </p>
+
+        <p>
+
+  💊 Forma Farmacéutica:
+
+  {{ production.pharmaceuticalForm }}
+
+</p>
+
+<p>
+
+  🏥 Especialidad:
+
+  {{ production.specialty }}
+
+</p>
+
+<p>
+
+  ⚡ Prioridad:
+
+  {{ production.priority }}
+
+</p>
 
         <p>
 
@@ -64,17 +88,26 @@
 </p>
 
 @if(
+  production.rawMaterialsUsed &&
   production.rawMaterialsUsed.length > 0
 ){
 
   @for(
     material of production.rawMaterialsUsed;
-    track material
+    track material.lotNumber
   ){
 
     <p>
 
-      • {{ material }}
+      • {{ material.materialName }}
+
+      ({{ material.quantity }}
+
+      {{ material.unit }})
+
+      - Lote:
+
+      {{ material.lotNumber }}
 
     </p>
 

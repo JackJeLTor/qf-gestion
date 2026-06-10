@@ -38,13 +38,19 @@ export class RawMaterialsPage {
 
   name = '';
 
+  category = '';
+
   laboratoryName = '';
+
+  lotNumber = '';
 
   stock = 0;
 
   unit = '';
 
   expirationDate = '';
+
+  minimumStock = 10;
 
   rawMaterials: any[] = [];
 
@@ -119,8 +125,14 @@ export class RawMaterialsPage {
         name:
           this.name,
 
+        category:
+          this.category,
+
         laboratoryName:
           this.laboratoryName,
+
+        lotNumber:
+          this.lotNumber,
 
         stock:
           this.stock,
@@ -132,7 +144,10 @@ export class RawMaterialsPage {
           this.expirationDate,
 
         status:
-          this.calculateStatus()
+          this.calculateStatus(),
+
+        minimumStock:
+          this.minimumStock
 
       });
 
@@ -140,7 +155,11 @@ export class RawMaterialsPage {
 
     this.name = '';
 
+    this.category = '';
+
     this.laboratoryName = '';
+
+    this.lotNumber = '';
 
     this.stock = 0;
 
