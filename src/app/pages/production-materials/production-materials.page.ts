@@ -35,8 +35,6 @@ from '../../services/raw-material.service';
     IonTitle,
     IonItem,
     IonButton,
-    IonCard,
-    IonCardContent,
     IonSelect,
     IonSelectOption
   ]

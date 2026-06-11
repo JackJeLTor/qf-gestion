@@ -47,37 +47,35 @@ export class ProductionService {
   }
 
   updateStatus(
-    id: number,
-    status: string
-  ) {
+  id: number,
+  status: string
+) {
 
-    const production =
-      this.productions.find(
-        p => p.id === id
-      );
+  const production =
+    this.productions.find(
+      p => p.id === id
+    );
 
-    if (production) {
+  if (!production) {
+    return;
+  }
 
-      production.status =
-        status;
+  production.status =
+    status;
 
-      if (
-        !production.history
-      ) {
+  if (!production.history) {
 
-        production.history = [];
-
-      }
-
-      production.history.push(
-        `${new Date().toLocaleDateString()} - ${status}`
-      );
-
-      this.save();
-
-    }
+    production.history = [];
 
   }
+
+  production.history.push(
+    `${new Date().toLocaleString()} - Estado actualizado a ${status}`
+  );
+
+  this.save();
+
+}
 
   updateQuality(
     id: number,

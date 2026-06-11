@@ -13,6 +13,10 @@ import { ProductService } from '../../services/product.service';
 import { OrderService } from '../../services/order.service';
 import { PrescriptionService } from '../../services/prescription.service';
 import { ProductionService } from '../../services/production.service';
+import { PatientService } from '../../services/patient.service';
+import { DoctorService } from '../../services/doctor.service';
+import { DeliveryService } from '../../services/delivery.service';
+import { RawMaterialService } from '../../services/raw-material.service';
 
 @Component({
   selector: 'app-reports',
@@ -33,20 +37,37 @@ export class ReportsPage {
   totalProducts = 0;
   totalOrders = 0;
   totalSales = 0;
+
   lowStockProducts = 0;
   expiringProducts = 0;
 
   totalPrescriptions = 0;
   pendingPrescriptions = 0;
+  deliveredPrescriptions = 0;
 
   activeProductions = 0;
   finishedProductions = 0;
+  observedProductions = 0;
+
+  totalPatients = 0;
+  totalDoctors = 0;
+
+  totalDeliveries = 0;
+  pendingDeliveries = 0;
+  deliveredOrders = 0;
+
+  totalRawMaterials = 0;
+  lowRawMaterials = 0;
 
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
     private prescriptionService: PrescriptionService,
-    private productionService: ProductionService
+    private productionService: ProductionService,
+    private patientService: PatientService,
+    private doctorService: DoctorService,
+    private deliveryService: DeliveryService,
+    private rawMaterialService: RawMaterialService
   ) {}
 
   ionViewWillEnter() {
@@ -63,14 +84,37 @@ export class ReportsPage {
     const productions =
       this.productionService.getProductions();
 
+    const patients =
+      this.patientService.getPatients();
+
+    const doctors =
+      this.doctorService.getDoctors();
+
+    const deliveries =
+      this.deliveryService.getDeliveries();
+
+    const rawMaterials =
+      this.rawMaterialService.getRawMaterials();
+
     this.totalProducts =
       products.length;
 
     this.totalOrders =
       orders.length;
 
+    this.totalPatients =
+      patients.length;
+
+    this.totalDoctors =
+      doctors.length;
+
     this.totalPrescriptions =
       prescriptions.length;
+
+    this.deliveredPrescriptions =
+      prescriptions.filter(
+        p => p.status === 'Entregada'
+      ).length;
 
     this.pendingPrescriptions =
       prescriptions.filter(
@@ -85,6 +129,32 @@ export class ReportsPage {
     this.finishedProductions =
       productions.filter(
         p => p.status === 'Finalizado'
+      ).length;
+
+    this.observedProductions =
+      productions.filter(
+        p => p.status === 'Observado'
+      ).length;
+
+    this.totalDeliveries =
+      deliveries.length;
+
+    this.pendingDeliveries =
+      deliveries.filter(
+        d => d.status !== 'Entregado'
+      ).length;
+
+    this.deliveredOrders =
+      deliveries.filter(
+        d => d.status === 'Entregado'
+      ).length;
+
+    this.totalRawMaterials =
+      rawMaterials.length;
+
+    this.lowRawMaterials =
+      rawMaterials.filter(
+        m => m.stock <= m.minimumStock
       ).length;
 
     this.totalSales =

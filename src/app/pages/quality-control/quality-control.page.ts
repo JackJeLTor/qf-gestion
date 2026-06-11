@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DeliveryService }
-from '../../services/delivery.service';
-
 
 import {
   IonContent,
@@ -12,12 +9,16 @@ import {
   IonCard,
   IonCardContent,
   IonButton,
+  IonTextarea,
   IonItem,
   IonInput
 } from '@ionic/angular/standalone';
 
 import { ProductionService }
 from '../../services/production.service';
+
+import { QualityControlService }
+from '../../services/quality-control.service';
 
 @Component({
   selector: 'app-quality-control',
@@ -33,6 +34,7 @@ from '../../services/production.service';
     IonCard,
     IonCardContent,
     IonButton,
+    IonTextarea,
     IonItem,
     IonInput
   ]
@@ -41,13 +43,18 @@ export class QualityControlPage {
 
   productions: any[] = [];
 
-  constructor(
-  private productionService:
-    ProductionService,
+  observation = '';
 
-  private deliveryService:
-    DeliveryService
-) {}
+  responsible = '';
+
+  constructor(
+    private productionService:
+      ProductionService,
+
+    private qualityService:
+      QualityControlService
+  ) {}
+
   ngOnInit() {
 
     this.loadProductions();
@@ -73,71 +80,71 @@ export class QualityControlPage {
 
   }
 
- approve(
-  production: any
-) {
+  approve(
+    id: number
+  ) {
 
-  this.productionService
-    .updateQuality(
-      production.id,
-      'APROBADO',
-      production.observations || ''
-    );
+    if (
+      !this.responsible
+    ) {
 
-  this.productionService
-    .updateStatus(
-      production.id,
-      'Finalizado'
-    );
+      alert(
+        'Ingrese el responsable del control de calidad'
+      );
 
-  this.deliveryService
-    .addDelivery({
+      return;
 
-      id: Date.now(),
+    }
 
-      productionId:
-        production.id,
+    this.qualityService
+      .approveProduction(
+        id,
+        this.responsible
+      );
 
-      patientName:
-        production.patientName,
+    this.loadProductions();
 
-      formula:
-        production.formula,
+  }
 
-      responsible:
-        production.responsible,
+  observe(
+    id: number
+  ) {
 
-      deliveryDate:
-        '',
+    if (
+      !this.responsible
+    ) {
 
-      status:
-        'Pendiente'
+      alert(
+        'Ingrese el responsable del control de calidad'
+      );
 
-    });
+      return;
 
-  this.loadProductions();
+    }
 
-}
+    if (
+      !this.observation
+    ) {
 
-reject(
-  production: any
-) {
+      alert(
+        'Ingrese una observación'
+      );
 
-  this.productionService
-    .updateQuality(
-      production.id,
-      'RECHAZADO',
-      production.observations || ''
-    );
+      return;
 
-  this.productionService
-    .updateStatus(
-      production.id,
-      'Observado'
-    );
+    }
 
-  this.loadProductions();
+    this.qualityService
+      .observeProduction(
+        id,
+        this.observation,
+        this.responsible
+      );
 
-}
+    this.observation = '';
+
+    this.loadProductions();
+
+  }
 
 }

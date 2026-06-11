@@ -14,6 +14,12 @@
 
 <ion-content class="ion-padding">
 
+  <div class="section-title">
+
+    Entregas Pendientes y Completadas
+
+  </div>
+
   @for(
     delivery of deliveries;
     track delivery.id
@@ -54,42 +60,37 @@
           </strong>
 
         </p>
-        
-        @if(
-  delivery.deliveryDate
-){
-
-  <p>
-
-    Fecha Entrega:
-
-    <strong>
-
-      {{ delivery.deliveryDate }}
-
-    </strong>
-
-  </p>
-
-}
 
         @if(
-          delivery.status !==
-          'Entregado'
+          delivery.status === 'Entregado'
         ){
 
-          <ion-button
-            expand="block"
-            color="success"
-            (click)="deliver(delivery)">
+          <p>
 
-            Confirmar Entrega
+            Fecha de Entrega:
 
-          </ion-button>
+            {{ delivery.deliveryDate }}
+
+          </p>
 
         }
 
       </ion-card-content>
+
+      @if(
+        delivery.status !== 'Entregado'
+      ){
+
+        <ion-button
+          expand="block"
+          color="success"
+          (click)="markAsDelivered(delivery)">
+
+          Confirmar Entrega
+
+        </ion-button>
+
+      }
 
     </ion-card>
 

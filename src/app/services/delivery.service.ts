@@ -8,8 +8,7 @@ from '../models/delivery.model';
 })
 export class DeliveryService {
 
-  private deliveries:
-    Delivery[] = [];
+  private deliveries: Delivery[] = [];
 
   constructor() {
 
@@ -27,7 +26,7 @@ export class DeliveryService {
 
   }
 
-  getDeliveries() {
+  getDeliveries(): Delivery[] {
 
     return this.deliveries;
 
@@ -35,7 +34,7 @@ export class DeliveryService {
 
   addDelivery(
     delivery: Delivery
-  ) {
+  ): void {
 
     this.deliveries.push(
       delivery
@@ -45,17 +44,19 @@ export class DeliveryService {
 
   }
 
- updateStatus(
-  id: number,
-  status: string
-) {
+  updateStatus(
+    id: number,
+    status: string
+  ): void {
 
-  const delivery =
-    this.deliveries.find(
-      d => d.id === id
-    );
+    const delivery =
+      this.deliveries.find(
+        d => d.id === id
+      );
 
-  if (delivery) {
+    if (!delivery) {
+      return;
+    }
 
     delivery.status =
       status;
@@ -74,9 +75,20 @@ export class DeliveryService {
 
   }
 
-}
+  deleteDelivery(
+    id: number
+  ): void {
 
-  private save() {
+    this.deliveries =
+      this.deliveries.filter(
+        d => d.id !== id
+      );
+
+    this.save();
+
+  }
+
+  private save(): void {
 
     localStorage.setItem(
       'deliveries',

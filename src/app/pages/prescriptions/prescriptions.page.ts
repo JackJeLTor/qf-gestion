@@ -200,122 +200,129 @@ this.deliveryDate = '';
   }
 
   nextStatus(
-    prescription: any
+  prescription: any
+) {
+
+  switch (
+    prescription.status
   ) {
 
-    switch (
-      prescription.status
-    ) {
+    case 'Pendiente':
 
-      case 'Pendiente':
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'Validada'
+        );
 
-        this.prescriptionService
-          .updateStatus(
+      this.productionService
+        .addProduction({
+
+          id: Date.now(),
+
+          prescriptionId:
             prescription.id,
-            'Validada'
-          );
 
-        this.productionService
-  .addProduction({
+          patientName:
+            prescription.patientName,
 
-    id: Date.now(),
+          formula:
+            prescription.formula,
 
-    prescriptionId:
-      prescription.id,
+          responsible:
+            prescription.responsible,
 
-    patientName:
-      prescription.patientName,
+          startDate:
+            new Date()
+              .toLocaleDateString(),
 
-    formula:
-      prescription.formula,
+          endDate: '',
 
-    responsible:
-      prescription.responsible,
+          qualityResult: '',
 
-    startDate:
-      new Date()
-      .toLocaleDateString(),
+          observations: '',
 
-    endDate: '',
+          status:
+            'Pendiente',
 
-    qualityResult: '',
+          batchNumber:
+            'LOT-' + Date.now(),
 
-    observations: '',
+          quantity: 1,
 
-    status:
-      'Pendiente',
+          productionDate:
+            new Date()
+              .toLocaleDateString(),
 
-    batchNumber:
-      'LOT-' + Date.now(),
+          pharmaceuticalForm:
+            prescription.pharmaceuticalForm,
 
-    quantity: 1,
+          specialty:
+            prescription.specialty,
 
-    productionDate:
-      new Date()
-      .toLocaleDateString(),
+          priority:
+            prescription.priority,
 
-    pharmaceuticalForm:
-      prescription.pharmaceuticalForm,
+          rawMaterialsUsed: [],
 
-    specialty:
-      prescription.specialty,
+          qualityDate: '',
 
-    priority:
-      prescription.priority,
+          qualityResponsible: '',
 
-    rawMaterialsUsed: [],
+          qualityStatus:
+            'Pendiente',
 
-    history: [
-      'Producción creada desde receta validada'
-    ]
-});
+          history: [
+            'Producción creada desde receta validada'
+          ]
 
-        break;
+        });
 
-      case 'Validada':
+      break;
 
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'En Preparación'
-          );
+    case 'Validada':
 
-        break;
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'En Preparación'
+        );
 
-      case 'En Preparación':
+      break;
 
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'Control de Calidad'
-          );
+    case 'En Preparación':
 
-        break;
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'Control de Calidad'
+        );
 
-      case 'Control de Calidad':
+      break;
 
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'Lista para Entrega'
-          );
+    case 'Control de Calidad':
 
-        break;
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'Lista para Entrega'
+        );
 
-      case 'Lista para Entrega':
+      break;
 
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'Entregada'
-          );
+    case 'Lista para Entrega':
 
-        break;
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'Entregada'
+        );
 
-    }
-
-    this.loadPrescriptions();
+      break;
 
   }
 
+  this.loadPrescriptions();
+
+}
 }

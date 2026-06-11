@@ -14,6 +14,22 @@
 
 <ion-content class="ion-padding">
 
+  @if(
+    productions.length === 0
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        No existen producciones pendientes de control de calidad.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
   @for(
     production of productions;
     track production.id
@@ -31,43 +47,95 @@
 
         <p>
 
-          Responsable:
+          💊 Fórmula:
+
+          {{ production.formula }}
+
+        </p>
+
+        <p>
+
+          🏷️ Lote:
+
+          {{ production.batchNumber }}
+
+        </p>
+
+        <p>
+
+          👤 Responsable Producción:
+
           {{ production.responsible }}
 
         </p>
 
         <p>
 
-          Fórmula:
-          {{ production.formula }}
+          📅 Inicio:
+
+          {{ production.startDate }}
 
         </p>
+
+        <p>
+
+          📌 Estado:
+
+          <strong>
+
+            {{ production.status }}
+
+          </strong>
+
+        </p>
+
+        <hr>
+
+        <h3>
+
+          Control de Calidad
+
+        </h3>
 
         <ion-item>
 
           <ion-input
-            label="Observaciones"
+            label="Responsable de Calidad"
             labelPlacement="floating"
-            [(ngModel)]="production.observations">
+            [(ngModel)]="responsible">
+
           </ion-input>
 
         </ion-item>
 
-        <ion-button
-          color="success"
-          expand="block"
-          (click)="approve(production)">
+        <ion-item>
 
-          Aprobar Lote
+          <ion-textarea
+            label="Observaciones"
+            labelPlacement="floating"
+            [(ngModel)]="observation">
+
+          </ion-textarea>
+
+        </ion-item>
+
+        <br>
+
+        <ion-button
+          expand="block"
+          color="success"
+          (click)="approve(production.id)">
+
+          ✅ Aprobar Producción
 
         </ion-button>
 
         <ion-button
-          color="danger"
           expand="block"
-          (click)="reject(production)">
+          color="warning"
+          (click)="observe(production.id)">
 
-          Rechazar Lote
+          ⚠ Registrar Observación
 
         </ion-button>
 

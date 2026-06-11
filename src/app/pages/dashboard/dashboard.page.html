@@ -1,10 +1,22 @@
 <ion-content>
 
-  <div class="header">
+  <div class="dashboard-header">
 
-    <h1>QF Gestión App</h1>
+    <h1>🏥 QF Gestión App</h1>
 
-    <p>Sistema Farmacéutico</p>
+    <p>
+
+      Sistema Integral de Gestión Farmacéutica Magistral
+
+    </p>
+
+  </div>
+
+  <!-- RESUMEN GENERAL -->
+
+  <div class="section-title">
+
+    📊 Resumen General
 
   </div>
 
@@ -12,9 +24,41 @@
 
     <ion-row>
 
-      <ion-col size="4">
+      <ion-col size="6">
 
-        <ion-card class="stat-card">
+        <ion-card class="kpi-card">
+
+          <ion-card-content>
+
+            <h2>{{ totalPatients }}</h2>
+
+            <p>Pacientes</p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="kpi-card">
+
+          <ion-card-content>
+
+            <h2>{{ totalDoctors }}</h2>
+
+            <p>Médicos</p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="kpi-card">
 
           <ion-card-content>
 
@@ -28,9 +72,9 @@
 
       </ion-col>
 
-      <ion-col size="4">
+      <ion-col size="6">
 
-        <ion-card class="stat-card">
+        <ion-card class="kpi-card">
 
           <ion-card-content>
 
@@ -44,15 +88,123 @@
 
       </ion-col>
 
-      <ion-col size="4">
+    </ion-row>
 
-        <ion-card class="stat-card">
+  </ion-grid>
+
+  <!-- PRODUCCION -->
+
+  <div class="section-title">
+
+    🧪 Producción Magistral
+
+  </div>
+
+  <ion-grid>
+
+    <ion-row>
+
+      <ion-col size="6">
+
+        <ion-card>
 
           <ion-card-content>
 
-            <h2>{{ lowStock }}</h2>
+            <strong>{{ totalPrescriptions }}</strong>
 
-            <p>Stock Bajo</p>
+            <br>
+
+            Recetas
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <strong>{{ pendingPrescriptions }}</strong>
+
+            <br>
+
+            Pendientes
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <strong>{{ activeProductions }}</strong>
+
+            <br>
+
+            Producción
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <strong>{{ finishedProductions }}</strong>
+
+            <br>
+
+            Finalizadas
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <strong>{{ qualityProductions }}</strong>
+
+            <br>
+
+            Calidad
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <strong>{{ observedProductions }}</strong>
+
+            <br>
+
+            Observadas
 
           </ion-card-content>
 
@@ -64,263 +216,295 @@
 
   </ion-grid>
 
+  <!-- INVENTARIO -->
+
   <div class="section-title">
 
-    Resumen General
+    📦 Inventario
 
   </div>
-  
-  <ion-card>
 
-  <ion-card-content>
+  <ion-grid>
 
-    👤 Pacientes:
+    <ion-row>
 
-    <strong>
+      <ion-col size="4">
 
-      {{ totalPatients }}
+        <ion-card>
 
-    </strong>
+          <ion-card-content>
 
-  </ion-card-content>
+            💰
 
-</ion-card>
+            <h3>
 
-<ion-card>
+              S/. {{ inventoryValue.toFixed(2) }}
 
-  <ion-card-content>
+            </h3>
 
-    👨‍⚕️ Médicos:
+          </ion-card-content>
 
-    <strong>
+        </ion-card>
 
-      {{ totalDoctors }}
+      </ion-col>
 
-    </strong>
+      <ion-col size="4">
 
-  </ion-card-content>
+        <ion-card>
 
-</ion-card>
+          <ion-card-content>
 
-<ion-card>
+            ⚠
 
-  <ion-card-content>
+            <h3>
 
-    🏢 Laboratorios:
+              {{ lowStock }}
 
-    <strong>
+            </h3>
 
-      {{ totalLaboratories }}
+          </ion-card-content>
 
-    </strong>
+        </ion-card>
 
-  </ion-card-content>
+      </ion-col>
 
-</ion-card>
+      <ion-col size="4">
 
-<ion-card>
+        <ion-card>
 
-  <ion-card-content>
+          <ion-card-content>
 
-    🧪 Materias Primas:
+            📅
 
-    <strong>
+            <h3>
 
-      {{ totalRawMaterials }}
+              {{ expiringProducts }}
 
-    </strong>
+            </h3>
 
-  </ion-card-content>
+          </ion-card-content>
 
-  <ion-card>
+        </ion-card>
 
-  <ion-card-content>
+      </ion-col>
 
-    ⚠ Materias Primas con Stock Bajo:
+    </ion-row>
 
-    <strong>
+  </ion-grid>
 
-      {{ lowRawMaterials }}
-
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-<ion-card>
-
-  <ion-card-content>
-
-    📅 Materias Primas por Vencer:
-
-    <strong>
-
-      {{ expiringRawMaterials }}
-
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-<ion-card>
-
-  <ion-card-content>
-
-    🔬 En Control de Calidad:
-
-    <strong>
-
-      {{ qualityProductions }}
-
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-<ion-card>
-
-  <ion-card-content>
-
-    ❌ Producciones Observadas:
-
-    <strong>
-
-      {{ observedProductions }}
-
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-<ion-card>
-
-  <ion-card-content>
-
-    🚚 Entregas Pendientes:
-
-    <strong>
-
-      {{ pendingDeliveries }}
-
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-<ion-card>
-
-  <ion-card-content>
-
-    ✅ Entregas Realizadas:
-
-    <strong>
-
-      {{ deliveredOrders }}
-
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-</ion-card>
-
-  <ion-card>
-
-  <ion-card-content>
-
-    🧪 Recetas Registradas:
-
-    <strong>
-      {{ totalPrescriptions }}
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-<ion-card>
-
-  <ion-card-content>
-
-    ⏳ Recetas Pendientes:
-
-    <strong>
-      {{ pendingPrescriptions }}
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-<ion-card>
-
-  <ion-card-content>
-
-    🏭 Producciones Activas:
-
-    <strong>
-      {{ activeProductions }}
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-<ion-card>
-
-  <ion-card-content>
-
-    ✅ Producciones Finalizadas:
-
-    <strong>
-      {{ finishedProductions }}
-    </strong>
-
-  </ion-card-content>
-
-</ion-card>
-
-  <ion-card>
-
-    <ion-card-content>
-
-      💰 Valor del Inventario:
-
-      <strong>
-
-        S/. {{ inventoryValue.toFixed(2) }}
-
-      </strong>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card>
-
-    <ion-card-content>
-
-      📅 Productos próximos a vencer:
-
-      <strong>
-
-        {{ expiringProducts }}
-
-      </strong>
-
-    </ion-card-content>
-
-  </ion-card>
+  <!-- MATERIAS PRIMAS -->
 
   <div class="section-title">
 
-    Movimientos recientes
+    🧪 Materias Primas
+
+  </div>
+
+  <ion-grid>
+
+    <ion-row>
+
+      <ion-col size="4">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <h3>
+
+              {{ totalRawMaterials }}
+
+            </h3>
+
+            Total
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="4">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <h3>
+
+              {{ lowRawMaterials }}
+
+            </h3>
+
+            Stock Bajo
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="4">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <h3>
+
+              {{ expiringRawMaterials }}
+
+            </h3>
+
+            Por vencer
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+
+  <!-- ENTREGAS -->
+
+  <div class="section-title">
+
+    🚚 Entregas
+
+  </div>
+
+  <ion-grid>
+
+    <ion-row>
+
+      <ion-col size="6">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ pendingDeliveries }}
+
+            </h2>
+
+            Pendientes
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card>
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ deliveredOrders }}
+
+            </h2>
+
+            Realizadas
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+
+  <!-- ACCESOS RAPIDOS -->
+
+  <div class="section-title">
+
+    ⚡ Accesos Rápidos
+
+  </div>
+
+  <div class="quick-actions">
+
+    <button (click)="goPatients()">
+
+      👤
+
+      <span>Pacientes</span>
+
+    </button>
+
+    <button (click)="goDoctors()">
+
+      👨‍⚕️
+
+      <span>Médicos</span>
+
+    </button>
+
+    <button (click)="goLaboratories()">
+
+      🏢
+
+      <span>Laboratorios</span>
+
+    </button>
+
+    <button (click)="goRawMaterials()">
+
+      🧪
+
+      <span>Materias Primas</span>
+
+    </button>
+
+    <button (click)="goPrescriptions()">
+
+      📄
+
+      <span>Recetas</span>
+
+    </button>
+
+    <button (click)="goProductions()">
+
+      🏭
+
+      <span>Producción</span>
+
+    </button>
+
+    <button (click)="goQualityControl()">
+
+      🔬
+
+      <span>Calidad</span>
+
+    </button>
+
+    <button (click)="goDeliveries()">
+
+      🚚
+
+      <span>Entregas</span>
+
+    </button>
+
+  </div>
+
+  <!-- MOVIMIENTOS -->
+
+  <div class="section-title">
+
+    📋 Movimientos Recientes
 
   </div>
 
@@ -363,45 +547,43 @@
 
   }
 
-  <div style="height:90px"></div>
+  <div style="height:80px"></div>
+  <!-- FLUJO OPERATIVO -->
+
+<div class="section-title">
+  🔄 Flujo Operativo
+</div>
+
+<ion-card routerLink="/prescriptions">
+  <ion-card-content>
+    🧪 1. Recetas Magistrales
+    <br>
+    <small>Registro y validación de fórmulas</small>
+  </ion-card-content>
+</ion-card>
+
+<ion-card routerLink="/productions">
+  <ion-card-content>
+    🏭 2. Producción
+    <br>
+    <small>Elaboración de preparados magistrales</small>
+  </ion-card-content>
+</ion-card>
+
+<ion-card routerLink="/quality-control">
+  <ion-card-content>
+    🔬 3. Control de Calidad
+    <br>
+    <small>Validación y aprobación de lotes</small>
+  </ion-card-content>
+</ion-card>
+
+<ion-card routerLink="/delivery">
+  <ion-card-content>
+    🚚 4. Entregas
+    <br>
+    <small>Despacho al paciente</small>
+  </ion-card-content>
+</ion-card>
 
 </ion-content>
-
-<div class="bottom-nav">
-
-  <button (click)="goInventory()">
-    📦<br>
-    Inventario
-  </button>
-
-  <button (click)="goProducts()">
-    💊<br>
-    Productos
-  </button>
-
-  <button (click)="goOrders()">
-    🛒<br>
-    Pedidos
-  </button>
-
-  <button (click)="goReports()">
-    📊<br>
-    Reportes
-  </button>
-
-  <button (click)="goProfile()">
-    👤<br>
-    Perfil
-  </button>
-
-  <button (click)="goPrescriptions()">
-  🧪<br>
-  Recetas
-</button>
-
-<button (click)="goProductions()">
-  🏭<br>
-  Producción
-</button>
-
-</div>

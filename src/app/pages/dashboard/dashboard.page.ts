@@ -126,42 +126,32 @@ export class DashboardPage {
 
     this.activeProductions =
       productions.filter(
-        p =>
-          p.status !== 'Finalizado'
+        p => p.status !== 'Finalizado'
       ).length;
 
     this.finishedProductions =
       productions.filter(
-        p =>
-          p.status === 'Finalizado'
+        p => p.status === 'Finalizado'
       ).length;
 
     this.qualityProductions =
       productions.filter(
-        p =>
-          p.status ===
-          'Control Calidad'
+        p => p.status === 'Control Calidad'
       ).length;
 
     this.observedProductions =
       productions.filter(
-        p =>
-          p.status ===
-          'Observado'
+        p => p.status === 'Observado'
       ).length;
 
     this.pendingDeliveries =
       deliveries.filter(
-        d =>
-          d.status !==
-          'Entregado'
+        d => d.status !== 'Entregado'
       ).length;
 
     this.deliveredOrders =
       deliveries.filter(
-        d =>
-          d.status ===
-          'Entregado'
+        d => d.status === 'Entregado'
       ).length;
 
     this.lowStock =
@@ -173,8 +163,7 @@ export class DashboardPage {
       products.reduce(
         (total, product) =>
           total +
-          (product.stock *
-            product.price),
+          (product.stock * product.price),
         0
       );
 
@@ -206,9 +195,7 @@ export class DashboardPage {
 
     this.lowRawMaterials =
       rawMaterials.filter(
-        m =>
-          m.stock <=
-          m.minimumStock
+        m => m.stock <= m.minimumStock
       ).length;
 
     this.expiringRawMaterials =
@@ -270,6 +257,30 @@ export class DashboardPage {
 
   goProductions() {
     this.router.navigate(['/productions']);
+  }
+
+  goPatients() {
+    this.router.navigate(['/patients']);
+  }
+
+  goDoctors() {
+    this.router.navigate(['/doctors']);
+  }
+
+  goLaboratories() {
+    this.router.navigate(['/laboratories']);
+  }
+
+  goRawMaterials() {
+    this.router.navigate(['/raw-materials']);
+  }
+
+  goQualityControl() {
+    this.router.navigate(['/quality-control']);
+  }
+
+  goDeliveries() {
+    this.router.navigate(['/delivery']);
   }
 
 }

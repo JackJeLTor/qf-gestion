@@ -99,17 +99,35 @@
 
     <p>
 
-      • {{ material.materialName }}
+  • {{ material.materialName }}
 
-      ({{ material.quantity }}
+  ({{ material.quantity }}
+  {{ material.unit }})
 
-      {{ material.unit }})
+</p>
 
-      - Lote:
+<p>
 
-      {{ material.lotNumber }}
+  Lote:
+  {{ material.lotNumber }}
 
-    </p>
+</p>
+
+<p>
+
+  Fecha:
+  {{ material.consumedDate }}
+
+</p>
+
+<p>
+
+  Responsable:
+  {{ material.consumedBy }}
+
+</p>
+
+<hr>
 
   }
 
@@ -131,43 +149,90 @@
 
         <p>
 
-          Estado:
+  Estado:
 
-          <strong>
+  <strong
+    [style.color]="
+      production.status === 'Pendiente'
+        ? '#f59e0b'
+        : production.status === 'En Producción'
+        ? '#3b82f6'
+        : production.status === 'Control Calidad'
+        ? '#8b5cf6'
+        : production.status === 'Lista para Entrega'
+        ? '#10b981'
+        : production.status === 'Observado'
+        ? '#ef4444'
+        : '#22c55e'
+    "
+  >
 
-            {{ production.status }}
+    {{ production.status }}
 
-          </strong>
+  </strong>
 
-        </p>
+</p><p>
+
+  Estado:
+
+  <strong
+    [style.color]="
+      production.status === 'Pendiente'
+        ? '#f59e0b'
+        : production.status === 'En Producción'
+        ? '#3b82f6'
+        : production.status === 'Control Calidad'
+        ? '#8b5cf6'
+        : production.status === 'Lista para Entrega'
+        ? '#10b981'
+        : production.status === 'Observado'
+        ? '#ef4444'
+        : '#22c55e'
+    "
+  >
+
+    {{ production.status }}
+
+  </strong>
+
+</p>
 
         @if(
-          production.status ===
-          'Finalizado'
-        ){
+  production.status === 'Finalizado' ||
+  production.status === 'Observado' ||
+  production.status === 'Lista para Entrega'
+){
 
-          <hr>
+  <hr>
 
-          <p>
+  <h3>
+    🔬 Control de Calidad
+  </h3>
 
-            Fecha Fin:
-            {{ production.endDate }}
+  <p>
+    Resultado:
+    {{ production.qualityResult }}
+  </p>
 
-          </p>
+  <p>
+    Estado Calidad:
+    {{ production.qualityStatus }}
+  </p>
 
-          <p>
+  <p>
+    Responsable:
+    {{ production.qualityResponsible }}
+  </p>
 
-            Calidad:
-            {{ production.qualityResult }}
+  <p>
+    Fecha Calidad:
+    {{ production.qualityDate }}
+  </p>
 
-          </p>
-
-          <p>
-
-            Observación:
-            {{ production.observations }}
-
-          </p>
+  <p>
+    Observaciones:
+    {{ production.observations }}
+  </p>
 
         }
 

@@ -142,24 +142,24 @@ export class ProductionConsumptionPage {
 
     });
 
-  this.productionService
-    .addRawMaterial(
-      production.id,
-      {
+  this.productionService.addRawMaterial(
+  this.productionId,
+  {
+    materialName: material.name,
 
-        materialName:
-          material.name,
+    quantity: this.quantity,
 
-        quantity:
-          this.quantity,
+    unit: material.unit,
 
-        unit:
-          material.unit,
+    lotNumber: material.lotNumber,
 
-        lotNumber:
-          material.lotNumber
-      }
-    );
+    consumedDate:
+      new Date().toLocaleString(),
+
+    consumedBy:
+      'Q.F. Responsable'
+  }
+);
 
   this.consumptions =
     this.consumptionService

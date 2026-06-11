@@ -8,6 +8,10 @@ export interface ProductionMaterial {
 
   lotNumber: string;
 
+  consumedDate: string;
+
+  consumedBy: string;
+
 }
 
 export interface Production {
@@ -25,6 +29,12 @@ export interface Production {
   startDate: string;
 
   endDate: string;
+
+  qualityDate: string;
+
+  qualityResponsible: string;
+
+  qualityStatus: string;
 
   qualityResult: string;
 
