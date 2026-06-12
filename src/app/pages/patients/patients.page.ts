@@ -60,58 +60,82 @@ export class PatientsPage {
   ) {}
 
   ngOnInit() {
-
     this.loadPatients();
-
   }
 
   loadPatients() {
-
     this.patients =
-      this.patientService
-        .getPatients();
+      this.patientService.getPatients();
+  }
 
+  private isValidEmail(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
   addPatient() {
 
+    // VALIDACIÓN GENERAL
     if (
+      !this.documentNumber ||
       !this.firstName ||
-      !this.lastName
+      !this.lastName ||
+      !this.birthDate ||
+      !this.phone ||
+      !this.email ||
+      !this.address
     ) {
+      alert('Complete todos los campos');
       return;
     }
 
-    this.patientService
-      .addPatient({
+    // DNI SOLO NUMEROS 8 DIGITOS
+    if (this.documentType === 'DNI') {
+      if (!/^\d{8}$/.test(this.documentNumber)) {
+        alert('El DNI debe tener 8 dígitos numéricos');
+        return;
+      }
+    }
 
-        id: Date.now(),
+    // CE SOLO NUMEROS 9-12 DIGITOS
+    if (this.documentType === 'CE') {
+      if (!/^\d{9,12}$/.test(this.documentNumber)) {
+        alert('El Carnet de Extranjería debe tener entre 9 y 12 dígitos');
+        return;
+      }
+    }
 
-        documentType:
-          this.documentType,
+    // TELEFONO 9 DIGITOS
+    if (!/^\d{9}$/.test(this.phone)) {
+      alert('El teléfono debe tener 9 dígitos');
+      return;
+    }
 
-        documentNumber:
-          this.documentNumber,
+    // EMAIL
+    if (!this.isValidEmail(this.email)) {
+      alert('Correo inválido');
+      return;
+    }
 
-        firstName:
-          this.firstName,
+    // FECHA NACIMIENTO
+    const birth = new Date(this.birthDate);
+    const today = new Date();
 
-        lastName:
-          this.lastName,
+    if (birth >= today) {
+      alert('Fecha de nacimiento inválida');
+      return;
+    }
 
-        birthDate:
-          this.birthDate,
-
-        phone:
-          this.phone,
-
-        email:
-          this.email,
-
-        address:
-          this.address
-
-      });
+    this.patientService.addPatient({
+      id: Date.now(),
+      documentType: this.documentType,
+      documentNumber: this.documentNumber,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      birthDate: this.birthDate,
+      phone: this.phone,
+      email: this.email,
+      address: this.address
+    });
 
     this.loadPatients();
 
@@ -123,18 +147,10 @@ export class PatientsPage {
     this.phone = '';
     this.email = '';
     this.address = '';
-
   }
 
-  deletePatient(
-    id: number
-  ) {
-
-    this.patientService
-      .deletePatient(id);
-
+  deletePatient(id: number) {
+    this.patientService.deletePatient(id);
     this.loadPatients();
-
   }
-
 }

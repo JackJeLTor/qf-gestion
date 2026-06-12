@@ -69,7 +69,7 @@ export class RawMaterialsPage {
 
     this.rawMaterials =
       this.rawMaterialService
-      .getRawMaterials();
+        .getRawMaterials();
 
   }
 
@@ -92,7 +92,10 @@ export class RawMaterialsPage {
         1000 * 60 * 60 * 24
       );
 
-    if (this.stock <= 10) {
+    if (
+      this.stock <=
+      this.minimumStock
+    ) {
 
       return 'Stock Bajo';
 
@@ -110,8 +113,21 @@ export class RawMaterialsPage {
 
   addRawMaterial() {
 
-    if (!this.name) {
+    if (
+      !this.name ||
+      !this.category ||
+      !this.laboratoryName ||
+      !this.lotNumber ||
+      !this.unit ||
+      !this.expirationDate
+    ) {
+
+      alert(
+        'Complete todos los campos'
+      );
+
       return;
+
     }
 
     this.rawMaterialService
@@ -120,7 +136,8 @@ export class RawMaterialsPage {
         id: Date.now(),
 
         code:
-          'MP' + Date.now(),
+          'MP-' +
+          Date.now(),
 
         name:
           this.name,
@@ -154,18 +171,13 @@ export class RawMaterialsPage {
     this.loadRawMaterials();
 
     this.name = '';
-
     this.category = '';
-
     this.laboratoryName = '';
-
     this.lotNumber = '';
-
     this.stock = 0;
-
     this.unit = '';
-
     this.expirationDate = '';
+    this.minimumStock = 10;
 
   }
 

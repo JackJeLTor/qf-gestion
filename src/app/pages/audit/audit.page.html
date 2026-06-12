@@ -1,0 +1,60 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Auditoría
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @for(
+    log of logs;
+    track log.id
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <strong>
+
+          {{ log.module }}
+
+        </strong>
+
+        <br>
+
+        {{ log.action }}
+
+        <br>
+
+        Responsable:
+
+        {{ log.responsible }}
+
+        <br>
+
+        {{ log.description }}
+
+        <br>
+
+        <small>
+
+          {{ log.date }}
+
+        </small>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

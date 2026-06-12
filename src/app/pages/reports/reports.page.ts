@@ -17,6 +17,13 @@ import { PatientService } from '../../services/patient.service';
 import { DoctorService } from '../../services/doctor.service';
 import { DeliveryService } from '../../services/delivery.service';
 import { RawMaterialService } from '../../services/raw-material.service';
+import * as XLSX from 'xlsx';
+
+import { saveAs }
+from 'file-saver';
+
+import { AuditService }
+from '../../services/audit.service';
 
 @Component({
   selector: 'app-reports',
@@ -60,15 +67,91 @@ export class ReportsPage {
   lowRawMaterials = 0;
 
   constructor(
-    private productService: ProductService,
-    private orderService: OrderService,
-    private prescriptionService: PrescriptionService,
-    private productionService: ProductionService,
-    private patientService: PatientService,
-    private doctorService: DoctorService,
-    private deliveryService: DeliveryService,
-    private rawMaterialService: RawMaterialService
-  ) {}
+  private productService:
+    ProductService,
+
+  private orderService:
+    OrderService,
+
+  public prescriptionService:
+    PrescriptionService,
+
+  public productionService:
+    ProductionService,
+
+  public patientService:
+    PatientService,
+
+  public doctorService:
+    DoctorService,
+
+  private deliveryService:
+    DeliveryService,
+
+  public rawMaterialService:
+    RawMaterialService,
+
+  private auditService:
+    AuditService
+) {}
+
+exportExcel(
+  data: any[],
+  fileName: string
+) {
+
+  const worksheet =
+    XLSX.utils.json_to_sheet(
+      data
+    );
+
+  const workbook =
+    XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    'Datos'
+  );
+
+  const excelBuffer =
+    XLSX.write(
+      workbook,
+      {
+        bookType: 'xlsx',
+        type: 'array'
+      }
+    );
+
+  const blob =
+    new Blob(
+      [excelBuffer],
+      {
+        type:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }
+    );
+
+  saveAs(
+    blob,
+    `${fileName}.xlsx`
+  );
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        'currentUser'
+      ) || '{}'
+    );
+
+  this.auditService.addLog(
+    'Reportes',
+    'Exportación Excel',
+    user.fullName || 'Sistema',
+    `Archivo exportado: ${fileName}.xlsx`
+  );
+
+}
 
   ionViewWillEnter() {
 

@@ -122,4 +122,76 @@
 
   </ion-card>
 
+  <ion-card>
+
+  <ion-card-content>
+
+    <h2>
+
+      📥 Exportar Información
+
+    </h2>
+
+    <button
+      (click)="exportExcel(
+        patientService.getPatients(),
+        'Pacientes'
+      )">
+
+      Exportar Pacientes
+
+    </button>
+
+    <br><br>
+
+    <button
+      (click)="exportExcel(
+        doctorService.getDoctors(),
+        'Medicos'
+      )">
+
+      Exportar Médicos
+
+    </button>
+
+    <br><br>
+
+    <button
+      (click)="exportExcel(
+        prescriptionService.getPrescriptions(),
+        'Recetas'
+      )">
+
+      Exportar Recetas
+
+    </button>
+
+    <br><br>
+
+    <button
+      (click)="exportExcel(
+        productionService.getProductions(),
+        'Producciones'
+      )">
+
+      Exportar Producción
+
+    </button>
+
+    <br><br>
+
+    <button
+      (click)="exportExcel(
+        rawMaterialService.getRawMaterials(),
+        'MateriasPrimas'
+      )">
+
+      Exportar Materias Primas
+
+    </button>
+
+  </ion-card-content>
+
+</ion-card>
+
 </ion-content>

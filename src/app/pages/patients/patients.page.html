@@ -1,24 +1,20 @@
 <ion-header>
 
   <ion-toolbar>
-
-    <ion-title>
-
-      Pacientes
-
-    </ion-title>
-
+    <ion-title>Pacientes</ion-title>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content class="ion-padding">
 
+  <!-- TIPO DOCUMENTO CONTROLADO -->
   <ion-item>
     <ion-input
       label="Tipo Documento"
       labelPlacement="floating"
-      [(ngModel)]="documentType">
+      [(ngModel)]="documentType"
+      readonly>
     </ion-input>
   </ion-item>
 
@@ -65,6 +61,7 @@
 
   <ion-item>
     <ion-input
+      type="email"
       label="Correo"
       labelPlacement="floating"
       [(ngModel)]="email">
@@ -79,34 +76,31 @@
     </ion-input>
   </ion-item>
 
-  <ion-button
-    expand="block"
-    (click)="addPatient()">
-
+  <ion-button expand="block" (click)="addPatient()">
     Registrar Paciente
-
   </ion-button>
 
-  @for(
-    patient of patients;
-    track patient.id
-  ){
+  <!-- LISTADO -->
+  @for(patient of patients; track patient.id){
 
     <ion-card>
 
       <ion-card-content>
 
         <h2>
-
           {{ patient.firstName }}
           {{ patient.lastName }}
-
         </h2>
 
         <p>
           Documento:
           {{ patient.documentType }}
           {{ patient.documentNumber }}
+        </p>
+
+        <p>
+          Fecha Nacimiento:
+          {{ patient.birthDate }}
         </p>
 
         <p>
@@ -117,6 +111,11 @@
         <p>
           Correo:
           {{ patient.email }}
+        </p>
+
+        <p>
+          Dirección:
+          {{ patient.address }}
         </p>
 
       </ion-card-content>

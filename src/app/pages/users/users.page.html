@@ -1,0 +1,170 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Gestión de Usuarios
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <h2>
+
+        Nuevo Usuario
+
+      </h2>
+
+      <ion-item>
+
+        <ion-input
+          label="Usuario"
+          labelPlacement="stacked"
+          [(ngModel)]="username">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          label="Contraseña"
+          labelPlacement="stacked"
+          type="password"
+          [(ngModel)]="password">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          label="Nombre Completo"
+          labelPlacement="stacked"
+          [(ngModel)]="fullName">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-select
+  [(ngModel)]="role">
+
+  <ion-select-option
+    value="Administrador">
+
+    Administrador
+
+  </ion-select-option>
+
+  <ion-select-option
+    value="Producción">
+
+    Producción
+
+  </ion-select-option>
+
+  <ion-select-option
+    value="Calidad">
+
+    Calidad
+
+  </ion-select-option>
+
+  <ion-select-option
+    value="Recepción">
+
+    Recepción
+
+  </ion-select-option>
+
+  <ion-select-option
+    value="Médico">
+
+    Médico
+
+  </ion-select-option>
+
+  <ion-select-option
+    value="Consulta">
+
+    Consulta
+
+  </ion-select-option>
+
+</ion-select>
+
+      </ion-item>
+
+      <br>
+
+      <ion-button
+        expand="block"
+        (click)="saveUser()">
+
+        Guardar Usuario
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <h2>
+
+        Usuarios Registrados
+
+      </h2>
+
+      @for(
+        user of users;
+        track user.id
+      ){
+
+        <ion-item>
+
+          <div>
+
+            <strong>
+
+              {{ user.fullName }}
+
+            </strong>
+
+            <br>
+
+            Usuario:
+
+            {{ user.username }}
+
+            <br>
+
+            Rol:
+
+            {{ user.role }}
+
+          </div>
+
+        </ion-item>
+
+      }
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

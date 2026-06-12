@@ -12,6 +12,223 @@
 
   </div>
 
+   <!-- MENU PRINCIPAL -->
+
+<div class="section-title">
+
+  🚀 Menú Principal
+
+</div>
+
+<ion-grid>
+
+  <ion-row>
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goAudit()">
+
+        <ion-card-content>
+
+          📋
+
+          <br>
+
+          Auditoría
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goPatients()">
+
+        <ion-card-content>
+
+          👤
+
+          <br>
+
+          Pacientes
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goDoctors()">
+
+        <ion-card-content>
+
+          👨‍⚕️
+
+          <br>
+
+          Médicos
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goLaboratories()">
+
+        <ion-card-content>
+
+          🏢
+
+          <br>
+
+          Laboratorios
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goBackup()">
+
+        <ion-card-content>
+
+          💾
+
+          <br>
+
+          Backup
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+@if(canRawMaterials){
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goRawMaterials()">
+
+        <ion-card-content>
+
+          🧪
+
+          <br>
+
+          Materias Primas
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+}
+
+@if(canPrescriptions){
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goPrescriptions()">
+
+        <ion-card-content>
+
+          📄
+
+          <br>
+
+          Recetas
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+}
+
+@if(canProductions){
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goProductions()">
+
+        <ion-card-content>
+
+          🏭
+
+          <br>
+
+          Producción
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+}
+
+@if(canQuality){
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goQualityControl()">
+
+        <ion-card-content>
+
+          🔬
+
+          <br>
+
+          Calidad
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+}
+
+@if(canDeliveries){
+
+    <ion-col size="4">
+
+      <ion-card button (click)="goDeliveries()">
+
+        <ion-card-content>
+
+          🚚
+
+          <br>
+
+          Entregas
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+}
+
+  </ion-row>
+
+</ion-grid>
+
+
   <!-- RESUMEN GENERAL -->
 
   <div class="section-title">
@@ -422,91 +639,19 @@
 
     </ion-row>
 
-  </ion-grid>
+    </ion-grid>
 
-  <!-- ACCESOS RAPIDOS -->
+  <!-- MOVIMIENTOS RECIENTES -->
 
-  <div class="section-title">
+<div class="section-title">
 
-    ⚡ Accesos Rápidos
+  📋 Movimientos Recientes
 
-  </div>
+</div>
 
-  <div class="quick-actions">
-
-    <button (click)="goPatients()">
-
-      👤
-
-      <span>Pacientes</span>
-
-    </button>
-
-    <button (click)="goDoctors()">
-
-      👨‍⚕️
-
-      <span>Médicos</span>
-
-    </button>
-
-    <button (click)="goLaboratories()">
-
-      🏢
-
-      <span>Laboratorios</span>
-
-    </button>
-
-    <button (click)="goRawMaterials()">
-
-      🧪
-
-      <span>Materias Primas</span>
-
-    </button>
-
-    <button (click)="goPrescriptions()">
-
-      📄
-
-      <span>Recetas</span>
-
-    </button>
-
-    <button (click)="goProductions()">
-
-      🏭
-
-      <span>Producción</span>
-
-    </button>
-
-    <button (click)="goQualityControl()">
-
-      🔬
-
-      <span>Calidad</span>
-
-    </button>
-
-    <button (click)="goDeliveries()">
-
-      🚚
-
-      <span>Entregas</span>
-
-    </button>
-
-  </div>
-
-  <!-- MOVIMIENTOS -->
-
-  <div class="section-title">
-
-    📋 Movimientos Recientes
-
-  </div>
+@if(
+  recentMovements.length > 0
+){
 
   @for(
     movement of recentMovements;
@@ -547,8 +692,11 @@
 
   }
 
-  <div style="height:80px"></div>
-  <!-- FLUJO OPERATIVO -->
+}
+
+<div style="height:20px"></div>
+
+<!-- FLUJO OPERATIVO -->
 
 <div class="section-title">
   🔄 Flujo Operativo

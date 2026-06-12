@@ -33,105 +33,50 @@
 
           Responsable:
           {{ production.responsible }}
-          
+
         </p>
 
         <p>
 
-  💊 Forma Farmacéutica:
+          💊 Forma Farmacéutica:
+          {{ production.pharmaceuticalForm }}
 
-  {{ production.pharmaceuticalForm }}
-
-</p>
-
-<p>
-
-  🏥 Especialidad:
-
-  {{ production.specialty }}
-
-</p>
-
-<p>
-
-  ⚡ Prioridad:
-
-  {{ production.priority }}
-
-</p>
+        </p>
 
         <p>
 
-  Lote:
-  {{ production.batchNumber }}
+          🏥 Especialidad:
+          {{ production.specialty }}
 
-</p>
+        </p>
 
-<p>
+        <p>
 
-  Cantidad:
-  {{ production.quantity }}
+          ⚡ Prioridad:
+          {{ production.priority }}
 
-</p>
+        </p>
 
-<p>
+        <p>
 
-  Elaboración:
-  {{ production.productionDate }}
+          Lote:
+          {{ production.batchNumber }}
 
-</p>
+        </p>
 
-<p>
+        <p>
 
-  Materias primas utilizadas:
+          Cantidad:
+          {{ production.quantity }}
 
-</p>
+        </p>
 
-@if(
-  production.rawMaterialsUsed &&
-  production.rawMaterialsUsed.length > 0
-){
+        <p>
 
-  @for(
-    material of production.rawMaterialsUsed;
-    track material.lotNumber
-  ){
+          Elaboración:
+          {{ production.productionDate }}
 
-    <p>
-
-  • {{ material.materialName }}
-
-  ({{ material.quantity }}
-  {{ material.unit }})
-
-</p>
-
-<p>
-
-  Lote:
-  {{ material.lotNumber }}
-
-</p>
-
-<p>
-
-  Fecha:
-  {{ material.consumedDate }}
-
-</p>
-
-<p>
-
-  Responsable:
-  {{ material.consumedBy }}
-
-</p>
-
-<hr>
-
-  }
-
-}
+        </p>
 
         <p>
 
@@ -149,109 +94,89 @@
 
         <p>
 
-  Estado:
+          Estado:
 
-  <strong
-    [style.color]="
-      production.status === 'Pendiente'
-        ? '#f59e0b'
-        : production.status === 'En Producción'
-        ? '#3b82f6'
-        : production.status === 'Control Calidad'
-        ? '#8b5cf6'
-        : production.status === 'Lista para Entrega'
-        ? '#10b981'
-        : production.status === 'Observado'
-        ? '#ef4444'
-        : '#22c55e'
-    "
-  >
+          <strong
+            [style.color]="
+              production.status === 'Pendiente'
+                ? '#f59e0b'
+                : production.status === 'En Producción'
+                ? '#3b82f6'
+                : production.status === 'Control Calidad'
+                ? '#8b5cf6'
+                : production.status === 'Lista para Entrega'
+                ? '#10b981'
+                : production.status === 'Observado'
+                ? '#ef4444'
+                : '#22c55e'
+            "
+          >
 
-    {{ production.status }}
+            {{ production.status }}
 
-  </strong>
+          </strong>
 
-</p><p>
-
-  Estado:
-
-  <strong
-    [style.color]="
-      production.status === 'Pendiente'
-        ? '#f59e0b'
-        : production.status === 'En Producción'
-        ? '#3b82f6'
-        : production.status === 'Control Calidad'
-        ? '#8b5cf6'
-        : production.status === 'Lista para Entrega'
-        ? '#10b981'
-        : production.status === 'Observado'
-        ? '#ef4444'
-        : '#22c55e'
-    "
-  >
-
-    {{ production.status }}
-
-  </strong>
-
-</p>
-
-        @if(
-  production.status === 'Finalizado' ||
-  production.status === 'Observado' ||
-  production.status === 'Lista para Entrega'
-){
-
-  <hr>
-
-  <h3>
-    🔬 Control de Calidad
-  </h3>
-
-  <p>
-    Resultado:
-    {{ production.qualityResult }}
-  </p>
-
-  <p>
-    Estado Calidad:
-    {{ production.qualityStatus }}
-  </p>
-
-  <p>
-    Responsable:
-    {{ production.qualityResponsible }}
-  </p>
-
-  <p>
-    Fecha Calidad:
-    {{ production.qualityDate }}
-  </p>
-
-  <p>
-    Observaciones:
-    {{ production.observations }}
-  </p>
-
-        }
+        </p>
 
         <hr>
 
-        <h3>
+        <ion-button
+          expand="block"
+          fill="outline"
+          (click)="viewHistory(
+            production.id
+          )">
 
-          Historial
+          Ver Historial
 
-        </h3>
+        </ion-button>
 
-        @for(
-          item of production.history;
-          track item
+        @if(
+          production.status === 'Finalizado' ||
+          production.status === 'Observado' ||
+          production.status === 'Lista para Entrega'
         ){
+
+          <hr>
+
+          <h3>
+
+            🔬 Control de Calidad
+
+          </h3>
 
           <p>
 
-            • {{ item }}
+            Resultado:
+            {{ production.qualityResult }}
+
+          </p>
+
+          <p>
+
+            Estado Calidad:
+            {{ production.qualityStatus }}
+
+          </p>
+
+          <p>
+
+            Responsable:
+            {{ production.qualityResponsible }}
+
+          </p>
+
+          <p>
+
+            Fecha Calidad:
+            {{ production.qualityDate }}
+
+          </p>
+
+          <p>
+
+            Observaciones:
+            {{ production.observations }}
 
           </p>
 
@@ -264,7 +189,9 @@
 
           <ion-button
             expand="block"
-            (click)="nextStatus(production)">
+            (click)="nextStatus(
+              production
+            )">
 
             Avanzar Producción
 

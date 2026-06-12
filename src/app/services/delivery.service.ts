@@ -3,14 +3,21 @@ import { Injectable } from '@angular/core';
 import { Delivery }
 from '../models/delivery.model';
 
+import { AuditService }
+from './audit.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class DeliveryService {
 
-  private deliveries: Delivery[] = [];
+  private deliveries:
+    Delivery[] = [];
 
-  constructor() {
+  constructor(
+    private auditService:
+      AuditService
+  ) {
 
     const data =
       localStorage.getItem(
@@ -38,6 +45,13 @@ export class DeliveryService {
 
     this.deliveries.push(
       delivery
+    );
+
+    this.auditService.addLog(
+      'Entregas',
+      'Registro',
+      delivery.responsible,
+      `Entrega creada para ${delivery.patientName}`
     );
 
     this.save();
@@ -68,6 +82,13 @@ export class DeliveryService {
       delivery.deliveryDate =
         new Date()
           .toLocaleString();
+
+      this.auditService.addLog(
+        'Entregas',
+        'Entrega',
+        delivery.responsible,
+        `Entrega realizada a ${delivery.patientName}`
+      );
 
     }
 

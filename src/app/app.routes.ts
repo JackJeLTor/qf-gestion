@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { roleGuard }
+from './guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -74,31 +76,110 @@ export const routes: Routes = [
 },
 
 {
-    path: 'prescriptions',
-    loadComponent: () => import('./pages/prescriptions/prescriptions.page').then( m => m.PrescriptionsPage)
+  path: 'prescriptions',
+
+  canActivate: [
+    roleGuard
+  ],
+
+  data: {
+    module:
+      'prescriptions'
+  },
+
+  loadComponent: () =>
+    import(
+      './pages/prescriptions/prescriptions.page'
+    ).then(
+      m => m.PrescriptionsPage
+    )
 },
 
 {
-    path: 'productions',
-    loadComponent: () => import('./pages/productions/productions.page').then( m => m.ProductionsPage)
+  path: 'productions',
+
+  canActivate: [
+    roleGuard
+  ],
+
+  data: {
+    module:
+      'productions'
+  },
+
+  loadComponent: () =>
+    import(
+      './pages/productions/productions.page'
+    ).then(
+      m => m.ProductionsPage
+    )
 },
   
   {
-    path: 'raw-materials',
-    loadComponent: () => import('./pages/raw-materials/raw-materials.page').then( m => m.RawMaterialsPage)
+  path: 'raw-materials',
+
+  canActivate: [
+    roleGuard
+  ],
+
+  data: {
+    module:
+      'raw-materials'
   },
+
+  loadComponent: () =>
+    import(
+      './pages/raw-materials/raw-materials.page'
+    ).then(
+      m => m.RawMaterialsPage
+    )
+},
+
   {
-    path: 'quality-control',
-    loadComponent: () => import('./pages/quality-control/quality-control.page').then( m => m.QualityControlPage)
+  path: 'quality-control',
+
+  canActivate: [
+    roleGuard
+  ],
+
+  data: {
+    module:
+      'quality-control'
   },
+
+  loadComponent: () =>
+    import(
+      './pages/quality-control/quality-control.page'
+    ).then(
+      m => m.QualityControlPage
+    )
+},
+
   {
     path: 'laboratories',
     loadComponent: () => import('./pages/laboratories/laboratories.page').then( m => m.LaboratoriesPage)
   },
+
   {
-    path: 'delivery',
-    loadComponent: () => import('./pages/delivery/delivery.page').then( m => m.DeliveriesPage)
+  path: 'delivery',
+
+  canActivate: [
+    roleGuard
+  ],
+
+  data: {
+    module:
+      'delivery'
   },
+
+  loadComponent: () =>
+    import(
+      './pages/delivery/delivery.page'
+    ).then(
+      m => m.DeliveriesPage
+    )
+},
+
   {
     path: 'patients',
     loadComponent: () => import('./pages/patients/patients.page').then( m => m.PatientsPage)
@@ -115,6 +196,49 @@ export const routes: Routes = [
     path: 'production-materials',
     loadComponent: () => import('./pages/production-materials/production-materials.page').then( m => m.ProductionMaterialsPage)
   },
-  
+
+  {
+  path: 'audit',
+
+  canActivate: [
+    roleGuard
+  ],
+
+  data: {
+    module: 'audit'
+  },
+
+  loadComponent: () =>
+    import('./pages/audit/audit.page')
+      .then(
+        m => m.AuditPage
+      )
+},
+
+  {
+  path: 'users',
+
+  canActivate: [
+    roleGuard
+  ],
+
+  data: {
+    module: 'users'
+  },
+
+  loadComponent: () =>
+    import('./pages/users/users.page')
+      .then(
+        m => m.UsersPage
+      )
+},
+  {
+    path: 'production-history',
+    loadComponent: () => import('./pages/production-history/production-history.page').then( m => m.ProductionHistoryPage)
+  },
+  {
+    path: 'backup',
+    loadComponent: () => import('./pages/backup/backup.page').then( m => m.BackupPage)
+  }
 
 ];

@@ -1,0 +1,72 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Backup del Sistema
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <h2>
+
+        💾 Exportar Backup
+
+      </h2>
+
+      <p>
+
+        Guarda toda la información
+        del sistema en un archivo JSON.
+
+      </p>
+
+      <ion-button
+        expand="block"
+        (click)="exportBackup()">
+
+        Descargar Backup
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <h2>
+
+        📥 Restaurar Backup
+
+      </h2>
+
+      <p>
+
+        Selecciona un archivo
+        backup-qf.json
+
+      </p>
+
+      <input
+        type="file"
+        accept=".json"
+        (change)="importBackup($event)">
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

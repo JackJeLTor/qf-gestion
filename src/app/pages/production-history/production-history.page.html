@@ -1,0 +1,64 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Historial de Producción
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+  @if(production){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <strong>
+
+          Paciente:
+
+        </strong>
+
+        {{ production.patientName }}
+
+        <br>
+
+        <strong>
+
+          Lote:
+
+        </strong>
+
+        {{ production.batchNumber }}
+
+      </ion-card-content>
+
+    </ion-card>
+
+    @for(
+      item of production.history;
+      track item
+    ){
+
+      <ion-card>
+
+        <ion-card-content>
+
+          {{ item }}
+
+        </ion-card-content>
+
+      </ion-card>
+
+    }
+
+  }
+
+</ion-content>

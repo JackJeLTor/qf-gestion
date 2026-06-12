@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { PermissionService }
+from '../../services/permission.service';
 
 import {
   IonContent,
@@ -36,6 +38,16 @@ import { DeliveryService } from '../../services/delivery.service';
   ]
 })
 export class DashboardPage {
+
+  canPrescriptions = false;
+
+canProductions = false;
+
+canQuality = false;
+
+canDeliveries = false;
+
+canRawMaterials = false;
 
   totalProducts = 0;
   totalOrders = 0;
@@ -76,7 +88,8 @@ export class DashboardPage {
     private doctorService: DoctorService,
     private laboratoryService: LaboratoryService,
     private rawMaterialService: RawMaterialService,
-    private deliveryService: DeliveryService
+    private deliveryService: DeliveryService,
+    private permissionService: PermissionService
   ) {}
 
   ionViewWillEnter() {
@@ -229,6 +242,36 @@ export class DashboardPage {
         .getMovements()
         .slice(-5)
         .reverse();
+
+        this.canPrescriptions =
+  this.permissionService
+    .hasAccess(
+      'prescriptions'
+    );
+
+this.canProductions =
+  this.permissionService
+    .hasAccess(
+      'productions'
+    );
+
+this.canQuality =
+  this.permissionService
+    .hasAccess(
+      'quality-control'
+    );
+
+this.canDeliveries =
+  this.permissionService
+    .hasAccess(
+      'delivery'
+    );
+
+this.canRawMaterials =
+  this.permissionService
+    .hasAccess(
+      'raw-materials'
+    );
   }
 
   goInventory() {
@@ -282,5 +325,21 @@ export class DashboardPage {
   goDeliveries() {
     this.router.navigate(['/delivery']);
   }
+
+  goAudit() {
+
+  this.router.navigate(
+    ['/audit']
+  );
+
+}  
+
+goBackup() {
+
+  this.router.navigate(
+    ['/backup']
+  );
+
+}
 
 }

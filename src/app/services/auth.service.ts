@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 
+import { UserService }
+from './user.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private users = [
-
-    {
-      username: 'admin',
-      password: '123456',
-      role: 'Administrador'
-    }
-
-  ];
+  constructor(
+    private userService:
+      UserService
+  ) {}
 
   login(
     username: string,
@@ -21,14 +19,18 @@ export class AuthService {
   ): boolean {
 
     const user =
-      this.users.find(
-        u =>
-          u.username === username &&
-          u.password === password
-      );
+      this.userService
+        .getUsers()
+        .find(
+          u =>
+            u.username === username &&
+            u.password === password
+        );
 
     if (!user) {
+
       return false;
+
     }
 
     localStorage.setItem(
@@ -37,6 +39,7 @@ export class AuthService {
     );
 
     return true;
+
   }
 
   logout() {
@@ -44,6 +47,7 @@ export class AuthService {
     localStorage.removeItem(
       'currentUser'
     );
+
   }
 
   getCurrentUser() {
@@ -53,11 +57,13 @@ export class AuthService {
         'currentUser'
       ) || 'null'
     );
+
   }
 
   isLoggedIn(): boolean {
 
     return !!this.getCurrentUser();
+
   }
 
 }

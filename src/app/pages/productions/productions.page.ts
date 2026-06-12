@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Production }
 from '../../models/production.model';
 
-
-  import {
+import {
   IonContent,
   IonHeader,
   IonToolbar,
@@ -33,9 +34,10 @@ from '../../services/production.service';
 })
 export class ProductionsPage {
 
-productions: Production[] = [];
+  productions: Production[] = [];
 
   constructor(
+    private router: Router,
     private productionService:
       ProductionService
   ) {}
@@ -54,78 +56,91 @@ productions: Production[] = [];
 
   }
 
- nextStatus(
-  production: any
-) {
-
-  switch (
-    production.status
+  viewHistory(
+    id: number
   ) {
 
-    case 'Pendiente':
-
-      this.productionService
-        .updateStatus(
-          production.id,
-          'En Producción'
-        );
-
-      break;
-
-    case 'En Producción':
-
-      if (
-        !production.rawMaterialsUsed ||
-        production.rawMaterialsUsed.length === 0
-      ) {
-
-        alert(
-          'Debe registrar materias primas consumidas antes de continuar.'
-        );
-
-        return;
-
-      }
-
-      this.productionService
-        .updateStatus(
-          production.id,
-          'Control Calidad'
-        );
-
-      break;
-
-    case 'Control Calidad':
-
-      production.endDate =
-        new Date()
-          .toLocaleDateString();
-
-      production.qualityResult =
-        'Aprobado';
-
-      production.observations =
-        'Producción completada correctamente';
-
-      this.productionService
-        .updateStatus(
-          production.id,
-          'Finalizado'
-        );
-
-      break;
+    this.router.navigate(
+      [
+        '/production-history',
+        id
+      ]
+    );
 
   }
 
-  localStorage.setItem(
-    'productions',
-    JSON.stringify(
-      this.productions
-    )
-  );
+  nextStatus(
+    production: any
+  ) {
 
-  this.loadProductions();
+    switch (
+      production.status
+    ) {
 
-}
+      case 'Pendiente':
+
+        this.productionService
+          .updateStatus(
+            production.id,
+            'En Producción'
+          );
+
+        break;
+
+      case 'En Producción':
+
+        if (
+          !production.rawMaterialsUsed ||
+          production.rawMaterialsUsed.length === 0
+        ) {
+
+          alert(
+            'Debe registrar materias primas consumidas antes de continuar.'
+          );
+
+          return;
+
+        }
+
+        this.productionService
+          .updateStatus(
+            production.id,
+            'Control Calidad'
+          );
+
+        break;
+
+      case 'Control Calidad':
+
+        production.endDate =
+          new Date()
+            .toLocaleDateString();
+
+        production.qualityResult =
+          'Aprobado';
+
+        production.observations =
+          'Producción completada correctamente';
+
+        this.productionService
+          .updateStatus(
+            production.id,
+            'Finalizado'
+          );
+
+        break;
+
+    }
+
+    localStorage.setItem(
+      'productions',
+      JSON.stringify(
+        this.productions
+      )
+    );
+
+    this.loadProductions();
+
+  }
 
 }

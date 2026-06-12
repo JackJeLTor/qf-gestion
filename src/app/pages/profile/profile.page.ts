@@ -11,7 +11,8 @@ import {
   IonButton
 } from '@ionic/angular/standalone';
 
-import { AuthService } from '../../services/auth.service';
+import { AuthService }
+from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -37,10 +38,12 @@ export class ProfilePage {
     private router: Router
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
 
     this.user =
-      this.authService.getCurrentUser();
+      this.authService
+        .getCurrentUser();
+
   }
 
   logout() {
@@ -50,6 +53,7 @@ export class ProfilePage {
     this.router.navigate(
       ['/login']
     );
+
   }
 
 }

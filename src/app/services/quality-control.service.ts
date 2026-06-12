@@ -6,6 +6,9 @@ from '../models/quality-control.model';
 import { ProductionService }
 from './production.service';
 
+import { AuditService }
+from './audit.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +19,10 @@ export class QualityControlService {
 
   constructor(
     private productionService:
-      ProductionService
+      ProductionService,
+
+    private auditService:
+      AuditService
   ) {
 
     const data =
@@ -79,7 +85,7 @@ export class QualityControlService {
 
       date:
         new Date()
-        .toLocaleString()
+          .toLocaleString()
 
     };
 
@@ -93,9 +99,19 @@ export class QualityControlService {
     production.qualityResult =
       'Aprobado';
 
+    production.qualityDate =
+      new Date()
+        .toLocaleString();
+
+    production.qualityResponsible =
+      responsible;
+
+    production.qualityStatus =
+      'Aprobado';
+
     production.endDate =
       new Date()
-      .toLocaleString();
+        .toLocaleString();
 
     if (!production.history) {
 
@@ -108,8 +124,15 @@ export class QualityControlService {
     );
 
     production.history.push(
-  `${new Date().toLocaleString()} - Lote aprobado en Control de Calidad`
-);
+      `${new Date().toLocaleString()} - Lote aprobado en Control de Calidad`
+    );
+
+    this.auditService.addLog(
+      'Control Calidad',
+      'Aprobación',
+      responsible,
+      `Producción ${production.batchNumber} aprobada`
+    );
 
     this.save();
 
@@ -120,6 +143,7 @@ export class QualityControlService {
           .getProductions()
       )
     );
+
   }
 
   observeProduction(
@@ -162,7 +186,7 @@ export class QualityControlService {
 
       date:
         new Date()
-        .toLocaleString()
+          .toLocaleString()
 
     };
 
@@ -174,6 +198,16 @@ export class QualityControlService {
       'Observado';
 
     production.qualityResult =
+      'Observado';
+
+    production.qualityDate =
+      new Date()
+        .toLocaleString();
+
+    production.qualityResponsible =
+      responsible;
+
+    production.qualityStatus =
       'Observado';
 
     production.observations =
@@ -190,8 +224,15 @@ export class QualityControlService {
     );
 
     production.history.push(
-  `${new Date().toLocaleString()} - Lote observado: ${observation}`
-);
+      `${new Date().toLocaleString()} - Lote observado: ${observation}`
+    );
+
+    this.auditService.addLog(
+      'Control Calidad',
+      'Observación',
+      responsible,
+      observation
+    );
 
     this.save();
 
@@ -202,6 +243,7 @@ export class QualityControlService {
           .getProductions()
       )
     );
+
   }
 
   private save() {

@@ -27,9 +27,29 @@
   <ion-item>
 
     <ion-input
+      label="Categoría"
+      labelPlacement="floating"
+      [(ngModel)]="category">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
       label="Laboratorio"
       labelPlacement="floating"
       [(ngModel)]="laboratoryName">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Número de Lote"
+      labelPlacement="floating"
+      [(ngModel)]="lotNumber">
     </ion-input>
 
   </ion-item>
@@ -58,8 +78,19 @@
   <ion-item>
 
     <ion-input
+      type="number"
+      label="Stock Mínimo"
+      labelPlacement="floating"
+      [(ngModel)]="minimumStock">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
       type="date"
-      label="Vencimiento"
+      label="Fecha Vencimiento"
       labelPlacement="floating"
       [(ngModel)]="expirationDate">
     </ion-input>
@@ -98,8 +129,22 @@
 
         <p>
 
+          Categoría:
+          {{ material.category }}
+
+        </p>
+
+        <p>
+
           Laboratorio:
           {{ material.laboratoryName }}
+
+        </p>
+
+        <p>
+
+          Lote:
+          {{ material.lotNumber }}
 
         </p>
 
@@ -113,22 +158,29 @@
 
         <p>
 
-  Vence:
-  {{ material.expirationDate }}
+          Stock mínimo:
+          {{ material.minimumStock }}
 
-</p>
+        </p>
 
-<p>
+        <p>
 
-  Estado:
+          Vence:
+          {{ material.expirationDate }}
 
-  <strong>
+        </p>
 
-    {{ material.status }}
+        <p>
 
-  </strong>
+          Estado:
 
-</p>
+          <strong>
+
+            {{ material.status }}
+
+          </strong>
+
+        </p>
 
       </ion-card-content>
 

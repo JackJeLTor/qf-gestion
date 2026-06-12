@@ -4,7 +4,7 @@
 
     <ion-title>
 
-      Mi Perfil
+      Perfil de Usuario
 
     </ion-title>
 
@@ -12,7 +12,7 @@
 
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
 
   <ion-card>
 
@@ -20,53 +20,21 @@
 
       <h2>
 
-        {{ user?.username }}
+        {{ user?.fullName }}
 
       </h2>
 
       <p>
 
+        Usuario:
+        {{ user?.username }}
+
+      </p>
+
+      <p>
+
         Rol:
         {{ user?.role }}
-
-      </p>
-
-      <p>
-
-        Sistema:
-        QF Gestión App
-
-      </p>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card>
-
-    <ion-card-content>
-
-      <h3>
-
-        Información del Sistema
-
-      </h3>
-
-      <p>
-
-        Gestión de Inventario
-
-      </p>
-
-      <p>
-
-        Control de Pedidos
-
-      </p>
-
-      <p>
-
-        Reportes Farmacéuticos
 
       </p>
 
