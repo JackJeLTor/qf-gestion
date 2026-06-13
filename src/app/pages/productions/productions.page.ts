@@ -112,23 +112,33 @@ export class ProductionsPage {
 
       case 'Control Calidad':
 
-        production.endDate =
-          new Date()
-            .toLocaleDateString();
+  production.endDate =
+    new Date()
+      .toLocaleDateString();
 
-        production.qualityResult =
-          'Aprobado';
+  production.qualityDate =
+    new Date()
+      .toLocaleDateString();
 
-        production.observations =
-          'Producción completada correctamente';
+  production.qualityResponsible =
+    production.responsible;
 
-        this.productionService
-          .updateStatus(
-            production.id,
-            'Finalizado'
-          );
+  production.qualityStatus =
+    'Aprobado';
 
-        break;
+  production.qualityResult =
+    'Aprobado';
+
+  production.observations =
+    'Producción completada correctamente';
+
+  this.productionService
+    .updateStatus(
+      production.id,
+      'Finalizado'
+    );
+
+  break;
 
     }
 

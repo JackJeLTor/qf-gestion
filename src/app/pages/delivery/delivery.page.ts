@@ -8,7 +8,9 @@ import {
   IonTitle,
   IonCard,
   IonCardContent,
-  IonButton
+  IonButton,
+  IonInput,
+  IonItem
 } from '@ionic/angular/standalone';
 
 import { DeliveryService }
@@ -16,6 +18,9 @@ from '../../services/delivery.service';
 
 import { PrescriptionService }
 from '../../services/prescription.service';
+
+import { ProductionService }
+from '../../services/production.service';
 
 @Component({
   selector: 'app-deliveries',
@@ -30,19 +35,30 @@ from '../../services/prescription.service';
     IonTitle,
     IonCard,
     IonCardContent,
-    IonButton
+    IonButton,
+    IonInput,
+    IonItem
   ]
 })
 export class DeliveriesPage {
 
   deliveries: any[] = [];
 
+  deliveredBy = '';
+
+  receivedBy = '';
+
+  observation = '';
+
   constructor(
     private deliveryService:
       DeliveryService,
 
     private prescriptionService:
-      PrescriptionService
+      PrescriptionService,
+
+    private productionService:
+      ProductionService
   ) {}
 
   ngOnInit() {
@@ -71,23 +87,24 @@ export class DeliveriesPage {
 
   createPendingDeliveries() {
 
-    const prescriptions =
-      this.prescriptionService
-        .getPrescriptions();
+    const productions =
+      this.productionService
+        .getProductions();
 
-    prescriptions.forEach(
-      prescription => {
+    productions.forEach(
+      production => {
 
         const exists =
           this.deliveries.find(
             d =>
               d.productionId ===
-              prescription.id
+              production.id
           );
 
         if (
-          prescription.status ===
-            'Lista para Entrega' &&
+          production.status ===
+          'Lista para Entrega'
+          &&
           !exists
         ) {
 
@@ -101,21 +118,38 @@ export class DeliveriesPage {
                 ),
 
               productionId:
-                prescription.id,
+                production.id,
 
               patientName:
-                prescription.patientName,
+                production.patientName,
+
+              batchNumber:
+                production.batchNumber,
 
               formula:
-                prescription.formula,
+                production.formula,
 
               responsible:
-                prescription.responsible,
+                production.responsible,
 
-              deliveryDate: '',
+              deliveredBy:
+                '',
+
+              receivedBy:
+                '',
+
+              observation:
+                '',
+
+              deliveryDate:
+                '',
 
               status:
-                'Pendiente'
+                'Pendiente',
+
+              history: [
+                `${new Date().toLocaleString()} - Entrega creada`
+              ]
 
             });
 
@@ -129,37 +163,102 @@ export class DeliveriesPage {
   }
 
   markAsDelivered(
-  delivery: any
-) {
+    delivery: any
+  ) {
 
-  this.deliveryService
-    .updateStatus(
-      delivery.id,
-      'Entregado'
-    );
+    if (
+      !this.deliveredBy ||
+      !this.receivedBy
+    ) {
 
-  const prescription =
-    this.prescriptionService
-      .getPrescriptions()
-      .find(
-        p => p.id === delivery.productionId
+      alert(
+        'Complete entregado por y recibido por'
       );
 
-  if (prescription) {
+      return;
 
-    prescription.status =
-      'Entregada';
+    }
 
-    localStorage.setItem(
-      'prescriptions',
-      JSON.stringify(
-        this.prescriptionService
-          .getPrescriptions()
-      )
+    delivery.deliveredBy =
+      this.deliveredBy;
+
+    delivery.receivedBy =
+      this.receivedBy;
+
+    delivery.observation =
+      this.observation;
+
+    delivery.deliveryDate =
+      new Date()
+        .toLocaleString();
+
+    delivery.status =
+      'Entregado';
+
+    if (
+      !delivery.history
+    ) {
+
+      delivery.history = [];
+
+    }
+
+    delivery.history.push(
+      `${delivery.deliveryDate} - Entregado por ${this.deliveredBy}`
     );
+
+    delivery.history.push(
+      `${delivery.deliveryDate} - Recibido por ${this.receivedBy}`
+    );
+
+    if (
+      this.observation
+    ) {
+
+      delivery.history.push(
+        `${delivery.deliveryDate} - Observación: ${this.observation}`
+      );
+
+    }
+
+    this.deliveryService
+      .updateStatus(
+        delivery.id,
+        'Entregado'
+      );
+
+    const prescription =
+      this.prescriptionService
+        .getPrescriptions()
+        .find(
+          p =>
+            p.id ===
+            delivery.productionId
+        );
+
+    if (
+      prescription
+    ) {
+
+      prescription.status =
+        'Entregada';
+
+      localStorage.setItem(
+        'prescriptions',
+        JSON.stringify(
+          this.prescriptionService
+            .getPrescriptions()
+        )
+      );
+
+    }
+
+    this.deliveredBy = '';
+    this.receivedBy = '';
+    this.observation = '';
+
+    this.loadDeliveries();
 
   }
 
-  this.loadDeliveries();
-
-}}
+}

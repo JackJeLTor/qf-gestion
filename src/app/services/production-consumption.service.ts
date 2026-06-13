@@ -33,6 +33,18 @@ export class ProductionConsumptionService {
 
   }
 
+  getConsumptionsByProduction(
+    productionId: number
+  ) {
+
+    return this.consumptions.filter(
+      c =>
+        c.productionId ===
+        productionId
+    );
+
+  }
+
   addConsumption(
     consumption:
       ProductionConsumption

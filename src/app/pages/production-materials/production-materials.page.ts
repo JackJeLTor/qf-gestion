@@ -8,10 +8,9 @@ import {
   IonTitle,
   IonItem,
   IonButton,
-  IonCard,
-  IonCardContent,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonInput
 } from '@ionic/angular/standalone';
 
 import { ProductionService }
@@ -36,7 +35,8 @@ from '../../services/raw-material.service';
     IonItem,
     IonButton,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    IonInput
   ]
 })
 export class ProductionMaterialsPage {
@@ -44,6 +44,10 @@ export class ProductionMaterialsPage {
   productionId = 0;
 
   rawMaterialId = 0;
+
+  quantity = 0;
+
+  consumedBy = '';
 
   productions: any[] = [];
 
@@ -61,11 +65,11 @@ export class ProductionMaterialsPage {
 
     this.productions =
       this.productionService
-      .getProductions();
+        .getProductions();
 
     this.rawMaterials =
       this.rawMaterialService
-      .getRawMaterials();
+        .getRawMaterials();
 
   }
 
@@ -73,31 +77,78 @@ export class ProductionMaterialsPage {
 
     const production =
       this.productions.find(
-        p => p.id ==
-        this.productionId
+        p => p.id === this.productionId
       );
 
     const material =
       this.rawMaterials.find(
-        m => m.id ==
-        this.rawMaterialId
+        m => m.id === this.rawMaterialId
       );
 
     if (
       !production ||
-      !material
+      !material ||
+      this.quantity <= 0 ||
+      !this.consumedBy
     ) {
       return;
+    }
+
+    if (
+      this.quantity >
+      material.stock
+    ) {
+
+      alert(
+        'Stock insuficiente'
+      );
+
+      return;
+
     }
 
     this.productionService
       .addRawMaterial(
         production.id,
-        material.name
+        {
+          materialName:
+            material.name,
+
+          quantity:
+            this.quantity,
+
+          unit:
+            material.unit,
+
+          lotNumber:
+            material.lotNumber,
+
+          consumedDate:
+            new Date()
+              .toLocaleDateString(),
+
+          consumedBy:
+            this.consumedBy
+        }
       );
 
+    material.stock =
+      material.stock -
+      this.quantity;
+
+    localStorage.setItem(
+      'rawMaterials',
+      JSON.stringify(
+        this.rawMaterials
+      )
+    );
+
+    this.quantity = 0;
+
+    this.consumedBy = '';
+
     alert(
-      'Materia prima asignada'
+      'Materia prima registrada'
     );
 
   }

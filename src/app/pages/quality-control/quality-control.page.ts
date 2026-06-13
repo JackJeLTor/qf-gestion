@@ -85,11 +85,12 @@ export class QualityControlPage {
   ) {
 
     if (
-      !this.responsible
+      !this.responsible ||
+      this.responsible.trim().length < 3
     ) {
 
       alert(
-        'Ingrese el responsable del control de calidad'
+        'Ingrese un responsable válido'
       );
 
       return;
@@ -99,8 +100,12 @@ export class QualityControlPage {
     this.qualityService
       .approveProduction(
         id,
-        this.responsible
+        this.responsible.trim()
       );
+
+    this.responsible = '';
+
+    this.observation = '';
 
     this.loadProductions();
 
@@ -111,11 +116,12 @@ export class QualityControlPage {
   ) {
 
     if (
-      !this.responsible
+      !this.responsible ||
+      this.responsible.trim().length < 3
     ) {
 
       alert(
-        'Ingrese el responsable del control de calidad'
+        'Ingrese un responsable válido'
       );
 
       return;
@@ -123,11 +129,12 @@ export class QualityControlPage {
     }
 
     if (
-      !this.observation
+      !this.observation ||
+      this.observation.trim().length < 10
     ) {
 
       alert(
-        'Ingrese una observación'
+        'La observación debe tener mínimo 10 caracteres'
       );
 
       return;
@@ -137,11 +144,13 @@ export class QualityControlPage {
     this.qualityService
       .observeProduction(
         id,
-        this.observation,
-        this.responsible
+        this.observation.trim(),
+        this.responsible.trim()
       );
 
     this.observation = '';
+
+    this.responsible = '';
 
     this.loadProductions();
 

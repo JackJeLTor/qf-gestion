@@ -14,8 +14,90 @@
 
 <ion-content class="ion-padding">
 
+  <ion-card>
+
+    <ion-card-content>
+
+      <h2>
+
+        Total Eventos:
+
+        {{ totalLogs }}
+
+      </h2>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-item>
+
+    <ion-input
+      label="Buscar"
+      labelPlacement="floating"
+      [(ngModel)]="searchText"
+      (ionInput)="filterLogs()">
+
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-select
+      label="Módulo"
+      labelPlacement="floating"
+      [(ngModel)]="moduleFilter"
+      (ionChange)="filterLogs()">
+
+      <ion-select-option
+        value="Todos">
+
+        Todos
+
+      </ion-select-option>
+
+      <ion-select-option
+        value="Recetas">
+
+        Recetas
+
+      </ion-select-option>
+
+      <ion-select-option
+        value="Producción">
+
+        Producción
+
+      </ion-select-option>
+
+      <ion-select-option
+        value="Control Calidad">
+
+        Control Calidad
+
+      </ion-select-option>
+
+      <ion-select-option
+        value="Entregas">
+
+        Entregas
+
+      </ion-select-option>
+
+      <ion-select-option
+        value="Materias Primas">
+
+        Materias Primas
+
+      </ion-select-option>
+
+    </ion-select>
+
+  </ion-item>
+
   @for(
-    log of logs;
+    log of filteredLogs;
     track log.id
   ){
 
@@ -30,6 +112,8 @@
         </strong>
 
         <br>
+
+        Acción:
 
         {{ log.action }}
 

@@ -37,7 +37,16 @@
 
         <p>
 
+          🏷️ Lote:
+
+          {{ delivery.batchNumber }}
+
+        </p>
+
+        <p>
+
           Fórmula:
+
           {{ delivery.formula }}
 
         </p>
@@ -45,6 +54,7 @@
         <p>
 
           Responsable:
+
           {{ delivery.responsible }}
 
         </p>
@@ -62,16 +72,97 @@
         </p>
 
         @if(
+          delivery.status !== 'Entregado'
+        ){
+
+          <ion-item>
+
+            <ion-input
+              label="Entregado por"
+              labelPlacement="floating"
+              [(ngModel)]="deliveredBy">
+            </ion-input>
+
+          </ion-item>
+
+          <ion-item>
+
+            <ion-input
+              label="Recibido por"
+              labelPlacement="floating"
+              [(ngModel)]="receivedBy">
+            </ion-input>
+
+          </ion-item>
+
+          <ion-item>
+
+            <ion-input
+              label="Observación"
+              labelPlacement="floating"
+              [(ngModel)]="observation">
+            </ion-input>
+
+          </ion-item>
+
+        }
+
+        @if(
           delivery.status === 'Entregado'
         ){
 
           <p>
 
-            Fecha de Entrega:
+            📅 Fecha:
 
             {{ delivery.deliveryDate }}
 
           </p>
+
+          <p>
+
+            🚚 Entregado por:
+
+            {{ delivery.deliveredBy }}
+
+          </p>
+
+          <p>
+
+            👤 Recibido por:
+
+            {{ delivery.receivedBy }}
+
+          </p>
+
+          <p>
+
+            📝 Observación:
+
+            {{ delivery.observation }}
+
+          </p>
+
+          <hr>
+
+          <h3>
+
+            Historial
+
+          </h3>
+
+          @for(
+            item of delivery.history;
+            track item
+          ){
+
+            <p>
+
+              {{ item }}
+
+            </p>
+
+          }
 
         }
 

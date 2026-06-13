@@ -4,7 +4,7 @@
 
     <ion-title>
 
-      Materias Primas por Producción
+      Consumo de Materias Primas
 
     </ion-title>
 
@@ -31,6 +31,10 @@
 
           {{ production.patientName }}
 
+          -
+
+          {{ production.batchNumber }}
+
         </ion-select-option>
 
       }
@@ -56,6 +60,9 @@
 
           {{ material.name }}
 
+          ({{ material.stock }}
+          {{ material.unit }})
+
         </ion-select-option>
 
       }
@@ -64,11 +71,32 @@
 
   </ion-item>
 
+  <ion-item>
+
+    <ion-input
+      type="number"
+      label="Cantidad Consumida"
+      labelPlacement="floating"
+      [(ngModel)]="quantity">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Responsable"
+      labelPlacement="floating"
+      [(ngModel)]="consumedBy">
+    </ion-input>
+
+  </ion-item>
+
   <ion-button
     expand="block"
     (click)="assignMaterial()">
 
-    Asignar Materia Prima
+    Registrar Consumo
 
   </ion-button>
 

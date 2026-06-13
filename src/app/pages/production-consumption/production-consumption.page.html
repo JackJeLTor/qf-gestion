@@ -31,6 +31,10 @@
 
           {{ production.patientName }}
 
+          -
+
+          {{ production.batchNumber }}
+
         </ion-select-option>
 
       }
@@ -56,6 +60,10 @@
 
           {{ material.name }}
 
+          -
+
+          Lote {{ material.lotNumber }}
+
         </ion-select-option>
 
       }
@@ -68,9 +76,19 @@
 
     <ion-input
       type="number"
-      label="Cantidad"
+      label="Cantidad Consumida"
       labelPlacement="floating"
       [(ngModel)]="quantity">
+    </ion-input>
+
+  </ion-item>
+
+  <ion-item>
+
+    <ion-input
+      label="Responsable"
+      labelPlacement="floating"
+      [(ngModel)]="consumedBy">
     </ion-input>
 
   </ion-item>
@@ -82,6 +100,8 @@
     Registrar Consumo
 
   </ion-button>
+
+  <hr>
 
   @for(
     item of consumptions;
@@ -100,7 +120,22 @@
 
         <p>
 
+          Lote Producción:
+          {{ item.batchNumber }}
+
+        </p>
+
+        <p>
+
+          Materia Prima:
           {{ item.rawMaterialName }}
+
+        </p>
+
+        <p>
+
+          Lote Materia Prima:
+          {{ item.lotNumber }}
 
         </p>
 
@@ -109,6 +144,13 @@
           Cantidad:
           {{ item.quantity }}
           {{ item.unit }}
+
+        </p>
+
+        <p>
+
+          Responsable:
+          {{ item.consumedBy }}
 
         </p>
 

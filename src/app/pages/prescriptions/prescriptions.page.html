@@ -47,25 +47,26 @@
       <ion-item>
 
         <ion-select
-          label="Médico"
-          labelPlacement="floating"
-          [(ngModel)]="doctorId">
+  label="Médico"
+  labelPlacement="floating"
+  [(ngModel)]="doctorId"
+  (ionChange)="onDoctorChange()">
 
-          @for(
-            doctor of doctors;
-            track doctor.id
-          ){
+  @for(
+    doctor of doctors;
+    track doctor.id
+  ){
 
-            <ion-select-option
-              [value]="doctor.id">
+    <ion-select-option
+      [value]="doctor.id">
 
-              {{ doctor.name }}
+      {{ doctor.name }}
 
-            </ion-select-option>
+    </ion-select-option>
 
-          }
+  }
 
-        </ion-select>
+</ion-select>
 
         <ion-item>
 
@@ -104,32 +105,17 @@
 
 <ion-item>
 
-  <ion-select
+  <ion-item>
+
+  <ion-input
     label="Especialidad"
     labelPlacement="floating"
-    [(ngModel)]="specialty">
+    [value]="specialty"
+    readonly>
 
-    <ion-select-option value="Dermatología">
-      Dermatología
-    </ion-select-option>
+  </ion-input>
 
-    <ion-select-option value="Pediatría">
-      Pediatría
-    </ion-select-option>
-
-    <ion-select-option value="Ginecología">
-      Ginecología
-    </ion-select-option>
-
-    <ion-select-option value="Urología">
-      Urología
-    </ion-select-option>
-
-    <ion-select-option value="Medicina Funcional">
-      Medicina Funcional
-    </ion-select-option>
-
-  </ion-select>
+</ion-item>
 
 </ion-item>
 
@@ -137,13 +123,26 @@
 
       <ion-item>
 
-        <ion-input
-          label="Prioridad"
-          labelPlacement="floating"
-          [(ngModel)]="priority">
-        </ion-input>
+  <ion-select
+    label="Prioridad"
+    labelPlacement="floating"
+    [(ngModel)]="priority">
 
-      </ion-item>
+    <ion-select-option value="Alta">
+      Alta
+    </ion-select-option>
+
+    <ion-select-option value="Media">
+      Media
+    </ion-select-option>
+
+    <ion-select-option value="Baja">
+      Baja
+    </ion-select-option>
+
+  </ion-select>
+
+</ion-item>
 
       <ion-item>
 

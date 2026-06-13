@@ -85,12 +85,65 @@
 
         </p>
 
+        @if(
+  production.rawMaterialsUsed &&
+  production.rawMaterialsUsed.length > 0
+){
+
+<hr>
+
+<h3>
+
+  🧪 Materias Primas Utilizadas
+
+</h3>
+
+@for(
+  material of production.rawMaterialsUsed;
+  track $index
+){
+
+<p>
+
+  {{ material.materialName }}
+
+  -
+
+  {{ material.quantity }}
+
+  {{ material.unit }}
+
+</p>
+
+<p>
+
+  Lote:
+  {{ material.lotNumber }}
+
+</p>
+
+}
+
+}
+
         <p>
 
           Inicio:
           {{ production.startDate }}
 
         </p>
+
+        @if(production.endDate){
+
+<p>
+
+  Fin:
+
+  {{ production.endDate }}
+
+</p>
+
+}
 
         <p>
 

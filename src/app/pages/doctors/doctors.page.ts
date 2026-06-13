@@ -69,45 +69,92 @@ export class DoctorsPage {
 
   addDoctor() {
 
-    if (!this.name) {
-      return;
-    }
+  if (
+    !this.name ||
+    !this.cmp ||
+    !this.specialty ||
+    !this.phone ||
+    !this.email
+  ) {
 
-    this.doctorService
-      .addDoctor({
+    alert(
+      'Complete todos los campos'
+    );
 
-        id: Date.now(),
-
-        name:
-          this.name,
-
-        cmp:
-          this.cmp,
-
-        specialty:
-          this.specialty,
-
-        phone:
-          this.phone,
-
-        email:
-          this.email
-
-      });
-
-    this.loadDoctors();
-
-    this.name = '';
-
-    this.cmp = '';
-
-    this.specialty = '';
-
-    this.phone = '';
-
-    this.email = '';
+    return;
 
   }
+
+  if (
+    !/^\d{5,7}$/
+      .test(this.cmp)
+  ) {
+
+    alert(
+      'CMP inválido'
+    );
+
+    return;
+
+  }
+
+  if (
+    !/^\d{9}$/
+      .test(this.phone)
+  ) {
+
+    alert(
+      'El teléfono debe tener 9 dígitos'
+    );
+
+    return;
+
+  }
+
+  if (
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      .test(this.email)
+  ) {
+
+    alert(
+      'Correo inválido'
+    );
+
+    return;
+
+  }
+
+  this.doctorService
+    .addDoctor({
+
+      id: Date.now(),
+
+      name:
+        this.name,
+
+      cmp:
+        this.cmp,
+
+      specialty:
+        this.specialty,
+
+      phone:
+        this.phone,
+
+      email:
+        this.email
+
+    });
+
+  this.loadDoctors();
+
+  this.name = '';
+  this.cmp = '';
+  this.specialty = '';
+  this.phone = '';
+  this.email = '';
+
+}
 
   deleteDoctor(
     id: number

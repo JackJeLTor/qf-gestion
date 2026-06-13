@@ -59,13 +59,13 @@ export class PrescriptionsPage {
 
   pharmaceuticalForm = '';
 
-specialty = '';
+  specialty = '';
 
-priority = 'Media';
+  priority = 'Media';
 
-responsible = '';
+  responsible = '';
 
-deliveryDate = '';
+  deliveryDate = '';
 
   prescriptions: any[] = [];
 
@@ -109,6 +109,22 @@ deliveryDate = '';
 
   }
 
+  onDoctorChange() {
+
+    const doctor =
+      this.doctors.find(
+        d => d.id === this.doctorId
+      );
+
+    if (doctor) {
+
+      this.specialty =
+        doctor.specialty;
+
+    }
+
+  }
+
   createPrescription() {
 
     const patient =
@@ -123,61 +139,128 @@ deliveryDate = '';
           this.doctorId
         );
 
-    if (
-      !patient ||
-      !doctor ||
-      !this.formula ||
-      !this.responsible ||
-      !this.deliveryDate
-    ) {
+    if (!patient) {
+
+      alert(
+        'Seleccione un paciente'
+      );
+
       return;
+
+    }
+
+    if (!doctor) {
+
+      alert(
+        'Seleccione un médico'
+      );
+
+      return;
+
+    }
+
+    if (
+      !this.pharmaceuticalForm
+    ) {
+
+      alert(
+        'Seleccione la forma farmacéutica'
+      );
+
+      return;
+
+    }
+
+    if (
+      this.responsible
+        .trim()
+        .length < 3
+    ) {
+
+      alert(
+        'Ingrese un responsable válido'
+      );
+
+      return;
+
+    }
+
+    if (
+      this.formula
+        .trim()
+        .length < 10
+    ) {
+
+      alert(
+        'La fórmula debe tener al menos 10 caracteres'
+      );
+
+      return;
+
+    }
+
+    const today =
+      new Date()
+        .toISOString()
+        .split('T')[0];
+
+    if (
+      this.deliveryDate < today
+    ) {
+
+      alert(
+        'La fecha de entrega no puede ser anterior a hoy'
+      );
+
+      return;
+
     }
 
     this.prescriptionService
       .addPrescription({
 
-    id: Date.now(),
+        id: Date.now(),
 
-    patientId:
-      patient.id,
+        patientId:
+          patient.id,
 
-    patientName:
-      patient.firstName +
-      ' ' +
-      patient.lastName,
+        patientName:
+          patient.firstName +
+          ' ' +
+          patient.lastName,
 
-    doctorId:
-      doctor.id,
+        doctorId:
+          doctor.id,
 
-    doctorName:
-      doctor.name,
+        doctorName:
+          doctor.name,
 
-    formula:
-      this.formula,
+        formula:
+          this.formula,
 
-    pharmaceuticalForm:
-      this.pharmaceuticalForm,
+        pharmaceuticalForm:
+          this.pharmaceuticalForm,
 
-    specialty:
-      this.specialty,
+        specialty:
+          this.specialty,
 
-    priority:
-      this.priority,
+        priority:
+          this.priority,
 
-    responsible:
-      this.responsible,
+        responsible:
+          this.responsible,
 
-    deliveryDate:
-      this.deliveryDate,
+        deliveryDate:
+          this.deliveryDate,
 
-    status:
-      'Pendiente',
+        status:
+          'Pendiente',
 
-    date:
-      new Date()
-      .toLocaleDateString()
+        date:
+          new Date()
+            .toLocaleDateString()
 
-  });
+      });
 
     this.loadPrescriptions();
 
@@ -187,142 +270,143 @@ deliveryDate = '';
 
     this.formula = '';
 
-this.pharmaceuticalForm = '';
+    this.pharmaceuticalForm = '';
 
-this.specialty = '';
+    this.specialty = '';
 
-this.priority = 'Media';
+    this.priority = 'Media';
 
-this.responsible = '';
+    this.responsible = '';
 
-this.deliveryDate = '';
+    this.deliveryDate = '';
 
   }
 
   nextStatus(
-  prescription: any
-) {
-
-  switch (
-    prescription.status
+    prescription: any
   ) {
 
-    case 'Pendiente':
+    switch (
+      prescription.status
+    ) {
 
-      this.prescriptionService
-        .updateStatus(
-          prescription.id,
-          'Validada'
-        );
+      case 'Pendiente':
 
-      this.productionService
-        .addProduction({
-
-          id: Date.now(),
-
-          prescriptionId:
+        this.prescriptionService
+          .updateStatus(
             prescription.id,
+            'Validada'
+          );
 
-          patientName:
-            prescription.patientName,
+        this.productionService
+          .addProduction({
 
-          formula:
-            prescription.formula,
+            id: Date.now(),
 
-          responsible:
-            prescription.responsible,
+            prescriptionId:
+              prescription.id,
 
-          startDate:
-            new Date()
-              .toLocaleDateString(),
+            patientName:
+              prescription.patientName,
 
-          endDate: '',
+            formula:
+              prescription.formula,
 
-          qualityResult: '',
+            responsible:
+              prescription.responsible,
 
-          observations: '',
+            startDate:
+              new Date()
+                .toLocaleDateString(),
 
-          status:
-            'Pendiente',
+            endDate: '',
 
-          batchNumber:
-            'LOT-' + Date.now(),
+            qualityResult: '',
 
-          quantity: 1,
+            observations: '',
 
-          productionDate:
-            new Date()
-              .toLocaleDateString(),
+            status:
+              'Pendiente',
 
-          pharmaceuticalForm:
-            prescription.pharmaceuticalForm,
+            batchNumber:
+              'LOT-' + Date.now(),
 
-          specialty:
-            prescription.specialty,
+            quantity: 1,
 
-          priority:
-            prescription.priority,
+            productionDate:
+              new Date()
+                .toLocaleDateString(),
 
-          rawMaterialsUsed: [],
+            pharmaceuticalForm:
+              prescription.pharmaceuticalForm,
 
-          qualityDate: '',
+            specialty:
+              prescription.specialty,
 
-          qualityResponsible: '',
+            priority:
+              prescription.priority,
 
-          qualityStatus:
-            'Pendiente',
+            rawMaterialsUsed: [],
 
-          history: [
-            'Producción creada desde receta validada'
-          ]
+            qualityDate: '',
 
-        });
+            qualityResponsible: '',
 
-      break;
+            qualityStatus:
+              'Pendiente',
 
-    case 'Validada':
+            history: [
+              'Producción creada desde receta validada'
+            ]
 
-      this.prescriptionService
-        .updateStatus(
-          prescription.id,
-          'En Preparación'
-        );
+          });
 
-      break;
+        break;
 
-    case 'En Preparación':
+      case 'Validada':
 
-      this.prescriptionService
-        .updateStatus(
-          prescription.id,
-          'Control de Calidad'
-        );
+        this.prescriptionService
+          .updateStatus(
+            prescription.id,
+            'En Preparación'
+          );
 
-      break;
+        break;
 
-    case 'Control de Calidad':
+      case 'En Preparación':
 
-      this.prescriptionService
-        .updateStatus(
-          prescription.id,
-          'Lista para Entrega'
-        );
+        this.prescriptionService
+          .updateStatus(
+            prescription.id,
+            'Control de Calidad'
+          );
 
-      break;
+        break;
 
-    case 'Lista para Entrega':
+      case 'Control de Calidad':
 
-      this.prescriptionService
-        .updateStatus(
-          prescription.id,
-          'Entregada'
-        );
+        this.prescriptionService
+          .updateStatus(
+            prescription.id,
+            'Lista para Entrega'
+          );
 
-      break;
+        break;
+
+      case 'Lista para Entrega':
+
+        this.prescriptionService
+          .updateStatus(
+            prescription.id,
+            'Entregada'
+          );
+
+        break;
+
+    }
+
+    this.loadPrescriptions();
 
   }
 
-  this.loadPrescriptions();
-
-}
 }

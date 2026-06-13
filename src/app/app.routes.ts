@@ -233,9 +233,15 @@ export const routes: Routes = [
       )
 },
   {
-    path: 'production-history',
-    loadComponent: () => import('./pages/production-history/production-history.page').then( m => m.ProductionHistoryPage)
-  },
+  path: 'production-history/:id',
+  loadComponent: () =>
+    import(
+      './pages/production-history/production-history.page'
+    ).then(
+      m => m.ProductionHistoryPage
+    )
+},
+
   {
     path: 'backup',
     loadComponent: () => import('./pages/backup/backup.page').then( m => m.BackupPage)

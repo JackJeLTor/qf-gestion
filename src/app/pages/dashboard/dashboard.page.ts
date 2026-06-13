@@ -318,6 +318,14 @@ this.canRawMaterials =
     this.router.navigate(['/raw-materials']);
   }
 
+  goProductionConsumption() {
+
+  this.router.navigate(
+    ['/production-consumption']
+  );
+
+}
+
   goQualityControl() {
     this.router.navigate(['/quality-control']);
   }

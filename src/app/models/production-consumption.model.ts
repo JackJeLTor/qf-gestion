@@ -6,13 +6,19 @@ export interface ProductionConsumption {
 
   productionPatient: string;
 
+  batchNumber: string;
+
   rawMaterialId: number;
 
   rawMaterialName: string;
 
+  lotNumber: string;
+
   quantity: number;
 
   unit: string;
+
+  consumedBy: string;
 
   date: string;
 

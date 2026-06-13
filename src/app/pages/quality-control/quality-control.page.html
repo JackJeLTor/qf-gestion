@@ -47,17 +47,33 @@
 
         <p>
 
-          💊 Fórmula:
+          🏷️ Lote:
 
-          {{ production.formula }}
+          {{ production.batchNumber }}
 
         </p>
 
         <p>
 
-          🏷️ Lote:
+          💊 Forma Farmacéutica:
 
-          {{ production.batchNumber }}
+          {{ production.pharmaceuticalForm }}
+
+        </p>
+
+        <p>
+
+          🏥 Especialidad:
+
+          {{ production.specialty }}
+
+        </p>
+
+        <p>
+
+          📦 Cantidad:
+
+          {{ production.quantity }}
 
         </p>
 
@@ -79,6 +95,14 @@
 
         <p>
 
+          🧪 Fórmula:
+
+          {{ production.formula }}
+
+        </p>
+
+        <p>
+
           📌 Estado:
 
           <strong>
@@ -88,6 +112,48 @@
           </strong>
 
         </p>
+
+        @if(
+          production.rawMaterialsUsed &&
+          production.rawMaterialsUsed.length > 0
+        ){
+
+          <hr>
+
+          <h3>
+
+            Materias Primas Utilizadas
+
+          </h3>
+
+          @for(
+            material of production.rawMaterialsUsed;
+            track $index
+          ){
+
+            <p>
+
+              • {{ material.materialName }}
+
+              -
+
+              {{ material.quantity }}
+
+              {{ material.unit }}
+
+            </p>
+
+            <p>
+
+              Lote:
+
+              {{ material.lotNumber }}
+
+            </p>
+
+          }
+
+        }
 
         <hr>
 
@@ -124,18 +190,22 @@
         <ion-button
           expand="block"
           color="success"
-          (click)="approve(production.id)">
+          (click)="approve(
+            production.id
+          )">
 
-          ✅ Aprobar Producción
+          Aprobar Producción
 
         </ion-button>
 
         <ion-button
           expand="block"
           color="warning"
-          (click)="observe(production.id)">
+          (click)="observe(
+            production.id
+          )">
 
-          ⚠ Registrar Observación
+          Registrar Observación
 
         </ion-button>
 

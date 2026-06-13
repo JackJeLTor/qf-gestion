@@ -54,6 +54,8 @@ export class ProductionConsumptionPage {
 
   quantity = 0;
 
+  consumedBy = '';
+
   productions: any[] = [];
 
   rawMaterials: any[] = [];
@@ -75,98 +77,126 @@ export class ProductionConsumptionPage {
 
     this.productions =
       this.productionService
-      .getProductions();
+        .getProductions();
 
     this.rawMaterials =
       this.rawMaterialService
-      .getRawMaterials();
+        .getRawMaterials();
 
     this.consumptions =
       this.consumptionService
-      .getConsumptions();
+        .getConsumptions();
 
   }
 
   registerConsumption() {
 
-  const production =
-    this.productions.find(
-      p => p.id == this.productionId
-    );
+    const production =
+      this.productions.find(
+        p => p.id == this.productionId
+      );
 
-  const material =
-    this.rawMaterials.find(
-      m => m.id == this.rawMaterialId
-    );
+    const material =
+      this.rawMaterials.find(
+        m => m.id == this.rawMaterialId
+      );
 
-  if (
-    !production ||
-    !material ||
-    this.quantity <= 0
-  ) {
-    return;
-  }
+    if (
+      !production ||
+      !material ||
+      this.quantity <= 0 ||
+      !this.consumedBy
+    ) {
 
-  this.rawMaterialService
-    .consumeStock(
-      material.id,
-      this.quantity
-    );
+      alert(
+        'Complete todos los campos'
+      );
 
-  this.consumptionService
-    .addConsumption({
+      return;
 
-      id: Date.now(),
+    }
 
-      productionId:
-        production.id,
-
-      productionPatient:
-        production.patientName,
-
-      rawMaterialId:
+    this.rawMaterialService
+      .consumeStock(
         material.id,
+        this.quantity
+      );
 
-      rawMaterialName:
-        material.name,
-
-      quantity:
-        this.quantity,
-
-      unit:
-        material.unit,
-
-      date:
-        new Date()
-        .toLocaleDateString()
-
-    });
-
-  this.productionService.addRawMaterial(
-  this.productionId,
-  {
-    materialName: material.name,
-
-    quantity: this.quantity,
-
-    unit: material.unit,
-
-    lotNumber: material.lotNumber,
-
-    consumedDate:
-      new Date().toLocaleString(),
-
-    consumedBy:
-      'Q.F. Responsable'
-  }
-);
-
-  this.consumptions =
     this.consumptionService
-      .getConsumptions();
+      .addConsumption({
 
-  this.quantity = 0;
+        id: Date.now(),
 
-}
+        productionId:
+          production.id,
+
+        productionPatient:
+          production.patientName,
+
+        batchNumber:
+          production.batchNumber,
+
+        rawMaterialId:
+          material.id,
+
+        rawMaterialName:
+          material.name,
+
+        lotNumber:
+          material.lotNumber,
+
+        quantity:
+          this.quantity,
+
+        unit:
+          material.unit,
+
+        consumedBy:
+          this.consumedBy,
+
+        date:
+          new Date()
+            .toLocaleString()
+
+      });
+
+    this.productionService
+      .addRawMaterial(
+        this.productionId,
+        {
+          materialName:
+            material.name,
+
+          quantity:
+            this.quantity,
+
+          unit:
+            material.unit,
+
+          lotNumber:
+            material.lotNumber,
+
+          consumedDate:
+            new Date()
+              .toLocaleString(),
+
+          consumedBy:
+            this.consumedBy
+        }
+      );
+
+    this.consumptions =
+      this.consumptionService
+        .getConsumptions();
+
+    this.quantity = 0;
+
+    this.consumedBy = '';
+
+    alert(
+      'Consumo registrado correctamente'
+    );
+
+  }
 
 }
