@@ -30,6 +30,41 @@
 
   </ion-card>
 
+  <ion-card>
+
+  <ion-card-content>
+
+    📄 Recetas:
+    {{ recipesLogs }}
+
+    <br>
+
+    🏭 Producción:
+    {{ productionLogs }}
+
+    <br>
+
+    🔬 Calidad:
+    {{ qualityLogs }}
+
+    <br>
+
+    🚚 Entregas:
+    {{ deliveryLogs }}
+
+  </ion-card-content>
+
+</ion-card>
+
+<ion-button
+  expand="block"
+  color="danger"
+  (click)="clearAudit()">
+
+  Limpiar Auditoría
+
+</ion-button>
+
   <ion-item>
 
     <ion-input

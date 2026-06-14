@@ -2,15 +2,49 @@
 
   <div class="dashboard-header">
 
-    <h1>🏥 QF Gestión App</h1>
+  <div class="user-avatar">
 
-    <p>
-
-      Sistema Integral de Gestión Farmacéutica Magistral
-
-    </p>
+    👤
 
   </div>
+
+  <h1>
+
+    QF Gestión App
+
+  </h1>
+
+  <p>
+
+    Sistema Integral de Gestión Farmacéutica Magistral
+
+  </p>
+
+  @if(currentUser){
+
+    <div class="welcome-box">
+
+      <strong>
+
+        {{ currentUser.fullName }}
+
+      </strong>
+
+      <br>
+
+      Usuario:
+      {{ currentUser.username }}
+
+      <br>
+
+      Rol:
+      {{ currentUser.role }}
+
+    </div>
+
+  }
+
+</div>
 
    <!-- MENU PRINCIPAL -->
 
@@ -24,9 +58,11 @@
 
   <ion-row>
 
-    <ion-col size="4">
+    @if(isAdmin){
 
-      <ion-card button (click)="goAudit()">
+        <ion-col size="4">
+
+         <ion-card button (click)="goAudit()">
 
         <ion-card-content>
 
@@ -40,7 +76,8 @@
 
       </ion-card>
 
-    </ion-col>
+      </ion-col>
+    }
 
     <ion-col size="4">
 
@@ -96,7 +133,9 @@
 
     </ion-col>
 
-    <ion-col size="4">
+    @if(isAdmin){
+
+      <ion-col size="4">
 
       <ion-card button (click)="goBackup()">
 
@@ -112,7 +151,30 @@
 
       </ion-card>
 
-    </ion-col>
+      </ion-col>
+    }
+
+    @if(isAdmin){
+
+      <ion-col size="4">
+
+      <ion-card button (click)="goUsers()">
+
+      <ion-card-content>
+
+      👥
+
+      <br>
+
+      Usuarios
+
+      </ion-card-content>
+
+      </ion-card>
+  
+     </ion-col>
+
+    }
 
 @if(canRawMaterials){
 
@@ -753,5 +815,74 @@
     <small>Despacho al paciente</small>
   </ion-card-content>
 </ion-card>
+
+<div class="bottom-nav">
+
+  <button
+    (click)="goDashboard()">
+
+    🏠
+
+    <span>
+
+      Inicio
+
+    </span>
+
+  </button>
+
+  <button
+    (click)="goProfile()">
+
+    👤
+
+    <span>
+
+      Perfil
+
+    </span>
+
+  </button>
+
+  <button
+    (click)="goUsers()">
+
+    👥
+
+    <span>
+
+      Usuarios
+
+    </span>
+
+  </button>
+
+  <button
+    (click)="goAudit()">
+
+    📋
+
+    <span>
+
+      Auditoría
+
+    </span>
+
+  </button>
+
+  <button
+    (click)="goBackup()">
+
+    💾
+
+    <span>
+
+      Backup
+
+    </span>
+
+  </button>
+
+</div>
 
 </ion-content>

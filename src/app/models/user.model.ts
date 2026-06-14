@@ -10,4 +10,20 @@ export interface User {
 
   role: string;
 
+  email: string;
+
+  phone: string;
+
+  active: boolean;
+
+  createdDate: string;
+
+  updatedDate: string;
+
+  createdBy: string;
+
+  updatedBy: string;
+
+  lastLogin: string;
+
 }

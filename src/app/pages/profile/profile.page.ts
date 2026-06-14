@@ -31,18 +31,23 @@ from '../../services/auth.service';
 })
 export class ProfilePage {
 
-  user: any = null;
+  user: any;
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
 
     this.user =
       this.authService
         .getCurrentUser();
+
+    console.log(
+      'Usuario actual:',
+      this.user
+    );
 
   }
 

@@ -41,13 +41,13 @@ export class DashboardPage {
 
   canPrescriptions = false;
 
-canProductions = false;
+  canProductions = false;
 
-canQuality = false;
+  canQuality = false;
 
-canDeliveries = false;
+  canDeliveries = false;
 
-canRawMaterials = false;
+  canRawMaterials = false;
 
   totalProducts = 0;
   totalOrders = 0;
@@ -77,6 +77,10 @@ canRawMaterials = false;
 
   recentMovements: any[] = [];
 
+  currentUser: any = null;
+
+  isAdmin = false;
+
   constructor(
     private router: Router,
     private productService: ProductService,
@@ -93,6 +97,17 @@ canRawMaterials = false;
   ) {}
 
   ionViewWillEnter() {
+
+    this.currentUser =
+  JSON.parse(
+    localStorage.getItem(
+      'currentUser'
+    ) || 'null'
+  );
+
+this.isAdmin =
+  this.currentUser?.role ===
+  'Administrador';
 
     const products =
       this.productService.getProducts();
@@ -244,31 +259,31 @@ canRawMaterials = false;
         .reverse();
 
         this.canPrescriptions =
-  this.permissionService
+    this.permissionService
     .hasAccess(
       'prescriptions'
     );
 
-this.canProductions =
-  this.permissionService
-    .hasAccess(
-      'productions'
+   this.canProductions =
+    this.permissionService
+     .hasAccess(
+        'productions'
     );
 
-this.canQuality =
-  this.permissionService
-    .hasAccess(
+    this.canQuality =
+     this.permissionService
+     .hasAccess(
       'quality-control'
     );
 
-this.canDeliveries =
-  this.permissionService
+    this.canDeliveries =
+   this.permissionService
     .hasAccess(
       'delivery'
     );
 
-this.canRawMaterials =
-  this.permissionService
+    this.canRawMaterials =
+     this.permissionService
     .hasAccess(
       'raw-materials'
     );
@@ -346,6 +361,21 @@ goBackup() {
 
   this.router.navigate(
     ['/backup']
+  );
+
+}
+goUsers() {
+
+  this.router.navigate(
+    ['/users']
+  );
+
+}
+
+goDashboard() {
+
+  this.router.navigate(
+    ['/dashboard']
   );
 
 }

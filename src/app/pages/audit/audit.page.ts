@@ -11,7 +11,8 @@ import {
   IonItem,
   IonInput,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonButton
 } from '@ionic/angular/standalone';
 
 import { AuditService }
@@ -33,7 +34,8 @@ from '../../services/audit.service';
     IonItem,
     IonInput,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    IonButton
   ]
 })
 export class AuditPage {
@@ -47,6 +49,14 @@ export class AuditPage {
   moduleFilter = 'Todos';
 
   totalLogs = 0;
+
+  recipesLogs = 0;
+
+  productionLogs = 0;
+
+  qualityLogs = 0;
+
+  deliveryLogs = 0;
 
   constructor(
     private auditService:
@@ -63,8 +73,34 @@ export class AuditPage {
     this.filteredLogs =
       [...this.logs];
 
+    this.calculateStats();
+
+  }
+
+  calculateStats() {
+
     this.totalLogs =
       this.logs.length;
+
+    this.recipesLogs =
+      this.logs.filter(
+        l => l.module === 'Recetas'
+      ).length;
+
+    this.productionLogs =
+      this.logs.filter(
+        l => l.module === 'Producción'
+      ).length;
+
+    this.qualityLogs =
+      this.logs.filter(
+        l => l.module === 'Control Calidad'
+      ).length;
+
+    this.deliveryLogs =
+      this.logs.filter(
+        l => l.module === 'Entregas'
+      ).length;
 
   }
 
@@ -128,6 +164,27 @@ export class AuditPage {
 
         }
       );
+
+  }
+
+  clearAudit() {
+
+    const confirmDelete =
+      confirm(
+        '¿Desea eliminar toda la auditoría?'
+      );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    this.auditService.clearLogs();
+
+    this.logs = [];
+
+    this.filteredLogs = [];
+
+    this.calculateStats();
 
   }
 

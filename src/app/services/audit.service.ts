@@ -61,6 +61,14 @@ export class AuditService {
 
   }
 
+  clearLogs() {
+
+    this.logs = [];
+
+    this.save();
+
+  }
+
   private save() {
 
     localStorage.setItem(

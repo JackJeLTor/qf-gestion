@@ -12,7 +12,8 @@ import {
   IonSelect,
   IonSelectOption,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonToggle
 } from '@ionic/angular/standalone';
 
 import { UserService }
@@ -35,7 +36,8 @@ from '../../services/user.service';
     IonSelect,
     IonSelectOption,
     IonCard,
-    IonCardContent
+    IonCardContent,
+    IonToggle
   ]
 })
 export class UsersPage {
@@ -48,7 +50,16 @@ export class UsersPage {
 
   role = '';
 
+  email = '';
+
+  phone = '';
+
+  active = true;
+
   users: any[] = [];
+
+  editingUserId:
+    number | null = null;
 
   constructor(
     private userService:
@@ -80,31 +91,188 @@ export class UsersPage {
       return;
     }
 
-    this.userService
-      .addUser({
+    if (
+      this.editingUserId
+    ) {
 
-        id: Date.now(),
+      const user =
+        this.userService
+          .getUserById(
+            this.editingUserId
+          );
 
-        username:
-          this.username,
+      if (!user) {
+        return;
+      }
 
-        password:
-          this.password,
+      user.username =
+        this.username;
 
-        fullName:
-          this.fullName,
+      user.password =
+        this.password;
 
-        role:
-          this.role
+      user.fullName =
+        this.fullName;
 
-      });
+      user.role =
+        this.role;
+
+      user.email =
+        this.email;
+
+      user.phone =
+        this.phone;
+
+      user.active =
+        this.active;
+
+      user.updatedDate =
+        new Date()
+          .toLocaleString();
+
+      user.updatedBy =
+        'Administrador';
+
+      this.userService
+        .updateUser(
+          user
+        );
+
+    } else {
+
+      this.userService
+        .addUser({
+
+          id: Date.now(),
+
+          username:
+            this.username,
+
+          password:
+            this.password,
+
+          fullName:
+            this.fullName,
+
+          role:
+            this.role,
+
+          email:
+            this.email,
+
+          phone:
+            this.phone,
+
+          active:
+            this.active,
+
+          createdDate:
+            new Date()
+              .toLocaleString(),
+
+          updatedDate:
+            '',
+
+          createdBy:
+            'Administrador',
+
+          updatedBy:
+            '',
+
+          lastLogin:
+            '-'
+
+        });
+
+    }
+
+    this.clearForm();
 
     this.loadUsers();
 
+  }
+
+  editUser(
+    user: any
+  ) {
+
+    this.editingUserId =
+      user.id;
+
+    this.username =
+      user.username;
+
+    this.password =
+      user.password;
+
+    this.fullName =
+      user.fullName;
+
+    this.role =
+      user.role;
+
+    this.email =
+      user.email;
+
+    this.phone =
+      user.phone;
+
+    this.active =
+      user.active;
+
+  }
+
+  clearForm() {
+
+    this.editingUserId =
+      null;
+
     this.username = '';
+
     this.password = '';
+
     this.fullName = '';
+
     this.role = '';
+
+    this.email = '';
+
+    this.phone = '';
+
+    this.active = true;
+
+  }
+
+  toggleStatus(
+    user: any
+  ) {
+
+    this.userService
+      .toggleUserStatus(
+        user.id
+      );
+
+    this.loadUsers();
+
+  }
+
+  deleteUser(
+    user: any
+  ) {
+
+    if (
+      user.username ===
+      'admin'
+    ) {
+      return;
+    }
+
+    this.userService
+      .deleteUser(
+        user.id
+      );
+
+    this.loadUsers();
 
   }
 

@@ -24,7 +24,8 @@ export class AuthService {
         .find(
           u =>
             u.username === username &&
-            u.password === password
+            u.password === password &&
+            u.active === true
         );
 
     if (!user) {
@@ -32,6 +33,17 @@ export class AuthService {
       return false;
 
     }
+
+    user.lastLogin =
+      new Date()
+        .toLocaleString();
+
+    localStorage.setItem(
+      'users',
+      JSON.stringify(
+        this.userService.getUsers()
+      )
+    );
 
     localStorage.setItem(
       'currentUser',

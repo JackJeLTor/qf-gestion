@@ -57,52 +57,67 @@
 
       <ion-item>
 
+        <ion-input
+          label="Correo Electrónico"
+          labelPlacement="stacked"
+          [(ngModel)]="email">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          label="Teléfono"
+          labelPlacement="stacked"
+          [(ngModel)]="phone">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
         <ion-select
-  [(ngModel)]="role">
+          label="Rol"
+          labelPlacement="stacked"
+          [(ngModel)]="role">
 
-  <ion-select-option
-    value="Administrador">
+          <ion-select-option value="Administrador">
+            Administrador
+          </ion-select-option>
 
-    Administrador
+          <ion-select-option value="Produccion">
+            Producción
+          </ion-select-option>
 
-  </ion-select-option>
+          <ion-select-option value="Calidad">
+            Calidad
+          </ion-select-option>
 
-  <ion-select-option
-    value="Producción">
+          <ion-select-option value="Recepcion">
+            Recepción
+          </ion-select-option>
 
-    Producción
+          <ion-select-option value="Medico">
+            Médico
+          </ion-select-option>
 
-  </ion-select-option>
+          <ion-select-option value="Consulta">
+            Consulta
+          </ion-select-option>
 
-  <ion-select-option
-    value="Calidad">
+        </ion-select>
 
-    Calidad
+      </ion-item>
 
-  </ion-select-option>
+      <ion-item>
 
-  <ion-select-option
-    value="Recepción">
+        <ion-toggle
+          [(ngModel)]="active">
 
-    Recepción
+          Usuario Activo
 
-  </ion-select-option>
-
-  <ion-select-option
-    value="Médico">
-
-    Médico
-
-  </ion-select-option>
-
-  <ion-select-option
-    value="Consulta">
-
-    Consulta
-
-  </ion-select-option>
-
-</ion-select>
+        </ion-toggle>
 
       </ion-item>
 
@@ -115,6 +130,19 @@
         Guardar Usuario
 
       </ion-button>
+
+      @if(editingUserId){
+
+  <ion-button
+    expand="block"
+    color="medium"
+    (click)="clearForm()">
+
+    Cancelar Edición
+
+  </ion-button>
+
+}
 
     </ion-card-content>
 
@@ -137,7 +165,7 @@
 
         <ion-item>
 
-          <div>
+          <div style="width:100%">
 
             <strong>
 
@@ -148,14 +176,109 @@
             <br>
 
             Usuario:
-
             {{ user.username }}
 
             <br>
 
             Rol:
-
             {{ user.role }}
+
+            <br>
+
+            Correo:
+            {{ user.email }}
+
+            <br>
+
+            Teléfono:
+            {{ user.phone }}
+
+            <br>
+
+            Estado:
+
+            @if(user.active){
+
+              <span>
+                ✅ Activo
+              </span>
+
+            } @else {
+
+              <span>
+                ❌ Inactivo
+              </span>
+
+            }
+
+            <br>
+
+            Creado:
+            {{ user.createdDate }}
+
+            <br>
+
+            Último Acceso:
+            {{ user.lastLogin }}
+
+            <br>
+
+Creado por:
+{{ user.createdBy }}
+
+<br>
+
+Última modificación:
+{{ user.updatedDate || '-' }}
+
+<br>
+
+Modificado por:
+{{ user.updatedBy || '-' }}
+
+            <br><br>
+
+<ion-button
+  size="small"
+  color="primary"
+  (click)="editUser(user)">
+
+  Editar
+
+</ion-button>
+
+            <ion-button
+              size="small"
+              color="warning"
+              (click)="toggleStatus(user)">
+
+              @if(user.active){
+
+                Desactivar
+
+              } @else {
+
+                Activar
+
+              }
+
+            </ion-button>
+
+            @if(
+              user.username !==
+              'admin'
+            ){
+
+              <ion-button
+                size="small"
+                color="danger"
+                (click)="deleteUser(user)">
+
+                Eliminar
+
+              </ion-button>
+
+            }
 
           </div>
 

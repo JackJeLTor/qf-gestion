@@ -8,8 +8,7 @@ from '../models/user.model';
 })
 export class UserService {
 
-  private users:
-    User[] = [];
+  private users: User[] = [];
 
   constructor() {
 
@@ -29,12 +28,41 @@ export class UserService {
 
         {
           id: 1,
+
           username: 'admin',
+
           password: '123456',
+
           fullName:
-            'Administrador',
+            'Administrador General',
+
           role:
-            'Administrador'
+            'Administrador',
+
+          email:
+            'admin@qfgestion.com',
+
+          phone:
+            '999999999',
+
+          active:
+            true,
+
+          createdDate:
+            new Date()
+              .toLocaleString(),
+
+          updatedDate:
+            '',
+
+          createdBy:
+            'Sistema',
+
+          updatedBy:
+            '',
+
+          lastLogin:
+            ''
         }
 
       ];
@@ -51,6 +79,16 @@ export class UserService {
 
   }
 
+  getUserById(
+    id: number
+  ) {
+
+    return this.users.find(
+      u => u.id === id
+    );
+
+  }
+
   addUser(
     user: User
   ) {
@@ -63,7 +101,87 @@ export class UserService {
 
   }
 
-  private save() {
+  updateUser(
+    updatedUser: User
+  ) {
+
+    const index =
+      this.users.findIndex(
+        u =>
+          u.id ===
+          updatedUser.id
+      );
+
+    if (
+      index === -1
+    ) {
+      return;
+    }
+
+    this.users[index] =
+      updatedUser;
+
+    this.save();
+
+  }
+
+  toggleUserStatus(
+    id: number
+  ) {
+
+    const user =
+      this.users.find(
+        u => u.id === id
+      );
+
+    if (!user) {
+      return;
+    }
+
+    if (
+      user.username ===
+      'admin'
+    ) {
+      return;
+    }
+
+    user.active =
+      !user.active;
+
+    this.save();
+
+  }
+
+  deleteUser(
+    id: number
+  ) {
+
+    const user =
+      this.users.find(
+        u => u.id === id
+      );
+
+    if (!user) {
+      return;
+    }
+
+    if (
+      user.username ===
+      'admin'
+    ) {
+      return;
+    }
+
+    this.users =
+      this.users.filter(
+        u => u.id !== id
+      );
+
+    this.save();
+
+  }
+
+  save() {
 
     localStorage.setItem(
       'users',
