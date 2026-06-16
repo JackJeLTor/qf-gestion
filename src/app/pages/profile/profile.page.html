@@ -12,11 +12,53 @@
 
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
 
   <ion-card>
 
     <ion-card-content>
+
+      <div
+  style="
+    text-align:center;
+    margin-bottom:20px;
+  ">
+
+  @if(user?.photo){
+
+    <img
+      [src]="user.photo"
+      style="
+        width:120px;
+        height:120px;
+        border-radius:50%;
+        object-fit:cover;
+        border:3px solid #3880ff;
+      "
+    >
+
+  } @else {
+
+    <img
+      src="assets/avatar.png"
+      style="
+        width:120px;
+        height:120px;
+        border-radius:50%;
+      "
+    >
+
+  }
+
+  <br><br>
+
+  <input
+    type="file"
+    accept="image/*"
+    (change)="onPhotoSelected($event)"
+  >
+
+</div>
 
       <h2>
 
@@ -37,6 +79,85 @@
         {{ user?.role }}
 
       </p>
+
+      <p>
+
+        Correo:
+        {{ user?.email }}
+
+      </p>
+
+      <p>
+
+        Teléfono:
+        {{ user?.phone }}
+
+      </p>
+
+      <p>
+
+        Último acceso:
+        {{ user?.lastLogin }}
+
+      </p>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <h2>
+
+        Cambiar Contraseña
+
+      </h2>
+
+      <ion-item>
+
+        <ion-input
+          type="password"
+          label="Contraseña Actual"
+          labelPlacement="stacked"
+          [(ngModel)]="currentPassword">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          type="password"
+          label="Nueva Contraseña"
+          labelPlacement="stacked"
+          [(ngModel)]="newPassword">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          type="password"
+          label="Confirmar Contraseña"
+          labelPlacement="stacked"
+          [(ngModel)]="confirmPassword">
+        </ion-input>
+
+      </ion-item>
+
+      <br>
+
+      <ion-button
+        expand="block"
+        color="primary"
+        (click)="changePassword()">
+
+        Actualizar Contraseña
+
+      </ion-button>
 
     </ion-card-content>
 

@@ -13,11 +13,13 @@ import {
   IonSelectOption,
   IonCard,
   IonCardContent,
-  IonToggle
+  IonToggle,
 } from '@ionic/angular/standalone';
 
-import { UserService }
-from '../../services/user.service';
+import { UserService } from '../../services/user.service';
+import { AuditService } from '../../services/audit.service';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -37,11 +39,10 @@ from '../../services/user.service';
     IonSelectOption,
     IonCard,
     IonCardContent,
-    IonToggle
-  ]
+    IonToggle,
+  ],
 })
 export class UsersPage {
-
   username = '';
 
   password = '';
@@ -56,176 +57,159 @@ export class UsersPage {
 
   active = true;
 
+  permissions: string[] = [];
+
+  availablePermissions = [
+    'dashboard',
+    'patients',
+    'doctors',
+    'laboratories',
+    'raw-materials',
+    'production-consumption',
+    'prescriptions',
+    'productions',
+    'quality-control',
+    'delivery',
+    'audit',
+    'backup',
+    'users',
+    'reports',
+  ];
+
   users: any[] = [];
 
-  editingUserId:
-    number | null = null;
+  editingUserId: number | null = null;
 
   constructor(
-    private userService:
-      UserService
+    private userService: UserService,
+    private auditService: AuditService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
-
     this.loadUsers();
-
   }
 
   loadUsers() {
-
-    this.users =
-      this.userService
-        .getUsers();
-
+    this.users = this.userService.getUsers();
   }
 
   saveUser() {
-
-    if (
-      !this.username ||
-      !this.password ||
-      !this.fullName ||
-      !this.role
-    ) {
+    if (!this.username || !this.password || !this.fullName || !this.role) {
       return;
     }
 
-    if (
-      this.editingUserId
-    ) {
-
-      const user =
-        this.userService
-          .getUserById(
-            this.editingUserId
-          );
+    if (this.editingUserId) {
+      const user = this.userService.getUserById(this.editingUserId);
 
       if (!user) {
         return;
       }
 
-      user.username =
-        this.username;
+      user.username = this.username;
 
-      user.password =
-        this.password;
+      user.password = this.password;
 
-      user.fullName =
-        this.fullName;
+      user.fullName = this.fullName;
 
-      user.role =
-        this.role;
+      user.role = this.role;
 
-      user.email =
-        this.email;
+      user.permissions = this.permissions;
 
-      user.phone =
-        this.phone;
+      user.email = this.email;
 
-      user.active =
-        this.active;
+      user.phone = this.phone;
 
-      user.updatedDate =
-        new Date()
-          .toLocaleString();
+      user.active = this.active;
 
-      user.updatedBy =
-        'Administrador';
+      user.updatedDate = new Date().toLocaleString();
 
-      this.userService
-        .updateUser(
-          user
-        );
+      user.updatedBy = 'Administrador';
 
+      this.userService.updateUser(user);
+
+      const currentUser = this.authService.getCurrentUser();
+
+      this.auditService.addLog(
+        'Usuarios',
+        'Editar',
+        currentUser?.username || 'Sistema',
+        `Usuario editado: ${user.username}`,
+      );
     } else {
+      this.userService.addUser({
+        id: Date.now(),
 
-      this.userService
-        .addUser({
+        username: this.username,
 
-          id: Date.now(),
+        password: this.password,
 
-          username:
-            this.username,
+        fullName: this.fullName,
 
-          password:
-            this.password,
+        role: this.role,
 
-          fullName:
-            this.fullName,
+        permissions: this.permissions,
 
-          role:
-            this.role,
+        email: this.email,
 
-          email:
-            this.email,
+        phone: this.phone,
 
-          phone:
-            this.phone,
+        active: this.active,
 
-          active:
-            this.active,
+        createdDate: new Date().toLocaleString(),
 
-          createdDate:
-            new Date()
-              .toLocaleString(),
+        updatedDate: '',
 
-          updatedDate:
-            '',
+        createdBy: 'Administrador',
 
-          createdBy:
-            'Administrador',
+        updatedBy: '',
 
-          updatedBy:
-            '',
+        lastLogin: '-',
 
-          lastLogin:
-            '-'
+        passwordChangedDate: new Date().toLocaleString(),
 
-        });
+        failedAttempts: 0,
 
+        locked: false,
+      });
+
+      const currentUser = this.authService.getCurrentUser();
+
+      this.auditService.addLog(
+        'Usuarios',
+        'Crear',
+        currentUser?.username || 'Sistema',
+        `Usuario creado: ${this.username}`,
+      );
     }
 
     this.clearForm();
 
     this.loadUsers();
-
   }
 
-  editUser(
-    user: any
-  ) {
+  editUser(user: any) {
+    this.editingUserId = user.id;
 
-    this.editingUserId =
-      user.id;
+    this.username = user.username;
 
-    this.username =
-      user.username;
+    this.password = user.password;
 
-    this.password =
-      user.password;
+    this.fullName = user.fullName;
 
-    this.fullName =
-      user.fullName;
+    this.role = user.role;
 
-    this.role =
-      user.role;
+    this.permissions = user.permissions || [];
 
-    this.email =
-      user.email;
+    this.email = user.email;
 
-    this.phone =
-      user.phone;
+    this.phone = user.phone;
 
-    this.active =
-      user.active;
-
+    this.active = user.active;
   }
 
   clearForm() {
-
-    this.editingUserId =
-      null;
+    this.editingUserId = null;
 
     this.username = '';
 
@@ -235,45 +219,62 @@ export class UsersPage {
 
     this.role = '';
 
+    this.permissions = [];
+
     this.email = '';
 
     this.phone = '';
 
     this.active = true;
-
   }
 
-  toggleStatus(
-    user: any
-  ) {
+  toggleStatus(user: any) {
+    this.userService.toggleUserStatus(user.id);
 
-    this.userService
-      .toggleUserStatus(
-        user.id
-      );
+    const currentUser = this.authService.getCurrentUser();
+
+    this.auditService.addLog(
+      'Usuarios',
+      'Estado',
+      currentUser?.username || 'Sistema',
+      `Cambio de estado usuario: ${user.username}`,
+    );
 
     this.loadUsers();
-
   }
 
-  deleteUser(
-    user: any
-  ) {
+  unlockUser(user: any) {
+    this.userService.unlockUser(user.id);
 
-    if (
-      user.username ===
-      'admin'
-    ) {
+    const currentUser = this.authService.getCurrentUser();
+
+    this.auditService.addLog(
+      'Usuarios',
+      'Desbloquear',
+      currentUser?.username || 'Sistema',
+      `Cuenta desbloqueada: ${user.username}`,
+    );
+
+    this.loadUsers();
+  }
+
+  deleteUser(user: any) {
+    if (user.username === 'admin') {
       return;
     }
 
-    this.userService
-      .deleteUser(
-        user.id
-      );
+const currentUser =
+  this.authService.getCurrentUser();
+
+this.auditService.addLog(
+  'Usuarios',
+  'Eliminar',
+  currentUser?.username || 'Sistema',
+  `Usuario eliminado: ${user.username}`
+);    
+
+    this.userService.deleteUser(user.id);
 
     this.loadUsers();
-
   }
-
 }

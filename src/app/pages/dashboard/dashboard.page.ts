@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { PermissionService }
-from '../../services/permission.service';
+import { PermissionService } from '../../services/permission.service';
 
 import {
   IonContent,
@@ -9,7 +8,7 @@ import {
   IonCardContent,
   IonGrid,
   IonRow,
-  IonCol
+  IonCol,
 } from '@ionic/angular/standalone';
 
 import { ProductService } from '../../services/product.service';
@@ -28,17 +27,9 @@ import { DeliveryService } from '../../services/delivery.service';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [
-    IonContent,
-    IonCard,
-    IonCardContent,
-    IonGrid,
-    IonRow,
-    IonCol
-  ]
+  imports: [IonContent, IonCard, IonCardContent, IonGrid, IonRow, IonCol],
 })
 export class DashboardPage {
-
   canPrescriptions = false;
 
   canProductions = false;
@@ -93,48 +84,33 @@ export class DashboardPage {
     private laboratoryService: LaboratoryService,
     private rawMaterialService: RawMaterialService,
     private deliveryService: DeliveryService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
   ) {}
 
   ionViewWillEnter() {
+    this.currentUser = JSON.parse(
+      localStorage.getItem('currentUser') || 'null',
+    );
 
-    this.currentUser =
-  JSON.parse(
-    localStorage.getItem(
-      'currentUser'
-    ) || 'null'
-  );
+    this.isAdmin = this.currentUser?.role === 'Administrador';
 
-this.isAdmin =
-  this.currentUser?.role ===
-  'Administrador';
+    const products = this.productService.getProducts();
 
-    const products =
-      this.productService.getProducts();
+    const orders = this.orderService.getOrders();
 
-    const orders =
-      this.orderService.getOrders();
+    const prescriptions = this.prescriptionService.getPrescriptions();
 
-    const prescriptions =
-      this.prescriptionService.getPrescriptions();
+    const productions = this.productionService.getProductions();
 
-    const productions =
-      this.productionService.getProductions();
+    const patients = this.patientService.getPatients();
 
-    const patients =
-      this.patientService.getPatients();
+    const doctors = this.doctorService.getDoctors();
 
-    const doctors =
-      this.doctorService.getDoctors();
+    const laboratories = this.laboratoryService.getLaboratories();
 
-    const laboratories =
-      this.laboratoryService.getLaboratories();
+    const rawMaterials = this.rawMaterialService.getRawMaterials();
 
-    const rawMaterials =
-      this.rawMaterialService.getRawMaterials();
-
-    const deliveries =
-      this.deliveryService.getDeliveries();
+    const deliveries = this.deliveryService.getDeliveries();
 
     this.totalProducts = products.length;
     this.totalOrders = orders.length;
@@ -144,149 +120,81 @@ this.isAdmin =
     this.totalLaboratories = laboratories.length;
     this.totalRawMaterials = rawMaterials.length;
 
-    this.totalPrescriptions =
-      prescriptions.length;
+    this.totalPrescriptions = prescriptions.length;
 
-    this.pendingPrescriptions =
-      prescriptions.filter(
-        p => p.status !== 'Entregada'
-      ).length;
+    this.pendingPrescriptions = prescriptions.filter(
+      (p) => p.status !== 'Entregada',
+    ).length;
 
-    this.activeProductions =
-      productions.filter(
-        p => p.status !== 'Finalizado'
-      ).length;
+    this.activeProductions = productions.filter(
+      (p) => p.status !== 'Finalizado',
+    ).length;
 
-    this.finishedProductions =
-      productions.filter(
-        p => p.status === 'Finalizado'
-      ).length;
+    this.finishedProductions = productions.filter(
+      (p) => p.status === 'Finalizado',
+    ).length;
 
-    this.qualityProductions =
-      productions.filter(
-        p => p.status === 'Control Calidad'
-      ).length;
+    this.qualityProductions = productions.filter(
+      (p) => p.status === 'Control Calidad',
+    ).length;
 
-    this.observedProductions =
-      productions.filter(
-        p => p.status === 'Observado'
-      ).length;
+    this.observedProductions = productions.filter(
+      (p) => p.status === 'Observado',
+    ).length;
 
-    this.pendingDeliveries =
-      deliveries.filter(
-        d => d.status !== 'Entregado'
-      ).length;
+    this.pendingDeliveries = deliveries.filter(
+      (d) => d.status !== 'Entregado',
+    ).length;
 
-    this.deliveredOrders =
-      deliveries.filter(
-        d => d.status === 'Entregado'
-      ).length;
+    this.deliveredOrders = deliveries.filter(
+      (d) => d.status === 'Entregado',
+    ).length;
 
-    this.lowStock =
-      products.filter(
-        p => p.stock < 10
-      ).length;
+    this.lowStock = products.filter((p) => p.stock < 10).length;
 
-    this.inventoryValue =
-      products.reduce(
-        (total, product) =>
-          total +
-          (product.stock * product.price),
-        0
-      );
+    this.inventoryValue = products.reduce(
+      (total, product) => total + product.stock * product.price,
+      0,
+    );
 
     const today = new Date();
 
-    this.expiringProducts =
-      products.filter(product => {
+    this.expiringProducts = products.filter((product) => {
+      const expiration = new Date(product.expirationDate);
 
-        const expiration =
-          new Date(
-            product.expirationDate
-          );
+      const days =
+        (expiration.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
 
-        const days =
-          (
-            expiration.getTime() -
-            today.getTime()
-          ) /
-          (
-            1000 *
-            60 *
-            60 *
-            24
-          );
+      return days <= 90;
+    }).length;
 
-        return days <= 90;
+    this.lowRawMaterials = rawMaterials.filter(
+      (m) => m.stock <= m.minimumStock,
+    ).length;
 
-      }).length;
+    this.expiringRawMaterials = rawMaterials.filter((material) => {
+      const expiration = new Date(material.expirationDate);
 
-    this.lowRawMaterials =
-      rawMaterials.filter(
-        m => m.stock <= m.minimumStock
-      ).length;
+      const days =
+        (expiration.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
 
-    this.expiringRawMaterials =
-      rawMaterials.filter(
-        material => {
+      return days <= 90;
+    }).length;
 
-          const expiration =
-            new Date(
-              material.expirationDate
-            );
+    this.recentMovements = this.movementService
+      .getMovements()
+      .slice(-5)
+      .reverse();
 
-          const days =
-            (
-              expiration.getTime() -
-              today.getTime()
-            ) /
-            (
-              1000 *
-              60 *
-              60 *
-              24
-            );
+    this.canPrescriptions = this.permissionService.hasAccess('prescriptions');
 
-          return days <= 90;
+    this.canProductions = this.permissionService.hasAccess('productions');
 
-        }
-      ).length;
+    this.canQuality = this.permissionService.hasAccess('quality-control');
 
-    this.recentMovements =
-      this.movementService
-        .getMovements()
-        .slice(-5)
-        .reverse();
+    this.canDeliveries = this.permissionService.hasAccess('delivery');
 
-        this.canPrescriptions =
-    this.permissionService
-    .hasAccess(
-      'prescriptions'
-    );
-
-   this.canProductions =
-    this.permissionService
-     .hasAccess(
-        'productions'
-    );
-
-    this.canQuality =
-     this.permissionService
-     .hasAccess(
-      'quality-control'
-    );
-
-    this.canDeliveries =
-   this.permissionService
-    .hasAccess(
-      'delivery'
-    );
-
-    this.canRawMaterials =
-     this.permissionService
-    .hasAccess(
-      'raw-materials'
-    );
+    this.canRawMaterials = this.permissionService.hasAccess('raw-materials');
   }
 
   goInventory() {
@@ -334,12 +242,8 @@ this.isAdmin =
   }
 
   goProductionConsumption() {
-
-  this.router.navigate(
-    ['/production-consumption']
-  );
-
-}
+    this.router.navigate(['/production-consumption']);
+  }
 
   goQualityControl() {
     this.router.navigate(['/quality-control']);
@@ -350,34 +254,21 @@ this.isAdmin =
   }
 
   goAudit() {
+    this.router.navigate(['/audit']);
+  }
 
-  this.router.navigate(
-    ['/audit']
-  );
+  goBackup() {
+    this.router.navigate(['/backup']);
+  }
+  goUsers() {
+    this.router.navigate(['/users']);
+  }
 
-}  
+  goDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
 
-goBackup() {
-
-  this.router.navigate(
-    ['/backup']
-  );
-
-}
-goUsers() {
-
-  this.router.navigate(
-    ['/users']
-  );
-
-}
-
-goDashboard() {
-
-  this.router.navigate(
-    ['/dashboard']
-  );
-
-}
-
+  goAccessHistory() {
+    this.router.navigate(['/access-history']);
+  }
 }

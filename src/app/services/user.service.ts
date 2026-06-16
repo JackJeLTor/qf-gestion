@@ -1,31 +1,20 @@
 import { Injectable } from '@angular/core';
 
-import { User }
-from '../models/user.model';
+import { User } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   private users: User[] = [];
 
   constructor() {
-
-    const data =
-      localStorage.getItem(
-        'users'
-      );
+    const data = localStorage.getItem('users');
 
     if (data) {
-
-      this.users =
-        JSON.parse(data);
-
+      this.users = JSON.parse(data);
     } else {
-
       this.users = [
-
         {
           id: 1,
 
@@ -33,163 +22,189 @@ export class UserService {
 
           password: '123456',
 
-          fullName:
-            'Administrador General',
+          fullName: 'Administrador General',
 
-          role:
-            'Administrador',
+          role: 'Administrador',
 
-          email:
-            'admin@qfgestion.com',
+          permissions: [
+            'dashboard',
 
-          phone:
-            '999999999',
+            'patients',
 
-          active:
-            true,
+            'doctors',
 
-          createdDate:
-            new Date()
-              .toLocaleString(),
+            'laboratories',
 
-          updatedDate:
-            '',
+            'raw-materials',
 
-          createdBy:
-            'Sistema',
+            'production-consumption',
 
-          updatedBy:
-            '',
+            'prescriptions',
 
-          lastLogin:
-            ''
-        }
+            'productions',
 
+            'quality-control',
+
+            'delivery',
+
+            'audit',
+
+            'backup',
+
+            'users',
+
+            'reports',
+          ],
+
+          email: 'admin@qfgestion.com',
+
+          phone: '999999999',
+
+          active: true,
+
+          createdDate: new Date().toLocaleString(),
+
+          updatedDate: '',
+
+          createdBy: 'Sistema',
+
+          updatedBy: '',
+
+          lastLogin: '',
+
+          passwordChangedDate: new Date().toLocaleString(),
+
+          failedAttempts: 0,
+
+          locked: false,
+
+          photo: '',
+        },
       ];
 
       this.save();
-
     }
-
   }
 
   getUsers(): User[] {
-
     return this.users;
-
   }
 
-  getUserById(
-    id: number
-  ) {
-
-    return this.users.find(
-      u => u.id === id
-    );
-
+  getUserById(id: number) {
+    return this.users.find((u) => u.id === id);
   }
 
-  addUser(
-    user: User
-  ) {
+  getUserByUsername(username: string) {
+    return this.users.find((u) => u.username === username);
+  }
 
-    this.users.push(
-      user
-    );
+  addUser(user: User) {
+    this.users.push(user);
 
     this.save();
-
   }
 
-  updateUser(
-    updatedUser: User
-  ) {
+  updateUser(updatedUser: User) {
+    const index = this.users.findIndex((u) => u.id === updatedUser.id);
 
-    const index =
-      this.users.findIndex(
-        u =>
-          u.id ===
-          updatedUser.id
-      );
-
-    if (
-      index === -1
-    ) {
+    if (index === -1) {
       return;
     }
 
-    this.users[index] =
-      updatedUser;
+    this.users[index] = updatedUser;
 
     this.save();
-
   }
 
-  toggleUserStatus(
-    id: number
-  ) {
-
-    const user =
-      this.users.find(
-        u => u.id === id
-      );
+  changePassword(userId: number, newPassword: string) {
+    const user = this.getUserById(userId);
 
     if (!user) {
       return;
     }
 
-    if (
-      user.username ===
-      'admin'
-    ) {
-      return;
-    }
+    user.password = newPassword;
 
-    user.active =
-      !user.active;
+    user.passwordChangedDate = new Date().toLocaleString();
 
     this.save();
-
   }
 
-  deleteUser(
-    id: number
-  ) {
-
-    const user =
-      this.users.find(
-        u => u.id === id
-      );
+  incrementFailedAttempts(username: string) {
+    const user = this.getUserByUsername(username);
 
     if (!user) {
       return;
     }
 
-    if (
-      user.username ===
-      'admin'
-    ) {
+    user.failedAttempts++;
+
+    if (user.failedAttempts >= 3) {
+      user.locked = true;
+    }
+
+    this.save();
+  }
+
+  resetFailedAttempts(username: string) {
+    const user = this.getUserByUsername(username);
+
+    if (!user) {
       return;
     }
 
-    this.users =
-      this.users.filter(
-        u => u.id !== id
-      );
+    user.failedAttempts = 0;
 
     this.save();
+  }
 
+  unlockUser(userId: number) {
+    const user = this.getUserById(userId);
+
+    if (!user) {
+      return;
+    }
+
+    user.locked = false;
+
+    user.failedAttempts = 0;
+
+    this.save();
+  }
+
+  toggleUserStatus(id: number) {
+    const user = this.users.find((u) => u.id === id);
+
+    if (!user) {
+      return;
+    }
+
+    if (user.username === 'admin') {
+      return;
+    }
+
+    user.active = !user.active;
+
+    this.save();
+  }
+
+  deleteUser(id: number) {
+    const user = this.users.find((u) => u.id === id);
+
+    if (!user) {
+      return;
+    }
+
+    if (user.username === 'admin') {
+      return;
+    }
+
+    this.users = this.users.filter((u) => u.id !== id);
+
+    this.save();
   }
 
   save() {
-
-    localStorage.setItem(
-      'users',
-      JSON.stringify(
-        this.users
-      )
-    );
-
+    localStorage.setItem('users', JSON.stringify(this.users));
   }
-
 }

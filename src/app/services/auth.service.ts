@@ -1,81 +1,132 @@
 import { Injectable } from '@angular/core';
 
-import { UserService }
-from './user.service';
+import { UserService } from './user.service';
+import { AccessLogService } from './access-log.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   constructor(
-    private userService:
-      UserService
+    private userService: UserService,
+
+    private accessLogService: AccessLogService,
   ) {}
 
   login(
-    username: string,
-    password: string
-  ): boolean {
+  username: string,
+  password: string
+): boolean {
 
-    const user =
-      this.userService
-        .getUsers()
-        .find(
-          u =>
-            u.username === username &&
-            u.password === password &&
-            u.active === true
-        );
+  const user =
+    this.userService
+      .getUserByUsername(
+        username
+      );
 
-    if (!user) {
+  if (!user) {
 
-      return false;
+    this.accessLogService
+      .addLog(
+        username,
+        'Usuario inexistente'
+      );
 
-    }
-
-    user.lastLogin =
-      new Date()
-        .toLocaleString();
-
-    localStorage.setItem(
-      'users',
-      JSON.stringify(
-        this.userService.getUsers()
-      )
-    );
-
-    localStorage.setItem(
-      'currentUser',
-      JSON.stringify(user)
-    );
-
-    return true;
+    return false;
 
   }
 
-  logout() {
+  if (
+    user.locked === true
+  ) {
 
-    localStorage.removeItem(
-      'currentUser'
+    this.accessLogService
+      .addLog(
+        username,
+        'Bloqueado'
+      );
+
+    alert(
+      'Usuario bloqueado. Contacte al administrador.'
     );
 
+    return false;
+
+  }
+
+  if (
+    user.password !== password
+  ) {
+
+    this.userService
+      .incrementFailedAttempts(
+        username
+      );
+
+    this.accessLogService
+      .addLog(
+        username,
+        'Contraseña incorrecta'
+      );
+
+    return false;
+
+  }
+
+  if (
+    user.active !== true
+  ) {
+
+    this.accessLogService
+      .addLog(
+        username,
+        'Usuario inactivo'
+      );
+
+    return false;
+
+  }
+
+  this.userService
+    .resetFailedAttempts(
+      username
+    );
+
+  user.lastLogin =
+    new Date()
+      .toLocaleString();
+
+  this.userService
+    .updateUser(
+      user
+    );
+
+  localStorage.setItem(
+    'currentUser',
+    JSON.stringify(
+      user
+    )
+  );
+
+  this.accessLogService
+    .addLog(
+      username,
+      'Exitoso'
+    );
+
+  return true;
+
+}
+
+  logout() {
+    localStorage.removeItem('currentUser');
   }
 
   getCurrentUser() {
-
-    return JSON.parse(
-      localStorage.getItem(
-        'currentUser'
-      ) || 'null'
-    );
-
+    return JSON.parse(localStorage.getItem('currentUser') || 'null');
   }
 
   isLoggedIn(): boolean {
-
     return !!this.getCurrentUser();
-
   }
-
 }

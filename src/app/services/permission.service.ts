@@ -22,46 +22,34 @@ export class PermissionService {
         .getCurrentUser();
 
     if (!user) {
+
       return false;
+
     }
 
-    switch (user.role) {
+    /*
+      Administrador
+      siempre tiene acceso total
+    */
 
-      case 'Administrador':
-        return true;
+    if (
+      user.role ===
+      'Administrador'
+    ) {
 
-      case 'Produccion':
-        return [
-          'productions',
-          'raw-materials',
-          'production-consumption',
-          'production-materials'
-        ].includes(module);
+      return true;
 
-      case 'Calidad':
-        return [
-          'quality-control'
-        ].includes(module);
-
-      case 'Recepcion':
-        return [
-          'delivery'
-        ].includes(module);
-
-      case 'Medico':
-        return [
-          'prescriptions'
-        ].includes(module);
-
-      case 'Consulta':
-        return [
-          'dashboard',
-          'reports'
-        ].includes(module);
-
-      default:
-        return false;
     }
+
+    /*
+      Permisos individuales
+    */
+
+    return (
+      user.permissions || []
+    ).includes(
+      module
+    );
 
   }
 

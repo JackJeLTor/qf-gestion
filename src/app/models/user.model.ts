@@ -1,5 +1,4 @@
 export interface User {
-
   id: number;
 
   username: string;
@@ -9,6 +8,8 @@ export interface User {
   fullName: string;
 
   role: string;
+
+  permissions: string[];
 
   email: string;
 
@@ -26,4 +27,11 @@ export interface User {
 
   lastLogin: string;
 
+  passwordChangedDate: string;
+
+  failedAttempts: number;
+
+  locked: boolean;
+
+  photo?: string;
 }

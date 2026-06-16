@@ -4,9 +4,20 @@
 
   <div class="user-avatar">
 
+  @if(currentUser?.photo){
+
+    <img
+      [src]="currentUser.photo"
+      alt="Foto Usuario"
+      class="avatar-image">
+
+  } @else {
+
     👤
 
-  </div>
+  }
+
+</div>
 
   <h1>
 
@@ -305,6 +316,19 @@
     </ion-col>
 
 }
+
+<button
+  (click)="goAccessHistory()">
+
+  🔐
+
+  <span>
+
+    Accesos
+
+  </span>
+
+</button>
 
   </ion-row>
 

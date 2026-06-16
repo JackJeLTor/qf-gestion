@@ -1,0 +1,77 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Historial de Accesos
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if(logs.length === 0){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        No existen accesos registrados.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+  @for(
+    log of logs;
+    track $index
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>
+
+          {{ log.username }}
+
+        </h2>
+
+        <p>
+
+          Fecha:
+          {{ log.date }}
+
+        </p>
+
+        <p>
+
+          Hora:
+          {{ log.time }}
+
+        </p>
+
+        <p>
+
+          Resultado:
+          <strong>
+
+            {{ log.result }}
+
+          </strong>
+
+        </p>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>
