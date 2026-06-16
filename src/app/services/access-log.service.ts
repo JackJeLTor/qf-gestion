@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 
+import { AccessLog }
+from '../models/access-log.model';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AccessLogService {
 
-  private accessLogs: any[] = [];
+  private logs: AccessLog[] = [];
 
   constructor() {
 
@@ -16,10 +19,16 @@ export class AccessLogService {
 
     if (data) {
 
-      this.accessLogs =
+      this.logs =
         JSON.parse(data);
 
     }
+
+  }
+
+  getLogs(): AccessLog[] {
+
+    return this.logs;
 
   }
 
@@ -28,19 +37,25 @@ export class AccessLogService {
     result: string
   ) {
 
-    this.accessLogs.push({
+    const now =
+      new Date();
+
+    this.logs.push({
+
+      id: Date.now(),
 
       username,
 
       date:
-        new Date()
-          .toLocaleDateString(),
+        now.toLocaleDateString(),
 
       time:
-        new Date()
-          .toLocaleTimeString(),
+        now.toLocaleTimeString(),
 
-      result
+      result,
+
+      ip:
+        'Localhost'
 
     });
 
@@ -48,9 +63,11 @@ export class AccessLogService {
 
   }
 
-  getLogs() {
+  clearLogs() {
 
-    return this.accessLogs;
+    this.logs = [];
+
+    this.save();
 
   }
 
@@ -59,7 +76,7 @@ export class AccessLogService {
     localStorage.setItem(
       'accessLogs',
       JSON.stringify(
-        this.accessLogs
+        this.logs
       )
     );
 

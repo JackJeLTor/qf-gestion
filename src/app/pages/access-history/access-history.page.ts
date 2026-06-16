@@ -6,8 +6,7 @@ import {
   IonToolbar,
   IonTitle,
   IonCard,
-  IonCardContent,
-  IonItem
+  IonCardContent
 } from '@ionic/angular/standalone';
 
 import { AccessLogService }
@@ -19,14 +18,13 @@ from '../../services/access-log.service';
   styleUrls: ['./access-history.page.scss'],
   standalone: true,
   imports: [
-    IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonCard,
-    IonCardContent,
-    IonItem
-  ]
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonCard,
+  IonCardContent
+]
 })
 export class AccessHistoryPage {
 
