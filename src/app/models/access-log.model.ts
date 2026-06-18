@@ -1,5 +1,4 @@
 export interface AccessLog {
-
   id: number;
 
   username: string;
@@ -11,5 +10,4 @@ export interface AccessLog {
   result: string;
 
   ip: string;
-
 }

@@ -2,411 +2,362 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonItem,
-  IonInput,
-  IonTextarea,
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonSelect,
-  IonSelectOption
+IonContent,
+IonHeader,
+IonToolbar,
+IonTitle,
+IonItem,
+IonInput,
+IonTextarea,
+IonButton,
+IonCard,
+IonCardContent,
+IonSelect,
+IonSelectOption,
 } from '@ionic/angular/standalone';
 
-import { PrescriptionService }
-from '../../services/prescription.service';
+import { PrescriptionService } from '../../services/prescription.service';
 
-import { ProductionService }
-from '../../services/production.service';
+import { ProductionService } from '../../services/production.service';
 
-import { PatientService }
-from '../../services/patient.service';
+import { PatientService } from '../../services/patient.service';
 
-import { DoctorService }
-from '../../services/doctor.service';
+import { DoctorService } from '../../services/doctor.service';
+
+import { AuditService } from '../../services/audit.service';
 
 @Component({
-  selector: 'app-prescriptions',
-  templateUrl: './prescriptions.page.html',
-  styleUrls: ['./prescriptions.page.scss'],
-  standalone: true,
-  imports: [
-    FormsModule,
-    IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonItem,
-    IonInput,
-    IonTextarea,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonSelect,
-    IonSelectOption
-  ]
+selector: 'app-prescriptions',
+templateUrl: './prescriptions.page.html',
+styleUrls: ['./prescriptions.page.scss'],
+standalone: true,
+imports: [
+FormsModule,
+IonContent,
+IonHeader,
+IonToolbar,
+IonTitle,
+IonItem,
+IonInput,
+IonTextarea,
+IonButton,
+IonCard,
+IonCardContent,
+IonSelect,
+IonSelectOption,
+],
 })
 export class PrescriptionsPage {
+patientId = 0;
 
-  patientId = 0;
+doctorId = 0;
 
-  doctorId = 0;
+formula = '';
 
-  formula = '';
+pharmaceuticalForm = '';
 
-  pharmaceuticalForm = '';
+specialty = '';
 
-  specialty = '';
+priority = 'Media';
 
-  priority = 'Media';
+responsible = '';
 
-  responsible = '';
+deliveryDate = '';
 
-  deliveryDate = '';
+prescriptions: any[] = [];
 
-  prescriptions: any[] = [];
+patients: any[] = [];
 
-  patients: any[] = [];
+doctors: any[] = [];
 
-  doctors: any[] = [];
+constructor(
+private prescriptionService: PrescriptionService,
 
-  constructor(
-    private prescriptionService:
-      PrescriptionService,
+private productionService: ProductionService,
 
-    private productionService:
-      ProductionService,
+private patientService: PatientService,
 
-    private patientService:
-      PatientService,
+private doctorService: DoctorService,
 
-    private doctorService:
-      DoctorService
-  ) {}
+private auditService: AuditService
+) {}
 
-  ngOnInit() {
+ngOnInit() {
+this.loadPrescriptions();
 
-    this.loadPrescriptions();
+this.patients = this.patientService.getPatients();
 
-    this.patients =
-      this.patientService
-        .getPatients();
+this.doctors = this.doctorService.getDoctors();
 
-    this.doctors =
-      this.doctorService
-        .getDoctors();
+}
 
-  }
+loadPrescriptions() {
+this.prescriptions = this.prescriptionService.getPrescriptions();
+}
 
-  loadPrescriptions() {
+onDoctorChange() {
+const doctor = this.doctors.find(
+(d) => d.id === this.doctorId
+);
 
-    this.prescriptions =
-      this.prescriptionService
-        .getPrescriptions();
+if (doctor) {
+  this.specialty = doctor.specialty;
+}
 
-  }
+}
 
-  onDoctorChange() {
+createPrescription() {
+const patient =
+this.patientService.getPatientById(
+this.patientId
+);
 
-    const doctor =
-      this.doctors.find(
-        d => d.id === this.doctorId
-      );
+const doctor =
+  this.doctorService.getDoctorById(
+    this.doctorId
+  );
 
-    if (doctor) {
+if (!patient) {
+  alert('Seleccione un paciente');
+  return;
+}
 
-      this.specialty =
-        doctor.specialty;
+if (!doctor) {
+  alert('Seleccione un médico');
+  return;
+}
 
-    }
+if (!this.pharmaceuticalForm) {
+  alert(
+    'Seleccione la forma farmacéutica'
+  );
+  return;
+}
 
-  }
+if (
+  this.responsible.trim().length < 3
+) {
+  alert(
+    'Ingrese un responsable válido'
+  );
+  return;
+}
 
-  createPrescription() {
+if (
+  this.formula.trim().length < 10
+) {
+  alert(
+    'La fórmula debe tener al menos 10 caracteres'
+  );
+  return;
+}
 
-    const patient =
-      this.patientService
-        .getPatientById(
-          this.patientId
-        );
+const today =
+  new Date()
+    .toISOString()
+    .split('T')[0];
 
-    const doctor =
-      this.doctorService
-        .getDoctorById(
-          this.doctorId
-        );
+if (
+  this.deliveryDate < today
+) {
+  alert(
+    'La fecha de entrega no puede ser anterior a hoy'
+  );
+  return;
+}
 
-    if (!patient) {
+this.prescriptionService.addPrescription({
 
-      alert(
-        'Seleccione un paciente'
-      );
+  id: Date.now(),
 
-      return;
+  patientId: patient.id,
 
-    }
+  patientName:
+    patient.firstName +
+    ' ' +
+    patient.lastName,
 
-    if (!doctor) {
+  doctorId: doctor.id,
 
-      alert(
-        'Seleccione un médico'
-      );
+  doctorName: doctor.name,
 
-      return;
+  formula: this.formula,
 
-    }
+  pharmaceuticalForm:
+    this.pharmaceuticalForm,
 
-    if (
-      !this.pharmaceuticalForm
-    ) {
+  specialty: this.specialty,
 
-      alert(
-        'Seleccione la forma farmacéutica'
-      );
+  priority: this.priority,
 
-      return;
+  responsible: this.responsible,
 
-    }
+  deliveryDate: this.deliveryDate,
 
-    if (
-      this.responsible
-        .trim()
-        .length < 3
-    ) {
+  status: 'Pendiente',
 
-      alert(
-        'Ingrese un responsable válido'
-      );
+  date:
+    new Date()
+      .toLocaleDateString(),
 
-      return;
+});
 
-    }
+this.auditService.addLog(
+  'Recetas',
+  'Crear',
+  this.responsible,
+  `Receta creada para ${patient.firstName} ${patient.lastName}`
+);
 
-    if (
-      this.formula
-        .trim()
-        .length < 10
-    ) {
+this.loadPrescriptions();
 
-      alert(
-        'La fórmula debe tener al menos 10 caracteres'
-      );
+this.patientId = 0;
 
-      return;
+this.doctorId = 0;
 
-    }
+this.formula = '';
 
-    const today =
-      new Date()
-        .toISOString()
-        .split('T')[0];
+this.pharmaceuticalForm = '';
 
-    if (
-      this.deliveryDate < today
-    ) {
+this.specialty = '';
 
-      alert(
-        'La fecha de entrega no puede ser anterior a hoy'
-      );
+this.priority = 'Media';
 
-      return;
+this.responsible = '';
 
-    }
+this.deliveryDate = '';
+
+}
+
+nextStatus(
+prescription: any
+) {
+
+switch (
+  prescription.status
+) {
+
+  case 'Pendiente':
 
     this.prescriptionService
-      .addPrescription({
+      .updateStatus(
+        prescription.id,
+        'Validada'
+      );
+
+    this.productionService
+      .addProduction({
 
         id: Date.now(),
 
-        patientId:
-          patient.id,
+        prescriptionId:
+          prescription.id,
 
         patientName:
-          patient.firstName +
-          ' ' +
-          patient.lastName,
-
-        doctorId:
-          doctor.id,
-
-        doctorName:
-          doctor.name,
+          prescription.patientName,
 
         formula:
-          this.formula,
-
-        pharmaceuticalForm:
-          this.pharmaceuticalForm,
-
-        specialty:
-          this.specialty,
-
-        priority:
-          this.priority,
+          prescription.formula,
 
         responsible:
-          this.responsible,
+          prescription.responsible,
 
-        deliveryDate:
-          this.deliveryDate,
-
-        status:
-          'Pendiente',
-
-        date:
+        startDate:
           new Date()
-            .toLocaleDateString()
+            .toLocaleDateString(),
+
+        endDate: '',
+
+        qualityResult: '',
+
+        observations: '',
+
+        status: 'Pendiente',
+
+        batchNumber:
+          'LOT-' +
+          Date.now(),
+
+        quantity: 1,
+
+        productionDate:
+          new Date()
+            .toLocaleDateString(),
+
+        pharmaceuticalForm:
+          prescription.pharmaceuticalForm,
+
+        specialty:
+          prescription.specialty,
+
+        priority:
+          prescription.priority,
+
+        rawMaterialsUsed: [],
+
+        qualityDate: '',
+
+        qualityResponsible: '',
+
+        qualityStatus: 'Pendiente',
+
+        history: [
+          'Producción creada desde receta validada'
+        ]
 
       });
 
-    this.loadPrescriptions();
+    this.auditService.addLog(
+      'Recetas',
+      'Validar',
+      prescription.responsible,
+      `Receta validada para ${prescription.patientName}`
+    );
 
-    this.patientId = 0;
+    break;
 
-    this.doctorId = 0;
+  case 'Validada':
 
-    this.formula = '';
+    this.prescriptionService
+      .updateStatus(
+        prescription.id,
+        'En Preparación'
+      );
 
-    this.pharmaceuticalForm = '';
+    break;
 
-    this.specialty = '';
+  case 'En Preparación':
 
-    this.priority = 'Media';
+    this.prescriptionService
+      .updateStatus(
+        prescription.id,
+        'Control de Calidad'
+      );
 
-    this.responsible = '';
+    break;
 
-    this.deliveryDate = '';
+  case 'Control de Calidad':
 
-  }
+    this.prescriptionService
+      .updateStatus(
+        prescription.id,
+        'Lista para Entrega'
+      );
 
-  nextStatus(
-    prescription: any
-  ) {
+    break;
 
-    switch (
-      prescription.status
-    ) {
+  case 'Lista para Entrega':
 
-      case 'Pendiente':
+    this.prescriptionService
+      .updateStatus(
+        prescription.id,
+        'Entregada'
+      );
 
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'Validada'
-          );
+    break;
+}
 
-        this.productionService
-          .addProduction({
+this.loadPrescriptions();
 
-            id: Date.now(),
-
-            prescriptionId:
-              prescription.id,
-
-            patientName:
-              prescription.patientName,
-
-            formula:
-              prescription.formula,
-
-            responsible:
-              prescription.responsible,
-
-            startDate:
-              new Date()
-                .toLocaleDateString(),
-
-            endDate: '',
-
-            qualityResult: '',
-
-            observations: '',
-
-            status:
-              'Pendiente',
-
-            batchNumber:
-              'LOT-' + Date.now(),
-
-            quantity: 1,
-
-            productionDate:
-              new Date()
-                .toLocaleDateString(),
-
-            pharmaceuticalForm:
-              prescription.pharmaceuticalForm,
-
-            specialty:
-              prescription.specialty,
-
-            priority:
-              prescription.priority,
-
-            rawMaterialsUsed: [],
-
-            qualityDate: '',
-
-            qualityResponsible: '',
-
-            qualityStatus:
-              'Pendiente',
-
-            history: [
-              'Producción creada desde receta validada'
-            ]
-
-          });
-
-        break;
-
-      case 'Validada':
-
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'En Preparación'
-          );
-
-        break;
-
-      case 'En Preparación':
-
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'Control de Calidad'
-          );
-
-        break;
-
-      case 'Control de Calidad':
-
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'Lista para Entrega'
-          );
-
-        break;
-
-      case 'Lista para Entrega':
-
-        this.prescriptionService
-          .updateStatus(
-            prescription.id,
-            'Entregada'
-          );
-
-        break;
-
-    }
-
-    this.loadPrescriptions();
-
-  }
-
+}
 }

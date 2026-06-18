@@ -12,24 +12,19 @@ import {
   IonCard,
   IonCardContent,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 
-import { RawMaterialService }
-from '../../services/raw-material.service';
+import { RawMaterialService } from '../../services/raw-material.service';
 
-import { ProductionService }
-from '../../services/production.service';
+import { ProductionService } from '../../services/production.service';
 
-import { ProductionConsumptionService }
-from '../../services/production-consumption.service';
+import { ProductionConsumptionService } from '../../services/production-consumption.service';
 
 @Component({
   selector: 'app-production-consumption',
-  templateUrl:
-    './production-consumption.page.html',
-  styleUrls:
-    ['./production-consumption.page.scss'],
+  templateUrl: './production-consumption.page.html',
+  styleUrls: ['./production-consumption.page.scss'],
   standalone: true,
   imports: [
     FormsModule,
@@ -43,11 +38,10 @@ from '../../services/production-consumption.service';
     IonCard,
     IonCardContent,
     IonSelect,
-    IonSelectOption
-  ]
+    IonSelectOption,
+  ],
 })
 export class ProductionConsumptionPage {
-
   productionId = 0;
 
   rawMaterialId = 0;
@@ -63,140 +57,78 @@ export class ProductionConsumptionPage {
   consumptions: any[] = [];
 
   constructor(
-    private rawMaterialService:
-      RawMaterialService,
+    private rawMaterialService: RawMaterialService,
 
-    private productionService:
-      ProductionService,
+    private productionService: ProductionService,
 
-    private consumptionService:
-      ProductionConsumptionService
+    private consumptionService: ProductionConsumptionService,
   ) {}
 
   ngOnInit() {
+    this.productions = this.productionService.getProductions();
 
-    this.productions =
-      this.productionService
-        .getProductions();
+    this.rawMaterials = this.rawMaterialService.getRawMaterials();
 
-    this.rawMaterials =
-      this.rawMaterialService
-        .getRawMaterials();
-
-    this.consumptions =
-      this.consumptionService
-        .getConsumptions();
-
+    this.consumptions = this.consumptionService.getConsumptions();
   }
 
   registerConsumption() {
+    const production = this.productions.find((p) => p.id == this.productionId);
 
-    const production =
-      this.productions.find(
-        p => p.id == this.productionId
-      );
+    const material = this.rawMaterials.find((m) => m.id == this.rawMaterialId);
 
-    const material =
-      this.rawMaterials.find(
-        m => m.id == this.rawMaterialId
-      );
-
-    if (
-      !production ||
-      !material ||
-      this.quantity <= 0 ||
-      !this.consumedBy
-    ) {
-
-      alert(
-        'Complete todos los campos'
-      );
+    if (!production || !material || this.quantity <= 0 || !this.consumedBy) {
+      alert('Complete todos los campos');
 
       return;
-
     }
 
-    this.rawMaterialService
-      .consumeStock(
-        material.id,
-        this.quantity
-      );
+    this.rawMaterialService.consumeStock(material.id, this.quantity);
 
-    this.consumptionService
-      .addConsumption({
+    this.consumptionService.addConsumption({
+      id: Date.now(),
 
-        id: Date.now(),
+      productionId: production.id,
 
-        productionId:
-          production.id,
+      productionPatient: production.patientName,
 
-        productionPatient:
-          production.patientName,
+      batchNumber: production.batchNumber,
 
-        batchNumber:
-          production.batchNumber,
+      rawMaterialId: material.id,
 
-        rawMaterialId:
-          material.id,
+      rawMaterialName: material.name,
 
-        rawMaterialName:
-          material.name,
+      lotNumber: material.lotNumber,
 
-        lotNumber:
-          material.lotNumber,
+      quantity: this.quantity,
 
-        quantity:
-          this.quantity,
+      unit: material.unit,
 
-        unit:
-          material.unit,
+      consumedBy: this.consumedBy,
 
-        consumedBy:
-          this.consumedBy,
+      date: new Date().toLocaleString(),
+    });
 
-        date:
-          new Date()
-            .toLocaleString()
+    this.productionService.addRawMaterial(this.productionId, {
+      materialName: material.name,
 
-      });
+      quantity: this.quantity,
 
-    this.productionService
-      .addRawMaterial(
-        this.productionId,
-        {
-          materialName:
-            material.name,
+      unit: material.unit,
 
-          quantity:
-            this.quantity,
+      lotNumber: material.lotNumber,
 
-          unit:
-            material.unit,
+      consumedDate: new Date().toLocaleString(),
 
-          lotNumber:
-            material.lotNumber,
+      consumedBy: this.consumedBy,
+    });
 
-          consumedDate:
-            new Date()
-              .toLocaleString(),
-
-          consumedBy:
-            this.consumedBy
-        }
-      );
-
-    this.consumptions =
-      this.consumptionService
-        .getConsumptions();
+    this.consumptions = this.consumptionService.getConsumptions();
 
     this.quantity = 0;
 
     this.consumedBy = '';
 
-    alert(
-      'Consumo registrado correctamente'
-    );
-
+    alert('Consumo registrado correctamente');
   }
-
 }

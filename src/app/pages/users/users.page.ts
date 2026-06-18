@@ -17,9 +17,8 @@ import {
 } from '@ionic/angular/standalone';
 
 import { UserService } from '../../services/user.service';
-import { AuditService } from '../../services/audit.service';
 
-import { AuthService } from '../../services/auth.service';
+import { AuditService } from '../../services/audit.service';
 
 @Component({
   selector: 'app-users',
@@ -82,8 +81,8 @@ export class UsersPage {
 
   constructor(
     private userService: UserService,
+
     private auditService: AuditService,
-    private authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -128,13 +127,11 @@ export class UsersPage {
 
       this.userService.updateUser(user);
 
-      const currentUser = this.authService.getCurrentUser();
-
       this.auditService.addLog(
         'Usuarios',
         'Editar',
-        currentUser?.username || 'Sistema',
-        `Usuario editado: ${user.username}`,
+        'Administrador',
+        `Usuario ${user.username} modificado`,
       );
     } else {
       this.userService.addUser({
@@ -173,13 +170,11 @@ export class UsersPage {
         locked: false,
       });
 
-      const currentUser = this.authService.getCurrentUser();
-
       this.auditService.addLog(
         'Usuarios',
         'Crear',
-        currentUser?.username || 'Sistema',
-        `Usuario creado: ${this.username}`,
+        'Administrador',
+        `Usuario ${this.username} creado`,
       );
     }
 
@@ -229,15 +224,15 @@ export class UsersPage {
   }
 
   toggleStatus(user: any) {
-    this.userService.toggleUserStatus(user.id);
+    const action = user.active ? 'Desactivar' : 'Activar';
 
-    const currentUser = this.authService.getCurrentUser();
+    this.userService.toggleUserStatus(user.id);
 
     this.auditService.addLog(
       'Usuarios',
-      'Estado',
-      currentUser?.username || 'Sistema',
-      `Cambio de estado usuario: ${user.username}`,
+      action,
+      'Administrador',
+      `Estado cambiado para ${user.username}`,
     );
 
     this.loadUsers();
@@ -246,13 +241,11 @@ export class UsersPage {
   unlockUser(user: any) {
     this.userService.unlockUser(user.id);
 
-    const currentUser = this.authService.getCurrentUser();
-
     this.auditService.addLog(
       'Usuarios',
       'Desbloquear',
-      currentUser?.username || 'Sistema',
-      `Cuenta desbloqueada: ${user.username}`,
+      'Administrador',
+      `Usuario ${user.username} desbloqueado`,
     );
 
     this.loadUsers();
@@ -263,15 +256,12 @@ export class UsersPage {
       return;
     }
 
-const currentUser =
-  this.authService.getCurrentUser();
-
-this.auditService.addLog(
-  'Usuarios',
-  'Eliminar',
-  currentUser?.username || 'Sistema',
-  `Usuario eliminado: ${user.username}`
-);    
+    this.auditService.addLog(
+      'Usuarios',
+      'Eliminar',
+      'Administrador',
+      `Usuario ${user.username} eliminado`,
+    );
 
     this.userService.deleteUser(user.id);
 

@@ -16,6 +16,9 @@ import {
 import { RawMaterialService }
 from '../../services/raw-material.service';
 
+import { AuditService }
+from '../../services/audit.service';
+
 @Component({
   selector: 'app-raw-materials',
   templateUrl: './raw-materials.page.html',
@@ -56,7 +59,10 @@ export class RawMaterialsPage {
 
   constructor(
     private rawMaterialService:
-      RawMaterialService
+      RawMaterialService,
+
+    private auditService:
+      AuditService
   ) {}
 
   ngOnInit() {
@@ -130,43 +136,55 @@ export class RawMaterialsPage {
 
     }
 
+    const material = {
+
+      id: Date.now(),
+
+      code:
+        'MP-' +
+        Date.now(),
+
+      name:
+        this.name,
+
+      category:
+        this.category,
+
+      laboratoryName:
+        this.laboratoryName,
+
+      lotNumber:
+        this.lotNumber,
+
+      stock:
+        this.stock,
+
+      unit:
+        this.unit,
+
+      expirationDate:
+        this.expirationDate,
+
+      status:
+        this.calculateStatus(),
+
+      minimumStock:
+        this.minimumStock
+
+    };
+
     this.rawMaterialService
-      .addRawMaterial({
+      .addRawMaterial(
+        material
+      );
 
-        id: Date.now(),
-
-        code:
-          'MP-' +
-          Date.now(),
-
-        name:
-          this.name,
-
-        category:
-          this.category,
-
-        laboratoryName:
-          this.laboratoryName,
-
-        lotNumber:
-          this.lotNumber,
-
-        stock:
-          this.stock,
-
-        unit:
-          this.unit,
-
-        expirationDate:
-          this.expirationDate,
-
-        status:
-          this.calculateStatus(),
-
-        minimumStock:
-          this.minimumStock
-
-      });
+    this.auditService
+      .addLog(
+        'Materias Primas',
+        'Crear',
+        'Administrador',
+        `Materia prima ${material.name} registrada`
+      );
 
     this.loadRawMaterials();
 
@@ -185,8 +203,27 @@ export class RawMaterialsPage {
     id: number
   ) {
 
+    const material =
+      this.rawMaterials.find(
+        m => m.id === id
+      );
+
+    if (material) {
+
+      this.auditService
+        .addLog(
+          'Materias Primas',
+          'Eliminar',
+          'Administrador',
+          `Materia prima ${material.name} eliminada`
+        );
+
+    }
+
     this.rawMaterialService
-      .deleteRawMaterial(id);
+      .deleteRawMaterial(
+        id
+      );
 
     this.loadRawMaterials();
 

@@ -1,5 +1,4 @@
 export interface ProductionMaterial {
-
   materialName: string;
 
   quantity: number;
@@ -11,11 +10,9 @@ export interface ProductionMaterial {
   consumedDate: string;
 
   consumedBy: string;
-
 }
 
 export interface Production {
-
   id: number;
 
   prescriptionId: number;
@@ -57,5 +54,4 @@ export interface Production {
   rawMaterialsUsed: ProductionMaterial[];
 
   history: string[];
-
 }

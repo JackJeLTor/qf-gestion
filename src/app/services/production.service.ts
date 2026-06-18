@@ -5,14 +5,21 @@ import {
   ProductionMaterial
 } from '../models/production.model';
 
+import { AuditService }
+from './audit.service';
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductionService {
 
-  private productions: Production[] = [];
+  private productions:
+    Production[] = [];
 
-  constructor() {
+  constructor(
+    private auditService:
+      AuditService
+  ) {
 
     const data =
       localStorage.getItem(
@@ -42,40 +49,56 @@ export class ProductionService {
       production
     );
 
+    this.auditService.addLog(
+      'Producción',
+      'Crear',
+      production.responsible,
+      `Producción creada para ${production.patientName}`
+    );
+
     this.save();
 
   }
 
   updateStatus(
-  id: number,
-  status: string
-) {
+    id: number,
+    status: string
+  ) {
 
-  const production =
-    this.productions.find(
-      p => p.id === id
+    const production =
+      this.productions.find(
+        p => p.id === id
+      );
+
+    if (!production) {
+      return;
+    }
+
+    production.status =
+      status;
+
+    if (
+      !production.history
+    ) {
+
+      production.history = [];
+
+    }
+
+    production.history.push(
+      `${new Date().toLocaleString()} - Estado actualizado a ${status}`
     );
 
-  if (!production) {
-    return;
-  }
+    this.auditService.addLog(
+      'Producción',
+      'Cambio Estado',
+      production.responsible,
+      `Producción ${production.batchNumber} cambió a ${status}`
+    );
 
-  production.status =
-    status;
-
-  if (!production.history) {
-
-    production.history = [];
+    this.save();
 
   }
-
-  production.history.push(
-    `${new Date().toLocaleString()} - Estado actualizado a ${status}`
-  );
-
-  this.save();
-
-}
 
   updateQuality(
     id: number,
@@ -88,21 +111,28 @@ export class ProductionService {
         p => p.id === id
       );
 
-    if (production) {
-
-      production.qualityResult =
-        qualityResult;
-
-      production.observations =
-        observations;
-
-      production.endDate =
-        new Date()
-          .toLocaleDateString();
-
-      this.save();
-
+    if (!production) {
+      return;
     }
+
+    production.qualityResult =
+      qualityResult;
+
+    production.observations =
+      observations;
+
+    production.endDate =
+      new Date()
+        .toLocaleDateString();
+
+    this.auditService.addLog(
+      'Producción',
+      'Control Calidad',
+      production.responsible,
+      `Resultado: ${qualityResult}`
+    );
+
+    this.save();
 
   }
 
@@ -116,35 +146,42 @@ export class ProductionService {
         p => p.id === productionId
       );
 
-    if (production) {
+    if (!production) {
+      return;
+    }
 
-      if (
-        !production.rawMaterialsUsed
-      ) {
+    if (
+      !production.rawMaterialsUsed
+    ) {
 
-        production.rawMaterialsUsed = [];
-
-      }
-
-      production.rawMaterialsUsed.push(
-        material
-      );
-
-      if (
-        !production.history
-      ) {
-
-        production.history = [];
-
-      }
-
-      production.history.push(
-        `${new Date().toLocaleDateString()} - ${material.materialName} (${material.quantity} ${material.unit}) lote ${material.lotNumber}`
-      );
-
-      this.save();
+      production.rawMaterialsUsed = [];
 
     }
+
+    production.rawMaterialsUsed.push(
+      material
+    );
+
+    if (
+      !production.history
+    ) {
+
+      production.history = [];
+
+    }
+
+    production.history.push(
+      `${new Date().toLocaleDateString()} - ${material.materialName} (${material.quantity} ${material.unit}) lote ${material.lotNumber}`
+    );
+
+    this.auditService.addLog(
+      'Producción',
+      'Consumo Materia Prima',
+      material.consumedBy,
+      `${material.materialName} lote ${material.lotNumber}`
+    );
+
+    this.save();
 
   }
 

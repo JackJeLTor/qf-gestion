@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 import { UserService }
 from './user.service';
 
-import { AuditService }
-from './audit.service';
-
 import { AccessLogService }
 from './access-log.service';
 
@@ -17,9 +14,6 @@ export class AuthService {
   constructor(
     private userService:
       UserService,
-
-    private auditService:
-      AuditService,
 
     private accessLogService:
       AccessLogService
@@ -58,14 +52,6 @@ export class AuthService {
           'Bloqueado'
         );
 
-      this.auditService
-        .addLog(
-          'Seguridad',
-          'Login Bloqueado',
-          username,
-          'Usuario bloqueado'
-        );
-
       alert(
         'Usuario bloqueado. Contacte al administrador.'
       );
@@ -85,14 +71,6 @@ export class AuthService {
 
       this.accessLogService
         .addLog(
-          username,
-          'Contraseña incorrecta'
-        );
-
-      this.auditService
-        .addLog(
-          'Seguridad',
-          'Login Fallido',
           username,
           'Contraseña incorrecta'
         );
@@ -138,16 +116,8 @@ export class AuthService {
 
     this.accessLogService
       .addLog(
-        user.username,
+        username,
         'Exitoso'
-      );
-
-    this.auditService
-      .addLog(
-        'Seguridad',
-        'Login',
-        user.username,
-        'Inicio de sesión exitoso'
       );
 
     return true;
@@ -156,17 +126,15 @@ export class AuthService {
 
   logout() {
 
-    const currentUser =
+    const user =
       this.getCurrentUser();
 
-    if (currentUser) {
+    if (user) {
 
-      this.auditService
+      this.accessLogService
         .addLog(
-          'Seguridad',
-          'Logout',
-          currentUser.username,
-          'Cierre de sesión'
+          user.username,
+          'Logout'
         );
 
     }

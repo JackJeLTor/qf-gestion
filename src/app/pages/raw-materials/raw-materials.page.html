@@ -1,200 +1,116 @@
 <ion-header>
-
   <ion-toolbar>
-
-    <ion-title>
-
-      Materias Primas
-
-    </ion-title>
-
+    <ion-title> Materias Primas </ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="ion-padding">
-
   <ion-item>
-
-    <ion-input
-      label="Nombre"
-      labelPlacement="floating"
-      [(ngModel)]="name">
+    <ion-input label="Nombre" labelPlacement="floating" [(ngModel)]="name">
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
       label="Categoría"
       labelPlacement="floating"
-      [(ngModel)]="category">
+      [(ngModel)]="category"
+    >
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
       label="Laboratorio"
       labelPlacement="floating"
-      [(ngModel)]="laboratoryName">
+      [(ngModel)]="laboratoryName"
+    >
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
       label="Número de Lote"
       labelPlacement="floating"
-      [(ngModel)]="lotNumber">
+      [(ngModel)]="lotNumber"
+    >
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
       type="number"
       label="Stock"
       labelPlacement="floating"
-      [(ngModel)]="stock">
+      [(ngModel)]="stock"
+    >
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
-    <ion-input
-      label="Unidad"
-      labelPlacement="floating"
-      [(ngModel)]="unit">
+    <ion-input label="Unidad" labelPlacement="floating" [(ngModel)]="unit">
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
       type="number"
       label="Stock Mínimo"
       labelPlacement="floating"
-      [(ngModel)]="minimumStock">
+      [(ngModel)]="minimumStock"
+    >
     </ion-input>
-
   </ion-item>
 
   <ion-item>
-
     <ion-input
       type="date"
       label="Fecha Vencimiento"
       labelPlacement="floating"
-      [(ngModel)]="expirationDate">
+      [(ngModel)]="expirationDate"
+    >
     </ion-input>
-
   </ion-item>
 
-  <ion-button
-    expand="block"
-    (click)="addRawMaterial()">
-
+  <ion-button expand="block" (click)="addRawMaterial()">
     Registrar Materia Prima
-
   </ion-button>
 
-  @for(
-    material of rawMaterials;
-    track material.id
-  ){
+  @for( material of rawMaterials; track material.id ){
 
-    <ion-card>
+  <ion-card>
+    <ion-card-content>
+      <h2>{{ material.name }}</h2>
 
-      <ion-card-content>
+      <p>Código: {{ material.code }}</p>
 
-        <h2>
+      <p>Categoría: {{ material.category }}</p>
 
-          {{ material.name }}
+      <p>Laboratorio: {{ material.laboratoryName }}</p>
 
-        </h2>
+      <p>Lote: {{ material.lotNumber }}</p>
 
-        <p>
+      <p>Stock: {{ material.stock }} {{ material.unit }}</p>
 
-          Código:
-          {{ material.code }}
+      <p>Stock mínimo: {{ material.minimumStock }}</p>
 
-        </p>
+      <p>Vence: {{ material.expirationDate }}</p>
 
-        <p>
+      <p>
+        Estado:
 
-          Categoría:
-          {{ material.category }}
+        <strong> {{ material.status }} </strong>
+      </p>
+    </ion-card-content>
 
-        </p>
-
-        <p>
-
-          Laboratorio:
-          {{ material.laboratoryName }}
-
-        </p>
-
-        <p>
-
-          Lote:
-          {{ material.lotNumber }}
-
-        </p>
-
-        <p>
-
-          Stock:
-          {{ material.stock }}
-          {{ material.unit }}
-
-        </p>
-
-        <p>
-
-          Stock mínimo:
-          {{ material.minimumStock }}
-
-        </p>
-
-        <p>
-
-          Vence:
-          {{ material.expirationDate }}
-
-        </p>
-
-        <p>
-
-          Estado:
-
-          <strong>
-
-            {{ material.status }}
-
-          </strong>
-
-        </p>
-
-      </ion-card-content>
-
-      <ion-button
-        color="danger"
-        expand="block"
-        (click)="deleteRawMaterial(material.id)">
-
-        Eliminar
-
-      </ion-button>
-
-    </ion-card>
+    <ion-button
+      color="danger"
+      expand="block"
+      (click)="deleteRawMaterial(material.id)"
+    >
+      Eliminar
+    </ion-button>
+  </ion-card>
 
   }
-
 </ion-content>

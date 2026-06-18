@@ -11,14 +11,12 @@ import {
   IonButton,
   IonTextarea,
   IonItem,
-  IonInput
+  IonInput,
 } from '@ionic/angular/standalone';
 
-import { ProductionService }
-from '../../services/production.service';
+import { ProductionService } from '../../services/production.service';
 
-import { QualityControlService }
-from '../../services/quality-control.service';
+import { QualityControlService } from '../../services/quality-control.service';
 
 @Component({
   selector: 'app-quality-control',
@@ -36,11 +34,10 @@ from '../../services/quality-control.service';
     IonButton,
     IonTextarea,
     IonItem,
-    IonInput
-  ]
+    IonInput,
+  ],
 })
 export class QualityControlPage {
-
   productions: any[] = [];
 
   observation = '';
@@ -48,112 +45,67 @@ export class QualityControlPage {
   responsible = '';
 
   constructor(
-    private productionService:
-      ProductionService,
+    private productionService: ProductionService,
 
-    private qualityService:
-      QualityControlService
+    private qualityService: QualityControlService
   ) {}
 
   ngOnInit() {
-
     this.loadProductions();
-
   }
 
   ionViewWillEnter() {
-
     this.loadProductions();
-
   }
 
   loadProductions() {
-
-    this.productions =
-      this.productionService
-        .getProductions()
-        .filter(
-          p =>
-            p.status ===
-            'Control Calidad'
-        );
-
+    this.productions = this.productionService
+      .getProductions()
+      .filter((p) => p.status === 'Control Calidad');
   }
 
-  approve(
-    id: number
-  ) {
-
-    if (
-      !this.responsible ||
-      this.responsible.trim().length < 3
-    ) {
-
-      alert(
-        'Ingrese un responsable válido'
-      );
+  approve(id: number) {
+    if (!this.responsible || this.responsible.trim().length < 3) {
+      alert('Ingrese un responsable válido');
 
       return;
-
     }
 
-    this.qualityService
-      .approveProduction(
-        id,
-        this.responsible.trim()
-      );
+    this.qualityService.approveProduction(
+      id,
+      this.responsible.trim()
+    );
 
     this.responsible = '';
 
     this.observation = '';
 
     this.loadProductions();
-
   }
 
-  observe(
-    id: number
-  ) {
-
-    if (
-      !this.responsible ||
-      this.responsible.trim().length < 3
-    ) {
-
-      alert(
-        'Ingrese un responsable válido'
-      );
+  observe(id: number) {
+    if (!this.responsible || this.responsible.trim().length < 3) {
+      alert('Ingrese un responsable válido');
 
       return;
-
     }
 
-    if (
-      !this.observation ||
-      this.observation.trim().length < 10
-    ) {
-
-      alert(
-        'La observación debe tener mínimo 10 caracteres'
-      );
+    if (!this.observation || this.observation.trim().length < 10) {
+      alert('La observación debe tener mínimo 10 caracteres');
 
       return;
-
     }
 
-    this.qualityService
-      .observeProduction(
-        id,
-        this.observation.trim(),
-        this.responsible.trim()
-      );
+    this.qualityService.observeProduction(
+      id,
+      this.observation.trim(),
+      this.responsible.trim()
+    );
 
     this.observation = '';
 
     this.responsible = '';
 
     this.loadProductions();
-
   }
-
 }
