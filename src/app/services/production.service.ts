@@ -139,7 +139,7 @@ export class ProductionService {
   addRawMaterial(
     productionId: number,
     material: ProductionMaterial
-  ) {
+   ) {
 
     const production =
       this.productions.find(
@@ -184,6 +184,34 @@ export class ProductionService {
     this.save();
 
   }
+
+  addHistory(
+  productionId: number,
+  event: string
+  ) {
+
+  const production =
+    this.productions.find(
+      p => p.id === productionId
+    );
+
+  if (!production) {
+    return;
+  }
+
+  if (!production.history) {
+
+    production.history = [];
+
+  }
+
+  production.history.push(
+    `${new Date().toLocaleString()} - ${event}`
+  );
+
+  this.save();
+
+}
 
   private save() {
 

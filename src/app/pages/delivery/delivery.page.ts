@@ -221,6 +221,32 @@ export class DeliveriesPage {
 
     }
 
+    this.productionService.addHistory(
+      delivery.productionId,
+      'Entrega realizada'
+    );
+
+    this.productionService.addHistory(
+      delivery.productionId,
+      `Entregado por ${this.deliveredBy}`
+    );
+
+    this.productionService.addHistory(
+      delivery.productionId,
+      `Recibido por ${this.receivedBy}`
+    );
+
+    if (
+      this.observation
+    ) {
+
+      this.productionService.addHistory(
+        delivery.productionId,
+        `Observación: ${this.observation}`
+      );
+
+    }
+
     this.deliveryService
       .updateStatus(
         delivery.id,
@@ -254,7 +280,9 @@ export class DeliveriesPage {
     }
 
     this.deliveredBy = '';
+
     this.receivedBy = '';
+
     this.observation = '';
 
     this.loadDeliveries();

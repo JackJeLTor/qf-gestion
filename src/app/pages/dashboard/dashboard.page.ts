@@ -9,6 +9,7 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonMenuButton,
 } from '@ionic/angular/standalone';
 
 import { ProductService } from '../../services/product.service';
@@ -27,7 +28,15 @@ import { DeliveryService } from '../../services/delivery.service';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [IonContent, IonCard, IonCardContent, IonGrid, IonRow, IonCol],
+  imports: [
+  IonContent,
+  IonCard,
+  IonCardContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonMenuButton,
+],
 })
 export class DashboardPage {
   canPrescriptions = false;

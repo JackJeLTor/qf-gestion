@@ -1,106 +1,146 @@
 <ion-content>
 
-  <div class="dashboard-header">
+  <!-- HEADER -->
 
-  <div class="user-avatar">
+<div class="dashboard-header">
 
-  @if(currentUser?.photo){
+  <div class="header-top">
 
-    <img
-      [src]="currentUser.photo"
-      alt="Foto Usuario"
-      class="avatar-image">
+    <ion-menu-button
+  menu="mainMenu"
+  class="menu-button">
+</ion-menu-button>
 
-  } @else {
+    <div class="header-title">
 
-    👤
-
-  }
-
-</div>
-
-  <h1>
-
-    QF Gestión App
-
-  </h1>
-
-  <p>
-
-    Sistema Integral de Gestión Farmacéutica Magistral
-
-  </p>
-
-  @if(currentUser){
-
-    <div class="welcome-box">
-
-      <strong>
-
-        {{ currentUser.fullName }}
-
-      </strong>
-
-      <br>
-
-      Usuario:
-      {{ currentUser.username }}
-
-      <br>
-
-      Rol:
-      {{ currentUser.role }}
+      QF Gestión App
 
     </div>
 
-  }
+  </div>
+  
+    <div class="user-avatar">
 
-</div>
+      @if(currentUser?.photo){
 
-   <!-- MENU PRINCIPAL -->
+        <img
+          [src]="currentUser.photo"
+          alt="Foto Usuario"
+          class="avatar-image">
+
+      } @else {
+
+        👤
+
+      }
+
+    </div>
+
+
+    <p>
+      Sistema Integral de Gestión Farmacéutica Magistral
+    </p>
+
+    @if(currentUser){
+
+      <div class="welcome-box">
+
+        <strong>
+          {{ currentUser.fullName }}
+        </strong>
+
+        <br>
+
+        Usuario:
+        {{ currentUser.username }}
+
+        <br>
+
+        Rol:
+        {{ currentUser.role }}
+
+      </div>
+
+    }
+
+  </div>
+<!-- ESTADO GENERAL -->
 
 <div class="section-title">
+  📈 Estado General
+</div>
 
-  🚀 Menú Principal
+<ion-card class="status-card">
 
+  <ion-card-content>
+
+    <div class="status-grid">
+
+      <div>
+
+        <h2>
+          {{ activeProductions }}
+        </h2>
+
+        <span>
+          Producciones
+        </span>
+
+      </div>
+
+      <div>
+
+        <h2>
+          {{ pendingDeliveries }}
+        </h2>
+
+        <span>
+          Entregas
+        </span>
+
+      </div>
+
+      <div>
+
+        <h2>
+          {{ observedProductions }}
+        </h2>
+
+        <span>
+          Alertas
+        </span>
+
+      </div>
+
+    </div>
+
+  </ion-card-content>
+
+</ion-card>
+
+<!-- KPI -->
+
+<div class="section-title">
+  📊 Resumen General
 </div>
 
 <ion-grid>
 
   <ion-row>
 
-    @if(isAdmin){
+    <ion-col size="6">
 
-        <ion-col size="4">
-
-         <ion-card button (click)="goAudit()">
+      <ion-card class="kpi-card">
 
         <ion-card-content>
 
-          📋
+          <h2>
+            {{ totalPrescriptions }}
+          </h2>
 
-          <br>
-
-          Auditoría
-
-        </ion-card-content>
-
-      </ion-card>
-
-      </ion-col>
-    }
-
-    <ion-col size="4">
-
-      <ion-card button (click)="goPatients()">
-
-        <ion-card-content>
-
-          👤
-
-          <br>
-
-          Pacientes
+          <p>
+            Recetas
+          </p>
 
         </ion-card-content>
 
@@ -108,17 +148,19 @@
 
     </ion-col>
 
-    <ion-col size="4">
+    <ion-col size="6">
 
-      <ion-card button (click)="goDoctors()">
+      <ion-card class="kpi-card">
 
         <ion-card-content>
 
-          👨‍⚕️
+          <h2>
+            {{ activeProductions }}
+          </h2>
 
-          <br>
-
-          Médicos
+          <p>
+            Producciones
+          </p>
 
         </ion-card-content>
 
@@ -126,17 +168,19 @@
 
     </ion-col>
 
-    <ion-col size="4">
+    <ion-col size="6">
 
-      <ion-card button (click)="goLaboratories()">
+      <ion-card class="kpi-card">
 
         <ion-card-content>
 
-          🏢
+          <h2>
+            {{ pendingDeliveries }}
+          </h2>
 
-          <br>
-
-          Laboratorios
+          <p>
+            Entregas
+          </p>
 
         </ion-card-content>
 
@@ -144,769 +188,96 @@
 
     </ion-col>
 
-    @if(isAdmin){
+    <ion-col size="6">
 
-      <ion-col size="4">
-
-      <ion-card button (click)="goBackup()">
+      <ion-card class="kpi-card">
 
         <ion-card-content>
 
-          💾
+          <h2>
+            {{ observedProductions }}
+          </h2>
 
-          <br>
-
-          Backup
-
-        </ion-card-content>
-
-      </ion-card>
-
-      </ion-col>
-    }
-
-    @if(isAdmin){
-
-      <ion-col size="4">
-
-      <ion-card button (click)="goUsers()">
-
-      <ion-card-content>
-
-      👥
-
-      <br>
-
-      Usuarios
-
-      </ion-card-content>
-
-      </ion-card>
-  
-     </ion-col>
-
-    }
-
-@if(canRawMaterials){
-
-    <ion-col size="4">
-
-      <ion-card button (click)="goRawMaterials()">
-
-        <ion-card-content>
-
-          🧪
-
-          <br>
-
-          Materias Primas
+          <p>
+            Alertas
+          </p>
 
         </ion-card-content>
 
       </ion-card>
 
     </ion-col>
-
-    <ion-col size="4">
-
-  <ion-card
-    button
-    (click)="goProductionConsumption()">
-
-    <ion-card-content>
-
-      ⚗️
-
-      <br>
-
-      Consumo MP
-
-    </ion-card-content>
-
-  </ion-card>
-
-</ion-col>
-
-}
-
-@if(canPrescriptions){
-
-    <ion-col size="4">
-
-      <ion-card button (click)="goPrescriptions()">
-
-        <ion-card-content>
-
-          📄
-
-          <br>
-
-          Recetas
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-}
-
-@if(canProductions){
-
-    <ion-col size="4">
-
-      <ion-card button (click)="goProductions()">
-
-        <ion-card-content>
-
-          🏭
-
-          <br>
-
-          Producción
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-}
-
-@if(canQuality){
-
-    <ion-col size="4">
-
-      <ion-card button (click)="goQualityControl()">
-
-        <ion-card-content>
-
-          🔬
-
-          <br>
-
-          Calidad
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-}
-
-@if(canDeliveries){
-
-    <ion-col size="4">
-
-      <ion-card button (click)="goDeliveries()">
-
-        <ion-card-content>
-
-          🚚
-
-          <br>
-
-          Entregas
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-}
-
-<button
-  (click)="goAccessHistory()">
-
-  🔐
-
-  <span>
-
-    Accesos
-
-  </span>
-
-</button>
 
   </ion-row>
 
 </ion-grid>
 
-
-  <!-- RESUMEN GENERAL -->
-
-  <div class="section-title">
-
-    📊 Resumen General
-
-  </div>
-
-  <ion-grid>
-
-    <ion-row>
-
-      <ion-col size="6">
-
-        <ion-card class="kpi-card">
-
-          <ion-card-content>
-
-            <h2>{{ totalPatients }}</h2>
-
-            <p>Pacientes</p>
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card class="kpi-card">
-
-          <ion-card-content>
-
-            <h2>{{ totalDoctors }}</h2>
-
-            <p>Médicos</p>
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card class="kpi-card">
-
-          <ion-card-content>
-
-            <h2>{{ totalProducts }}</h2>
-
-            <p>Productos</p>
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card class="kpi-card">
-
-          <ion-card-content>
-
-            <h2>{{ totalOrders }}</h2>
-
-            <p>Pedidos</p>
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-    </ion-row>
-
-  </ion-grid>
-
-  <!-- PRODUCCION -->
-
-  <div class="section-title">
-
-    🧪 Producción Magistral
-
-  </div>
-
-  <ion-grid>
-
-    <ion-row>
-
-      <ion-col size="6">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <strong>{{ totalPrescriptions }}</strong>
-
-            <br>
-
-            Recetas
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <strong>{{ pendingPrescriptions }}</strong>
-
-            <br>
-
-            Pendientes
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <strong>{{ activeProductions }}</strong>
-
-            <br>
-
-            Producción
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <strong>{{ finishedProductions }}</strong>
-
-            <br>
-
-            Finalizadas
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <strong>{{ qualityProductions }}</strong>
-
-            <br>
-
-            Calidad
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <strong>{{ observedProductions }}</strong>
-
-            <br>
-
-            Observadas
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-    </ion-row>
-
-  </ion-grid>
-
-  <!-- INVENTARIO -->
-
-  <div class="section-title">
-
-    📦 Inventario
-
-  </div>
-
-  <ion-grid>
-
-    <ion-row>
-
-      <ion-col size="4">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            💰
-
-            <h3>
-
-              S/. {{ inventoryValue.toFixed(2) }}
-
-            </h3>
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="4">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            ⚠
-
-            <h3>
-
-              {{ lowStock }}
-
-            </h3>
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="4">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            📅
-
-            <h3>
-
-              {{ expiringProducts }}
-
-            </h3>
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-    </ion-row>
-
-  </ion-grid>
-
-  <!-- MATERIAS PRIMAS -->
-
-  <div class="section-title">
-
-    🧪 Materias Primas
-
-  </div>
-
-  <ion-grid>
-
-    <ion-row>
-
-      <ion-col size="4">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <h3>
-
-              {{ totalRawMaterials }}
-
-            </h3>
-
-            Total
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="4">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <h3>
-
-              {{ lowRawMaterials }}
-
-            </h3>
-
-            Stock Bajo
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="4">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <h3>
-
-              {{ expiringRawMaterials }}
-
-            </h3>
-
-            Por vencer
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-    </ion-row>
-
-  </ion-grid>
-
-  <!-- ENTREGAS -->
-
-  <div class="section-title">
-
-    🚚 Entregas
-
-  </div>
-
-  <ion-grid>
-
-    <ion-row>
-
-      <ion-col size="6">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <h2>
-
-              {{ pendingDeliveries }}
-
-            </h2>
-
-            Pendientes
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-card>
-
-          <ion-card-content>
-
-            <h2>
-
-              {{ deliveredOrders }}
-
-            </h2>
-
-            Realizadas
-
-          </ion-card-content>
-
-        </ion-card>
-
-      </ion-col>
-
-    </ion-row>
-
-    </ion-grid>
-
-  <!-- MOVIMIENTOS RECIENTES -->
+<!-- ACCESOS RAPIDOS -->
 
 <div class="section-title">
-
-  📋 Movimientos Recientes
-
+  ⚡ Accesos Rápidos
 </div>
 
-@if(
-  recentMovements.length > 0
-){
+<div class="quick-actions">
 
-  @for(
-    movement of recentMovements;
-    track movement.id
-  ){
+  @if(canPrescriptions){
 
-    <ion-card>
+    <button
+      (click)="goPrescriptions()">
 
-      <ion-card-content>
+      📄
 
-        <strong>
+      <span>
+        Recetas
+      </span>
 
-          {{ movement.productName }}
-
-        </strong>
-
-        <br>
-
-        {{ movement.type }}
-
-        -
-
-        {{ movement.quantity }}
-
-        unidades
-
-        <br>
-
-        <small>
-
-          {{ movement.date }}
-
-        </small>
-
-      </ion-card-content>
-
-    </ion-card>
+    </button>
 
   }
 
-}
+  @if(canProductions){
 
-<div style="height:20px"></div>
+    <button
+      (click)="goProductions()">
 
-<!-- FLUJO OPERATIVO -->
+      🏭
 
-<div class="section-title">
-  🔄 Flujo Operativo
-</div>
+      <span>
+        Producción
+      </span>
 
-<ion-card routerLink="/prescriptions">
-  <ion-card-content>
-    🧪 1. Recetas Magistrales
-    <br>
-    <small>Registro y validación de fórmulas</small>
-  </ion-card-content>
-</ion-card>
+    </button>
 
-<ion-card routerLink="/productions">
-  <ion-card-content>
-    🏭 2. Producción
-    <br>
-    <small>Elaboración de preparados magistrales</small>
-  </ion-card-content>
-</ion-card>
+  }
 
-<ion-card routerLink="/quality-control">
-  <ion-card-content>
-    🔬 3. Control de Calidad
-    <br>
-    <small>Validación y aprobación de lotes</small>
-  </ion-card-content>
-</ion-card>
+  @if(canQuality){
 
-<ion-card routerLink="/delivery">
-  <ion-card-content>
-    🚚 4. Entregas
-    <br>
-    <small>Despacho al paciente</small>
-  </ion-card-content>
-</ion-card>
+    <button
+      (click)="goQualityControl()">
 
-<div class="bottom-nav">
+      🔬
 
-  <button
-    (click)="goDashboard()">
+      <span>
+        Calidad
+      </span>
 
-    🏠
+    </button>
 
-    <span>
+  }
 
-      Inicio
+  @if(canDeliveries){
 
-    </span>
+    <button
+      (click)="goDeliveries()">
 
-  </button>
+      🚚
 
-  <button
-    (click)="goProfile()">
+      <span>
+        Entregas
+      </span>
 
-    👤
+    </button>
 
-    <span>
-
-      Perfil
-
-    </span>
-
-  </button>
-
-  <button
-    (click)="goUsers()">
-
-    👥
-
-    <span>
-
-      Usuarios
-
-    </span>
-
-  </button>
-
-  <button
-    (click)="goAudit()">
-
-    📋
-
-    <span>
-
-      Auditoría
-
-    </span>
-
-  </button>
-
-  <button
-    (click)="goBackup()">
-
-    💾
-
-    <span>
-
-      Backup
-
-    </span>
-
-  </button>
+  }
 
 </div>
-
-</ion-content>

@@ -1,3 +1,136 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+
+  <ion-menu
+    menuId="mainMenu"
+    contentId="main-content"
+    side="start"
+    swipeGesture="true">
+
+    <ion-content>
+
+      <div class="menu-header">
+
+        <h2>
+          QF Gestión App
+        </h2>
+
+        @if(currentUser){
+
+          <p>
+            {{ currentUser.fullName }}
+          </p>
+
+        }
+
+      </div>
+
+      <ion-list>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/dashboard">
+            🏠 Dashboard
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/patients">
+            👤 Pacientes
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/doctors">
+            👨‍⚕️ Médicos
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/laboratories">
+            🏢 Laboratorios
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/raw-materials">
+            🧪 Materias Primas
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/production-consumption">
+            ⚗️ Consumo MP
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/audit">
+            📋 Auditoría
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/users">
+            👥 Usuarios
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/backup">
+            💾 Backup
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item routerLink="/access-history">
+            🔐 Historial Accesos
+          </ion-item>
+
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+
+          <ion-item
+            button
+            (click)="logout()">
+
+            🚪 Cerrar Sesión
+
+          </ion-item>
+
+        </ion-menu-toggle>
+
+      </ion-list>
+
+    </ion-content>
+
+  </ion-menu>
+
+  <div
+    class="ion-page"
+    id="main-content">
+
+    <ion-router-outlet>
+    </ion-router-outlet>
+
+  </div>
+
 </ion-app>

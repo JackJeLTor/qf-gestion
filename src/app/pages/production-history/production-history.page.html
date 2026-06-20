@@ -1,15 +1,9 @@
 <ion-header>
-
   <ion-toolbar>
-
     <ion-title>
-
       Historial de Producción
-
     </ion-title>
-
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content>
@@ -20,44 +14,163 @@
 
       <ion-card-content>
 
-        <strong>
+        <h2>Información General</h2>
 
-          Paciente:
+        <p>
+          <strong>Paciente:</strong>
+          {{ production.patientName }}
+        </p>
 
-        </strong>
+        <p>
+          <strong>Lote:</strong>
+          {{ production.batchNumber }}
+        </p>
 
-        {{ production.patientName }}
+        <p>
+          <strong>Responsable:</strong>
+          {{ production.responsible }}
+        </p>
 
-        <br>
+        <p>
+          <strong>Forma farmacéutica:</strong>
+          {{ production.pharmaceuticalForm }}
+        </p>
 
-        <strong>
+        <p>
+          <strong>Especialidad:</strong>
+          {{ production.specialty }}
+        </p>
 
-          Lote:
+        <p>
+          <strong>Prioridad:</strong>
+          {{ production.priority }}
+        </p>
 
-        </strong>
+        <p>
+          <strong>Estado actual:</strong>
+          {{ production.status }}
+        </p>
 
-        {{ production.batchNumber }}
+        <p>
+          <strong>Fecha inicio:</strong>
+          {{ production.startDate }}
+        </p>
+
+        <p>
+          <strong>Fecha fin:</strong>
+          {{ production.endDate || 'Pendiente' }}
+        </p>
+
+        <p>
+          <strong>Resultado Calidad:</strong>
+          {{ production.qualityResult || 'Pendiente' }}
+        </p>
+
+        <p>
+          <strong>Responsable Calidad:</strong>
+          {{ production.qualityResponsible || 'Pendiente' }}
+        </p>
 
       </ion-card-content>
 
     </ion-card>
 
-    @for(
-      item of production.history;
-      track item
-    ){
+    <ion-card>
 
-      <ion-card>
+      <ion-card-content>
 
-        <ion-card-content>
+        <h2>Materias Primas Utilizadas</h2>
 
-          {{ item }}
+        @if(
+          production.rawMaterialsUsed &&
+          production.rawMaterialsUsed.length > 0
+        ){
 
-        </ion-card-content>
+          @for(
+            material of production.rawMaterialsUsed;
+            track material
+          ){
 
-      </ion-card>
+            <p>
 
-    }
+              <strong>
+                {{ material.materialName }}
+              </strong>
+
+              <br>
+
+              Cantidad:
+              {{ material.quantity }}
+              {{ material.unit }}
+
+              <br>
+
+              Lote:
+              {{ material.lotNumber }}
+
+              <br>
+
+              Consumido por:
+              {{ material.consumedBy }}
+
+              <br>
+
+              Fecha:
+              {{ material.consumedDate }}
+
+            </p>
+
+            <hr>
+
+          }
+
+        } @else {
+
+          <p>
+            No existen materias primas registradas.
+          </p>
+
+        }
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <h2>Historial de Eventos</h2>
+
+        @if(
+          production.history &&
+          production.history.length > 0
+        ){
+
+          @for(
+            item of production.history;
+            track item
+          ){
+
+            <p>
+
+              • {{ item }}
+
+            </p>
+
+          }
+
+        } @else {
+
+          <p>
+            No existen eventos registrados.
+          </p>
+
+        }
+
+      </ion-card-content>
+
+    </ion-card>
 
   }
 
