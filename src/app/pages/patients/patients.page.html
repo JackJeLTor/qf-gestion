@@ -1,86 +1,162 @@
 <ion-header>
 
   <ion-toolbar>
-    <ion-title>Pacientes</ion-title>
+
+    <ion-buttons slot="start">
+
+      <ion-menu-button>
+      </ion-menu-button>
+
+    </ion-buttons>
+
+    <ion-title>
+
+      👤 Pacientes
+
+    </ion-title>
+
   </ion-toolbar>
 
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
 
-  <!-- TIPO DOCUMENTO CONTROLADO -->
-  <ion-item>
-    <ion-input
-      label="Tipo Documento"
-      labelPlacement="floating"
-      [(ngModel)]="documentType"
-      readonly>
-    </ion-input>
-  </ion-item>
+  <!-- CABECERA -->
 
-  <ion-item>
-    <ion-input
-      label="Número Documento"
-      labelPlacement="floating"
-      [(ngModel)]="documentNumber">
-    </ion-input>
-  </ion-item>
+  <div class="page-header">
 
-  <ion-item>
-    <ion-input
-      label="Nombres"
-      labelPlacement="floating"
-      [(ngModel)]="firstName">
-    </ion-input>
-  </ion-item>
+    <button
+      class="back-button"
+      (click)="goBack()">
 
-  <ion-item>
-    <ion-input
-      label="Apellidos"
-      labelPlacement="floating"
-      [(ngModel)]="lastName">
-    </ion-input>
-  </ion-item>
+      ← Dashboard
 
-  <ion-item>
-    <ion-input
-      type="date"
-      label="Fecha Nacimiento"
-      labelPlacement="floating"
-      [(ngModel)]="birthDate">
-    </ion-input>
-  </ion-item>
+    </button>
 
-  <ion-item>
-    <ion-input
-      label="Teléfono"
-      labelPlacement="floating"
-      [(ngModel)]="phone">
-    </ion-input>
-  </ion-item>
+    <h1>
+      Gestión de Pacientes
+    </h1>
 
-  <ion-item>
-    <ion-input
-      type="email"
-      label="Correo"
-      labelPlacement="floating"
-      [(ngModel)]="email">
-    </ion-input>
-  </ion-item>
+    <p>
+      Registro y administración de pacientes
+    </p>
 
-  <ion-item>
-    <ion-input
-      label="Dirección"
-      labelPlacement="floating"
-      [(ngModel)]="address">
-    </ion-input>
-  </ion-item>
+  </div>
 
-  <ion-button expand="block" (click)="addPatient()">
-    Registrar Paciente
-  </ion-button>
+  <!-- FORMULARIO -->
+
+  <div class="form-container">
+
+    <ion-item>
+
+      <ion-input
+        label="Tipo Documento"
+        labelPlacement="floating"
+        [(ngModel)]="documentType"
+        readonly>
+
+      </ion-input>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-input
+        label="Número Documento"
+        labelPlacement="floating"
+        [(ngModel)]="documentNumber">
+
+      </ion-input>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-input
+        label="Nombres"
+        labelPlacement="floating"
+        [(ngModel)]="firstName">
+
+      </ion-input>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-input
+        label="Apellidos"
+        labelPlacement="floating"
+        [(ngModel)]="lastName">
+
+      </ion-input>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-input
+        type="date"
+        label="Fecha Nacimiento"
+        labelPlacement="floating"
+        [(ngModel)]="birthDate">
+
+      </ion-input>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-input
+        label="Teléfono"
+        labelPlacement="floating"
+        [(ngModel)]="phone">
+
+      </ion-input>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-input
+        type="email"
+        label="Correo"
+        labelPlacement="floating"
+        [(ngModel)]="email">
+
+      </ion-input>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-input
+        label="Dirección"
+        labelPlacement="floating"
+        [(ngModel)]="address">
+
+      </ion-input>
+
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      class="save-button"
+      (click)="addPatient()">
+
+      Registrar Paciente
+
+    </ion-button>
+
+  </div>
 
   <!-- LISTADO -->
+
+  <div class="section-title">
+
+    Pacientes Registrados
+
+  </div>
+
   @for(patient of patients; track patient.id){
 
     <ion-card>
@@ -88,34 +164,46 @@
       <ion-card-content>
 
         <h2>
+
           {{ patient.firstName }}
           {{ patient.lastName }}
+
         </h2>
 
         <p>
+
           Documento:
           {{ patient.documentType }}
           {{ patient.documentNumber }}
+
         </p>
 
         <p>
+
           Fecha Nacimiento:
           {{ patient.birthDate }}
+
         </p>
 
         <p>
+
           Teléfono:
           {{ patient.phone }}
+
         </p>
 
         <p>
+
           Correo:
           {{ patient.email }}
+
         </p>
 
         <p>
+
           Dirección:
           {{ patient.address }}
+
         </p>
 
       </ion-card-content>

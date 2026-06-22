@@ -281,3 +281,671 @@
   }
 
 </div>
+
+<!-- MOVIMIENTOS RECIENTES -->
+
+<div class="section-title">
+  📋 Movimientos Recientes
+</div>
+
+<ion-card>
+
+  <ion-card-content>
+
+    @if(recentMovements.length === 0){
+
+      <p>
+        No existen movimientos registrados.
+      </p>
+
+    }
+
+    @for(
+      movement of recentMovements;
+      track movement.id
+    ){
+
+      <div class="movement-item">
+
+        <strong>
+          {{ movement.type }}
+        </strong>
+
+        <br>
+
+        <small>
+
+          {{ movement.productName }}
+
+        </small>
+
+        <br>
+
+        <small>
+
+          Cantidad:
+          {{ movement.quantity }}
+
+        </small>
+
+      </div>
+
+      <hr>
+
+    }
+
+  </ion-card-content>
+
+</ion-card>
+
+<!-- ALERTAS -->
+
+<div class="section-title">
+  ⚠ Centro de Alertas
+</div>
+
+<ion-grid>
+
+  <ion-row>
+
+    <ion-col size="6">
+
+      <ion-card class="alert-card">
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ lowStock }}
+
+          </h3>
+
+          <p>
+
+            Stock Bajo
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="warning-card">
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ expiringProducts }}
+
+          </h3>
+
+          <p>
+
+            Próximos a Vencer
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="alert-card">
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ lowRawMaterials }}
+
+          </h3>
+
+          <p>
+
+            MP Stock Bajo
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="warning-card">
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ expiringRawMaterials }}
+
+          </h3>
+
+          <p>
+
+            MP por Vencer
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="info-card">
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ observedProductions }}
+
+          </h3>
+
+          <p>
+
+            Observaciones
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="success-card">
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ pendingDeliveries }}
+
+          </h3>
+
+          <p>
+
+            Entregas Pendientes
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+  </ion-row>
+
+</ion-grid>
+
+<!-- DASHBOARD EJECUTIVO -->
+
+<div class="section-title">
+  📊 Dashboard Ejecutivo
+</div>
+
+<ion-grid>
+
+  <ion-row>
+
+    <ion-col size="6">
+
+      <ion-card class="info-card">
+
+        <ion-card-content>
+
+          <h3>
+
+            S/ {{ inventoryValue.toFixed(2) }}
+
+          </h3>
+
+          <p>
+
+            Valor Inventario
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card>
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ totalProducts }}
+
+          </h3>
+
+          <p>
+
+            Productos
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card>
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ totalRawMaterials }}
+
+          </h3>
+
+          <p>
+
+            Materias Primas
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card>
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ totalPatients }}
+
+          </h3>
+
+          <p>
+
+            Pacientes
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card>
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ totalDoctors }}
+
+          </h3>
+
+          <p>
+
+            Médicos
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card>
+
+        <ion-card-content>
+
+          <h3>
+
+            {{ totalLaboratories }}
+
+          </h3>
+
+          <p>
+
+            Laboratorios
+
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+  </ion-row>
+
+</ion-grid>
+
+<!-- PRODUCCIÓN MAGISTRAL -->
+
+<div class="section-title">
+  🏭 Producción Magistral
+</div>
+
+<ion-grid>
+
+  <ion-row>
+
+    <ion-col size="6">
+
+      <ion-card class="info-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ activeProductions }}
+          </h3>
+
+          <p>
+            Activas
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="success-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ finishedProductions }}
+          </h3>
+
+          <p>
+            Finalizadas
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="warning-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ qualityProductions }}
+          </h3>
+
+          <p>
+            Control Calidad
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="alert-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ observedProductions }}
+          </h3>
+
+          <p>
+            Observadas
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+  </ion-row>
+
+</ion-grid>
+
+<!-- INVENTARIO Y MATERIAS PRIMAS -->
+
+<div class="section-title">
+  📦 Inventario y Materias Primas
+</div>
+
+<ion-grid>
+
+  <ion-row>
+
+    <ion-col size="6">
+
+      <ion-card class="info-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ totalProducts }}
+          </h3>
+
+          <p>
+            Productos
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="alert-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ lowStock }}
+          </h3>
+
+          <p>
+            Stock Bajo
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="warning-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ expiringProducts }}
+          </h3>
+
+          <p>
+            Por Vencer
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card>
+
+        <ion-card-content>
+
+          <h3>
+            {{ totalRawMaterials }}
+          </h3>
+
+          <p>
+            Materias Primas
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="alert-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ lowRawMaterials }}
+          </h3>
+
+          <p>
+            MP Stock Bajo
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="6">
+
+      <ion-card class="warning-card">
+
+        <ion-card-content>
+
+          <h3>
+            {{ expiringRawMaterials }}
+          </h3>
+
+          <p>
+            MP por Vencer
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </ion-col>
+
+  </ion-row>
+
+</ion-grid>
+
+<!-- BARRA INFERIOR -->
+
+<div class="bottom-nav">
+
+  <button (click)="goDashboard()">
+
+    🏠
+
+    <span>
+      Inicio
+    </span>
+
+  </button>
+
+  @if(canPrescriptions){
+
+    <button (click)="goPrescriptions()">
+
+      📄
+
+      <span>
+        Recetas
+      </span>
+
+    </button>
+
+  }
+
+  @if(canProductions){
+
+    <button (click)="goProductions()">
+
+      🏭
+
+      <span>
+        Producción
+      </span>
+
+    </button>
+
+  }
+
+  @if(canDeliveries){
+
+    <button (click)="goDeliveries()">
+
+      🚚
+
+      <span>
+        Entregas
+      </span>
+
+    </button>
+
+  }
+
+  <button (click)="goProfile()">
+
+    👤
+
+    <span>
+      Perfil
+    </span>
+
+  </button>
+
+</div>
