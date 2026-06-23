@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import { Patient }
-from '../models/patient.model';
+import { Patient } from '../models/patient.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PatientService {
 
-  private patients:
-    Patient[] = [];
+  private patients: Patient[] = [];
 
   constructor() {
 
     const data =
       localStorage.getItem(
-        'patients'
+        'patients',
       );
 
     if (data) {
@@ -34,34 +32,55 @@ export class PatientService {
   }
 
   getPatientById(
-    id: number
+    id: number,
   ) {
 
     return this.patients.find(
-      p => p.id === id
+      (p) => p.id === id,
     );
 
   }
 
   addPatient(
-    patient: Patient
+    patient: Patient,
   ) {
 
     this.patients.push(
-      patient
+      patient,
     );
 
     this.save();
 
   }
 
+  updatePatient(
+    patientUpdated: Patient,
+  ) {
+
+    const index =
+      this.patients.findIndex(
+        (p) =>
+          p.id === patientUpdated.id,
+      );
+
+    if (index >= 0) {
+
+      this.patients[index] =
+        patientUpdated;
+
+      this.save();
+
+    }
+
+  }
+
   deletePatient(
-    id: number
+    id: number,
   ) {
 
     this.patients =
       this.patients.filter(
-        p => p.id !== id
+        (p) => p.id !== id,
       );
 
     this.save();
@@ -73,8 +92,8 @@ export class PatientService {
     localStorage.setItem(
       'patients',
       JSON.stringify(
-        this.patients
-      )
+        this.patients,
+      ),
     );
 
   }

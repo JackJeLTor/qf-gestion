@@ -1,22 +1,26 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonItem,
   IonInput,
   IonButton,
   IonCard,
   IonCardContent,
-  IonButtons,
   IonMenuButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
 
-import { PatientService } from '../../services/patient.service';
+import { addIcons } from 'ionicons';
+
+import {
+  searchOutline,
+  createOutline,
+} from 'ionicons/icons';
+
+import { PatientService }
+from '../../services/patient.service';
 
 @Component({
   selector: 'app-patients',
@@ -27,17 +31,13 @@ import { PatientService } from '../../services/patient.service';
     FormsModule,
 
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonItem,
     IonInput,
     IonButton,
     IonCard,
     IonCardContent,
-
-    IonButtons,
     IonMenuButton,
+    IonIcon,
   ],
 })
 export class PatientsPage {
@@ -60,10 +60,26 @@ export class PatientsPage {
 
   patients: any[] = [];
 
+  filteredPatients: any[] = [];
+
+  searchTerm = '';
+
+  showSearch = false;
+
+  editingPatientId:
+    number | null = null;
+
   constructor(
-    private patientService: PatientService,
-    private router: Router,
-  ) {}
+    private patientService:
+      PatientService,
+  ) {
+
+    addIcons({
+      searchOutline,
+      createOutline,
+    });
+
+  }
 
   ngOnInit() {
 
@@ -76,11 +92,62 @@ export class PatientsPage {
     this.patients =
       this.patientService.getPatients();
 
+    this.filteredPatients =
+      [...this.patients];
+
   }
 
-  goBack() {
+  toggleSearch() {
 
-    this.router.navigate(['/dashboard']);
+    this.showSearch =
+      !this.showSearch;
+
+    if (!this.showSearch) {
+
+      this.searchTerm = '';
+
+      this.filteredPatients =
+        [...this.patients];
+
+    }
+
+  }
+
+  searchPatients() {
+
+    const term =
+      this.searchTerm
+        .toLowerCase()
+        .trim();
+
+    if (!term) {
+
+      this.filteredPatients =
+        [...this.patients];
+
+      return;
+
+    }
+
+    this.filteredPatients =
+      this.patients.filter(
+        patient =>
+
+          patient.firstName
+            .toLowerCase()
+            .includes(term)
+
+          ||
+
+          patient.lastName
+            .toLowerCase()
+            .includes(term)
+
+          ||
+
+          patient.documentNumber
+            .includes(term)
+      );
 
   }
 
@@ -126,26 +193,6 @@ export class PatientsPage {
 
         alert(
           'El DNI debe tener 8 dígitos',
-        );
-
-        return;
-
-      }
-
-    }
-
-    if (
-      this.documentType === 'CE'
-    ) {
-
-      if (
-        !/^\d{9,12}$/.test(
-          this.documentNumber,
-        )
-      ) {
-
-        alert(
-          'El Carnet de Extranjería debe tener entre 9 y 12 dígitos',
         );
 
         return;
@@ -202,43 +249,130 @@ export class PatientsPage {
 
     }
 
-    this.patientService.addPatient({
-      id: Date.now(),
-      documentType:
-        this.documentType,
-      documentNumber:
-        this.documentNumber,
-      firstName:
-        this.firstName,
-      lastName:
-        this.lastName,
-      birthDate:
-        this.birthDate,
-      phone:
-        this.phone,
-      email:
-        this.email,
-      address:
-        this.address,
-    });
+    if (
+      this.editingPatientId
+    ) {
+
+      this.patientService
+        .updatePatient({
+
+          id:
+            this.editingPatientId,
+
+          documentType:
+            this.documentType,
+
+          documentNumber:
+            this.documentNumber,
+
+          firstName:
+            this.firstName,
+
+          lastName:
+            this.lastName,
+
+          birthDate:
+            this.birthDate,
+
+          phone:
+            this.phone,
+
+          email:
+            this.email,
+
+          address:
+            this.address,
+
+        });
+
+      this.editingPatientId =
+        null;
+
+    } else {
+
+      this.patientService
+        .addPatient({
+
+          id: Date.now(),
+
+          documentType:
+            this.documentType,
+
+          documentNumber:
+            this.documentNumber,
+
+          firstName:
+            this.firstName,
+
+          lastName:
+            this.lastName,
+
+          birthDate:
+            this.birthDate,
+
+          phone:
+            this.phone,
+
+          email:
+            this.email,
+
+          address:
+            this.address,
+
+        });
+
+    }
 
     this.loadPatients();
 
-    this.documentType = 'DNI';
+    this.clearForm();
 
-    this.documentNumber = '';
+  }
 
-    this.firstName = '';
+  editPatient(
+    patient: any,
+  ) {
 
-    this.lastName = '';
+    this.editingPatientId =
+      patient.id;
 
-    this.birthDate = '';
+    this.documentType =
+      patient.documentType;
 
-    this.phone = '';
+    this.documentNumber =
+      patient.documentNumber;
 
-    this.email = '';
+    this.firstName =
+      patient.firstName;
 
-    this.address = '';
+    this.lastName =
+      patient.lastName;
+
+    this.birthDate =
+      patient.birthDate;
+
+    this.phone =
+      patient.phone;
+
+    this.email =
+      patient.email;
+
+    this.address =
+      patient.address;
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
+  }
+
+  cancelEdit() {
+
+    this.editingPatientId =
+      null;
+
+    this.clearForm();
 
   }
 
@@ -246,10 +380,49 @@ export class PatientsPage {
     id: number,
   ) {
 
+    const confirmed =
+      confirm(
+        '¿Eliminar paciente?',
+      );
+
+    if (!confirmed) {
+
+      return;
+
+    }
+
     this.patientService
       .deletePatient(id);
 
     this.loadPatients();
+
+  }
+
+  clearForm() {
+
+    this.documentType =
+      'DNI';
+
+    this.documentNumber =
+      '';
+
+    this.firstName =
+      '';
+
+    this.lastName =
+      '';
+
+    this.birthDate =
+      '';
+
+    this.phone =
+      '';
+
+    this.email =
+      '';
+
+    this.address =
+      '';
 
   }
 

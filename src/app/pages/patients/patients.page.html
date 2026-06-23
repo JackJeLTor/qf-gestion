@@ -1,45 +1,57 @@
-<ion-header>
+<ion-content>
 
-  <ion-toolbar>
+  <!-- HEADER -->
 
-    <ion-buttons slot="start">
+  <div class="page-header">
+
+    <div class="header-top">
 
       <ion-menu-button>
       </ion-menu-button>
 
-    </ion-buttons>
+      <h1>
+        Gestión de Pacientes
+      </h1>
 
-    <ion-title>
+      <ion-button
+        fill="clear"
+        class="search-toggle"
+        (click)="toggleSearch()">
 
-      👤 Pacientes
+        <ion-icon
+          name="search-outline">
+        </ion-icon>
 
-    </ion-title>
+      </ion-button>
 
-  </ion-toolbar>
-
-</ion-header>
-
-<ion-content>
-
-  <!-- CABECERA -->
-
-  <div class="page-header">
-
-    <button
-      class="back-button"
-      (click)="goBack()">
-
-      ← Dashboard
-
-    </button>
-
-    <h1>
-      Gestión de Pacientes
-    </h1>
+    </div>
 
     <p>
       Registro y administración de pacientes
     </p>
+
+    @if(showSearch){
+
+      <div class="search-container">
+
+        <ion-item>
+
+          <ion-icon
+            slot="start"
+            name="search-outline">
+          </ion-icon>
+
+          <ion-input
+            placeholder="Buscar paciente..."
+            [(ngModel)]="searchTerm"
+            (ionInput)="searchPatients()">
+          </ion-input>
+
+        </ion-item>
+
+      </div>
+
+    }
 
   </div>
 
@@ -54,7 +66,6 @@
         labelPlacement="floating"
         [(ngModel)]="documentType"
         readonly>
-
       </ion-input>
 
     </ion-item>
@@ -65,7 +76,6 @@
         label="Número Documento"
         labelPlacement="floating"
         [(ngModel)]="documentNumber">
-
       </ion-input>
 
     </ion-item>
@@ -76,7 +86,6 @@
         label="Nombres"
         labelPlacement="floating"
         [(ngModel)]="firstName">
-
       </ion-input>
 
     </ion-item>
@@ -87,7 +96,6 @@
         label="Apellidos"
         labelPlacement="floating"
         [(ngModel)]="lastName">
-
       </ion-input>
 
     </ion-item>
@@ -99,7 +107,6 @@
         label="Fecha Nacimiento"
         labelPlacement="floating"
         [(ngModel)]="birthDate">
-
       </ion-input>
 
     </ion-item>
@@ -110,7 +117,6 @@
         label="Teléfono"
         labelPlacement="floating"
         [(ngModel)]="phone">
-
       </ion-input>
 
     </ion-item>
@@ -122,7 +128,6 @@
         label="Correo"
         labelPlacement="floating"
         [(ngModel)]="email">
-
       </ion-input>
 
     </ion-item>
@@ -133,7 +138,6 @@
         label="Dirección"
         labelPlacement="floating"
         [(ngModel)]="address">
-
       </ion-input>
 
     </ion-item>
@@ -143,21 +147,67 @@
       class="save-button"
       (click)="addPatient()">
 
-      Registrar Paciente
+      @if(editingPatientId){
+
+        Actualizar Paciente
+
+      } @else {
+
+        Registrar Paciente
+
+      }
 
     </ion-button>
 
+    @if(editingPatientId){
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="medium"
+        (click)="cancelEdit()">
+
+        Cancelar Edición
+
+      </ion-button>
+
+    }
+
   </div>
 
-  <!-- LISTADO -->
+  <!-- TITULO -->
 
   <div class="section-title">
 
     Pacientes Registrados
+    ({{ filteredPatients.length }})
 
   </div>
 
-  @for(patient of patients; track patient.id){
+  <!-- SIN RESULTADOS -->
+
+  @if(
+    filteredPatients.length === 0
+  ){
+
+    <ion-card>
+
+      <ion-card-content>
+
+        No se encontraron pacientes.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+  <!-- LISTADO -->
+
+  @for(
+    patient of filteredPatients;
+    track patient.id
+  ){
 
     <ion-card>
 
@@ -209,8 +259,22 @@
       </ion-card-content>
 
       <ion-button
-        color="danger"
         expand="block"
+        color="success"
+        (click)="editPatient(patient)">
+
+        <ion-icon
+          slot="start"
+          name="create-outline">
+        </ion-icon>
+
+        Editar
+
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        color="danger"
         (click)="deletePatient(patient.id)">
 
         Eliminar

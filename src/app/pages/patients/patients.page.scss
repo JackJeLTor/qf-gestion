@@ -1,6 +1,6 @@
-/* ==========================
+/* ==================================
    FONDO GENERAL
-========================== */
+================================== */
 
 ion-content {
 
@@ -8,55 +8,61 @@ ion-content {
 
 }
 
-/* ==========================
-   TOOLBAR
-========================== */
-
-ion-toolbar {
-
-  --background: #007973;
-
-  --color: white;
-
-}
-
-ion-title {
-
-  font-weight: 700;
-
-}
-
-/* ==========================
-   CABECERA
-========================== */
+/* ==================================
+   HEADER
+================================== */
 
 .page-header {
 
   background: linear-gradient(
-    135deg,
-    #007973,
-    #009A82
+    180deg,
+    #009A82 0%,
+    #00B89A 100%
   );
 
-  color: white;
+  padding: 18px 20px;
 
-  padding: 25px;
+  border-bottom-left-radius: 24px;
 
-  border-bottom-left-radius: 25px;
-
-  border-bottom-right-radius: 25px;
+  border-bottom-right-radius: 24px;
 
   box-shadow:
-    0 4px 12px
-    rgba(0,0,0,.12);
+    0 4px 14px rgba(
+      0,
+      154,
+      130,
+      .18
+    );
+
+}
+
+.header-top {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+}
+
+.header-left {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
 
 }
 
 .page-header h1 {
 
-  margin: 10px 0 5px;
+  margin: 0;
 
-  font-size: 26px;
+  color: #FFFFFF;
+
+  font-size: 22px;
 
   font-weight: 700;
 
@@ -64,19 +70,38 @@ ion-title {
 
 .page-header p {
 
-  margin: 0;
+  margin-top: 6px;
 
-  opacity: .95;
+  margin-left: 40px;
+
+  color: rgba(
+    255,
+    255,
+    255,
+    .95
+  );
 
   font-size: 14px;
 
 }
 
-/* ==========================
-   BOTON VOLVER
-========================== */
+ion-menu-button {
 
-.back-button {
+  --color: #FFFFFF;
+
+}
+
+/* ==================================
+   BOTON BUSQUEDA
+================================== */
+
+.search-toggle {
+
+  width: 52px;
+
+  height: 22px;
+
+  border-radius: 12px;
 
   border: none;
 
@@ -84,173 +109,240 @@ ion-title {
     255,
     255,
     255,
-    .20
+    .18
   );
 
   color: white;
 
-  padding: 8px 14px;
+  display: flex;
 
-  border-radius: 12px;
+  align-items: center;
 
-  font-size: 14px;
-
-  font-weight: 600;
+  justify-content: center;
 
 }
 
-.back-button:active {
+/* ==================================
+   BUSCADOR
+================================== */
 
-  transform: scale(.98);
+.search-container {
+
+  margin-top: 15px;
+
+  animation: fadeIn .25s ease;
 
 }
 
-/* ==========================
+.search-container ion-item {
+
+  --background: #FFFFFF;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 3px 10px rgba(
+      0,
+      0,
+      0,
+      .06
+    );
+
+}
+
+.search-container ion-icon {
+
+  color: #009A82;
+
+}
+
+/* ==================================
    FORMULARIO
-========================== */
+================================== */
 
 .form-container {
 
   margin: 15px;
 
-  padding: 15px;
+  padding: 18px;
 
-  background: white;
+  background: #FFFFFF;
 
-  border-radius: 18px;
+  border-radius: 22px;
 
   box-shadow:
-    0 4px 12px
-    rgba(0,0,0,.06);
+    0 4px 15px rgba(
+      0,
+      0,
+      0,
+      .05
+    );
 
 }
 
 ion-item {
 
-  --background: white;
+  --background: transparent;
 
-  --color: #1f2937;
+  --color: #374151;
 
-  --border-color: #d1d5db;
+  --border-color: #D7DEE3;
 
-  margin-bottom: 8px;
-
-  border-radius: 10px;
+  margin-bottom: 10px;
 
 }
-
-/* IMPORTANTE:
-   NO poner texto blanco aquí
-   para no perder visibilidad
-*/
 
 ion-input {
 
-  color: #1f2937;
+  color: #1F2937;
 
 }
 
-/* ==========================
-   BOTON GUARDAR
-========================== */
+/* ==================================
+   BOTON PRINCIPAL
+================================== */
 
 .save-button {
 
-  margin-top: 15px;
+  margin-top: 18px;
 
   --background: #009A82;
 
-  --background-hover: #007973;
+  --background-hover: #00D0AC;
 
-  --border-radius: 12px;
+  --background-activated: #007973;
 
-  font-weight: 600;
+  --border-radius: 14px;
+
+  font-weight: 700;
+
+  height: 50px;
 
 }
 
-/* ==========================
+/* ==================================
    TITULO LISTADO
-========================== */
+================================== */
 
 .section-title {
 
   margin: 20px 15px 10px;
 
+  color: #009A82;
+
   font-size: 20px;
 
   font-weight: 700;
 
-  color: #007973;
-
 }
 
-/* ==========================
-   TARJETAS PACIENTE
-========================== */
+/* ==================================
+   TARJETAS
+================================== */
 
 ion-card {
 
   margin: 15px;
 
+  background: #FFFFFF;
+
   border-radius: 18px;
 
-  background: white;
-
   box-shadow:
-    0 4px 12px
-    rgba(0,0,0,.08);
-
-}
-
-ion-card-content {
-
-  color: #374151;
+    0 4px 12px rgba(
+      0,
+      0,
+      0,
+      .05
+    );
 
 }
 
 ion-card-content h2 {
 
-  margin-bottom: 10px;
+  color: #009A82;
 
-  color: #007973;
-
-  font-size: 20px;
+  font-size: 19px;
 
   font-weight: 700;
+
+  margin-bottom: 10px;
 
 }
 
 ion-card-content p {
 
+  color: #6B7280;
+
   margin: 6px 0;
-
-  color: #4b5563;
-
-  font-size: 14px;
 
 }
 
-/* ==========================
-   BOTON ELIMINAR
-========================== */
+/* ==================================
+   ACCIONES
+================================== */
 
-ion-button[color="danger"] {
+.actions {
 
-  margin: 10px;
+  display: flex;
+
+  gap: 10px;
+
+  padding: 0 10px 12px;
+
+}
+
+.edit-button {
+
+  flex: 1;
+
+  --background: #009A82;
 
   --border-radius: 12px;
 
 }
 
-/* ==========================
+.delete-button {
+
+  flex: 1;
+
+  --border-radius: 12px;
+
+}
+
+/* ==================================
+   ANIMACION
+================================== */
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(-10px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+/* ==================================
    RESPONSIVE
-========================== */
+================================== */
 
 @media (min-width: 768px) {
 
   .form-container {
 
-    max-width: 800px;
+    max-width: 900px;
 
     margin: 20px auto;
 

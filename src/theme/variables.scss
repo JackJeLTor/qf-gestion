@@ -1,2 +1,150 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+/* ==================================================
+   QF GESTIÓN APP
+   TEMA CORPORATIVO GLOBAL
+================================================== */
+
+:root {
+
+  /* ==========================
+     COLORES PRINCIPALES
+  ========================== */
+
+  --ion-color-primary: #009A82;
+  --ion-color-primary-rgb: 0,154,130;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #008772;
+  --ion-color-primary-tint: #1aa78f;
+
+  --ion-color-secondary: #007973;
+  --ion-color-secondary-rgb: 0,121,115;
+  --ion-color-secondary-contrast: #ffffff;
+
+  /* ==========================
+     FONDOS
+  ========================== */
+
+  --ion-background-color: #F2F3F5;
+
+  --ion-card-background: #ffffff;
+
+  /* ==========================
+     TEXTO
+  ========================== */
+
+  --ion-text-color: #1f2937;
+
+  --ion-color-dark: #1f2937;
+
+  /* ==========================
+     BORDES
+  ========================== */
+
+  --ion-border-color: #d1d5db;
+
+}
+
+/* ==================================================
+   BODY
+================================================== */
+
+body {
+
+  background: #F2F3F5;
+
+  color: #1f2937;
+
+}
+
+/* ==================================================
+   TOOLBAR GLOBAL
+================================================== */
+
+ion-toolbar {
+
+  --background: #007973;
+
+  --color: white;
+
+}
+
+/* ==================================================
+   BOTONES GLOBALES
+================================================== */
+
+ion-button {
+
+  --background: #009A82;
+
+  --background-hover: #007973;
+
+  --background-activated: #007973;
+
+  --border-radius: 12px;
+
+  font-weight: 600;
+
+}
+
+/* ==================================================
+   CARDS GLOBALES
+================================================== */
+
+ion-card {
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0,0,0,.08);
+
+}
+
+/* ==================================================
+   INPUTS GLOBALES
+================================================== */
+
+ion-item {
+
+  --background: white;
+
+  --color: #1f2937;
+
+  --border-color: #d1d5db;
+
+  border-radius: 10px;
+
+}
+
+ion-input {
+
+  color: #1f2937;
+
+}
+
+/* ==================================================
+   TITULOS
+================================================== */
+
+h1,
+h2,
+h3 {
+
+  color: #007973;
+
+}
+
+/* ==================================================
+   MENU LATERAL
+================================================== */
+
+ion-menu ion-content {
+
+  --background: #ffffff;
+
+}
+
+ion-menu ion-item {
+
+  --color: #1f2937;
+
+}
