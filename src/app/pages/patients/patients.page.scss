@@ -4,7 +4,7 @@
 
 ion-content {
 
-  --background: #F2F3F5;
+  --background: #F4F7FA;
 
 }
 
@@ -15,16 +15,16 @@ ion-content {
 .page-header {
 
   background: linear-gradient(
-    180deg,
-    #009A82 0%,
-    #00B89A 100%
+    135deg,
+    #009A82,
+    #00B89A
   );
 
-  padding: 18px 20px;
+  padding: 10px 14px;
 
-  border-bottom-left-radius: 24px;
+  border-bottom-left-radius: 18px;
 
-  border-bottom-right-radius: 24px;
+  border-bottom-right-radius: 18px;
 
   box-shadow:
     0 4px 14px rgba(
@@ -42,68 +42,57 @@ ion-content {
 
   align-items: center;
 
-  justify-content: space-between;
+  gap: 10px;
 
-}
-
-.header-left {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-}
-
-.page-header h1 {
-
-  margin: 0;
-
-  color: #FFFFFF;
-
-  font-size: 22px;
-
-  font-weight: 700;
-
-}
-
-.page-header p {
-
-  margin-top: 6px;
-
-  margin-left: 40px;
-
-  color: rgba(
-    255,
-    255,
-    255,
-    .95
-  );
-
-  font-size: 14px;
+  min-height: 50px;
 
 }
 
 ion-menu-button {
 
-  --color: #FFFFFF;
+  --color: white;
+
+}
+
+.header-title {
+
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+}
+
+.header-title h1 {
+
+  margin: 0;
+
+  color: white;
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+  letter-spacing: .3px;
+
+}
+
+.search-toggle {
+
+  --color: white;
+
+  margin: 0;
 
 }
 
 /* ==================================
-   BOTON BUSQUEDA
+   BUSCADOR EN HEADER
 ================================== */
 
-.search-toggle {
+.header-search {
 
-  width: 52px;
-
-  height: 22px;
-
-  border-radius: 12px;
-
-  border: none;
+  flex: 1;
 
   background: rgba(
     255,
@@ -112,66 +101,41 @@ ion-menu-button {
     .18
   );
 
-  color: white;
+  border-radius: 12px;
 
-  display: flex;
+  padding: 0 10px;
 
-  align-items: center;
+}
 
-  justify-content: center;
+.header-search ion-input {
+
+  --color: white;
+
+  --placeholder-color: rgba(
+    255,
+    255,
+    255,
+    .75
+  );
+
+  font-size: 14px;
 
 }
 
 /* ==================================
-   BUSCADOR
+   LISTADO
 ================================== */
 
-.search-container {
+.patient-card {
 
-  margin-top: 15px;
+  margin: 14px;
 
-  animation: fadeIn .25s ease;
+  border-radius: 18px;
 
-}
-
-.search-container ion-item {
-
-  --background: #FFFFFF;
-
-  border-radius: 14px;
+  background: white;
 
   box-shadow:
-    0 3px 10px rgba(
-      0,
-      0,
-      0,
-      .06
-    );
-
-}
-
-.search-container ion-icon {
-
-  color: #009A82;
-
-}
-
-/* ==================================
-   FORMULARIO
-================================== */
-
-.form-container {
-
-  margin: 15px;
-
-  padding: 18px;
-
-  background: #FFFFFF;
-
-  border-radius: 22px;
-
-  box-shadow:
-    0 4px 15px rgba(
+    0 4px 14px rgba(
       0,
       0,
       0,
@@ -180,13 +144,161 @@ ion-menu-button {
 
 }
 
-ion-item {
+.patient-name {
 
-  --background: transparent;
+  color: #009A82;
 
-  --color: #374151;
+  font-size: 18px;
 
-  --border-color: #D7DEE3;
+  font-weight: 700;
+
+  margin-bottom: 10px;
+
+}
+
+.patient-info {
+
+  color: #4B5563;
+
+  font-size: 14px;
+
+  margin-bottom: 6px;
+
+}
+
+.patient-info strong {
+
+  color: #1F2937;
+
+}
+
+/* ==================================
+   BOTONES TARJETA
+================================== */
+
+.card-actions {
+
+  display: flex;
+
+  gap: 10px;
+
+  padding:
+    0
+    14px
+    14px;
+
+}
+
+.card-actions ion-button {
+
+  flex: 1;
+
+  --border-radius: 12px;
+
+  font-weight: 600;
+
+}
+
+/* ==================================
+   FAB
+================================== */
+
+ion-fab-button {
+
+  --background: #009A82;
+
+  --color: white;
+
+  --box-shadow:
+    0 6px 18px rgba(
+      0,
+      154,
+      130,
+      .35
+    );
+
+}
+
+/* ==================================
+   MODAL
+================================== */
+
+ion-modal {
+
+  --border-radius: 24px;
+
+}
+
+ion-toolbar {
+
+  --background: #009A82;
+
+  --color: white;
+
+}
+
+ion-title {
+
+  font-weight: 700;
+
+}
+
+.modal-form {
+
+  padding: 18px;
+
+}
+
+/* ==================================
+   SECCIONES
+================================== */
+
+.form-section {
+
+  background: white;
+
+  border-radius: 16px;
+
+  padding: 14px;
+
+  margin-bottom: 16px;
+
+  box-shadow:
+    0 3px 10px rgba(
+      0,
+      0,
+      0,
+      .04
+    );
+
+}
+
+.form-section h3 {
+
+  margin:
+    0
+    0
+    12px;
+
+  color: #009A82;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+}
+
+/* ==================================
+   INPUTS
+================================== */
+
+.form-section ion-item {
+
+  --background: #F9FAFB;
+
+  --border-color: #E5E7EB;
+
+  border-radius: 12px;
 
   margin-bottom: 10px;
 
@@ -194,143 +306,45 @@ ion-item {
 
 ion-input {
 
-  color: #1F2937;
+  --color: #111827;
 
 }
 
 /* ==================================
-   BOTON PRINCIPAL
+   BOTON GUARDAR
 ================================== */
 
 .save-button {
 
-  margin-top: 18px;
+  margin-top: 20px;
 
   --background: #009A82;
 
-  --background-hover: #00D0AC;
+  --background-hover: #00B89A;
 
-  --background-activated: #007973;
+  --background-activated: #00806E;
 
   --border-radius: 14px;
 
-  font-weight: 700;
-
   height: 50px;
 
-}
-
-/* ==================================
-   TITULO LISTADO
-================================== */
-
-.section-title {
-
-  margin: 20px 15px 10px;
-
-  color: #009A82;
-
-  font-size: 20px;
-
   font-weight: 700;
 
 }
 
 /* ==================================
-   TARJETAS
+   TARJETA VACIA
 ================================== */
 
 ion-card {
 
-  margin: 15px;
-
-  background: #FFFFFF;
-
   border-radius: 18px;
 
-  box-shadow:
-    0 4px 12px rgba(
-      0,
-      0,
-      0,
-      .05
-    );
-
 }
 
-ion-card-content h2 {
-
-  color: #009A82;
-
-  font-size: 19px;
-
-  font-weight: 700;
-
-  margin-bottom: 10px;
-
-}
-
-ion-card-content p {
+ion-card-content {
 
   color: #6B7280;
-
-  margin: 6px 0;
-
-}
-
-/* ==================================
-   ACCIONES
-================================== */
-
-.actions {
-
-  display: flex;
-
-  gap: 10px;
-
-  padding: 0 10px 12px;
-
-}
-
-.edit-button {
-
-  flex: 1;
-
-  --background: #009A82;
-
-  --border-radius: 12px;
-
-}
-
-.delete-button {
-
-  flex: 1;
-
-  --border-radius: 12px;
-
-}
-
-/* ==================================
-   ANIMACION
-================================== */
-
-@keyframes fadeIn {
-
-  from {
-
-    opacity: 0;
-
-    transform: translateY(-10px);
-
-  }
-
-  to {
-
-    opacity: 1;
-
-    transform: translateY(0);
-
-  }
 
 }
 
@@ -340,11 +354,21 @@ ion-card-content p {
 
 @media (min-width: 768px) {
 
-  .form-container {
+  .patient-card {
 
     max-width: 900px;
 
-    margin: 20px auto;
+    margin-left: auto;
+
+    margin-right: auto;
+
+  }
+
+  .modal-form {
+
+    max-width: 900px;
+
+    margin: auto;
 
   }
 

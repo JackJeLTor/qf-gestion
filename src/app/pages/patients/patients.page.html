@@ -1,288 +1,353 @@
 <ion-content>
 
-  <!-- HEADER -->
+  <!-- =========================
+       HEADER
+  ========================== -->
 
   <div class="page-header">
 
     <div class="header-top">
 
-      <ion-menu-button>
-      </ion-menu-button>
+  <ion-menu-button>
+  </ion-menu-button>
+
+  @if(!showSearch){
+
+    <div class="header-title">
 
       <h1>
-        Gestión de Pacientes
+        Pacientes
       </h1>
-
-      <ion-button
-        fill="clear"
-        class="search-toggle"
-        (click)="toggleSearch()">
-
-        <ion-icon
-          name="search-outline">
-        </ion-icon>
-
-      </ion-button>
 
     </div>
 
-    <p>
-      Registro y administración de pacientes
-    </p>
-
-    @if(showSearch){
-
-      <div class="search-container">
-
-        <ion-item>
-
-          <ion-icon
-            slot="start"
-            name="search-outline">
-          </ion-icon>
-
-          <ion-input
-            placeholder="Buscar paciente..."
-            [(ngModel)]="searchTerm"
-            (ionInput)="searchPatients()">
-          </ion-input>
-
-        </ion-item>
-
-      </div>
-
-    }
-
-  </div>
-
-  <!-- FORMULARIO -->
-
-  <div class="form-container">
-
-    <ion-item>
-
-      <ion-input
-        label="Tipo Documento"
-        labelPlacement="floating"
-        [(ngModel)]="documentType"
-        readonly>
-      </ion-input>
-
-    </ion-item>
-
-    <ion-item>
-
-      <ion-input
-        label="Número Documento"
-        labelPlacement="floating"
-        [(ngModel)]="documentNumber">
-      </ion-input>
-
-    </ion-item>
-
-    <ion-item>
-
-      <ion-input
-        label="Nombres"
-        labelPlacement="floating"
-        [(ngModel)]="firstName">
-      </ion-input>
-
-    </ion-item>
-
-    <ion-item>
-
-      <ion-input
-        label="Apellidos"
-        labelPlacement="floating"
-        [(ngModel)]="lastName">
-      </ion-input>
-
-    </ion-item>
-
-    <ion-item>
-
-      <ion-input
-        type="date"
-        label="Fecha Nacimiento"
-        labelPlacement="floating"
-        [(ngModel)]="birthDate">
-      </ion-input>
-
-    </ion-item>
-
-    <ion-item>
-
-      <ion-input
-        label="Teléfono"
-        labelPlacement="floating"
-        [(ngModel)]="phone">
-      </ion-input>
-
-    </ion-item>
-
-    <ion-item>
-
-      <ion-input
-        type="email"
-        label="Correo"
-        labelPlacement="floating"
-        [(ngModel)]="email">
-      </ion-input>
-
-    </ion-item>
-
-    <ion-item>
-
-      <ion-input
-        label="Dirección"
-        labelPlacement="floating"
-        [(ngModel)]="address">
-      </ion-input>
-
-    </ion-item>
-
     <ion-button
-      expand="block"
-      class="save-button"
-      (click)="addPatient()">
+      fill="clear"
+      class="search-toggle"
+      (click)="toggleSearch()">
 
-      @if(editingPatientId){
-
-        Actualizar Paciente
-
-      } @else {
-
-        Registrar Paciente
-
-      }
+      <ion-icon
+        name="search-outline">
+      </ion-icon>
 
     </ion-button>
 
-    @if(editingPatientId){
+  } @else {
 
-      <ion-button
-        expand="block"
-        fill="outline"
-        color="medium"
-        (click)="cancelEdit()">
+    <div class="header-search">
 
-        Cancelar Edición
+      <ion-input
+        autofocus="true"
+        placeholder="Buscar paciente..."
+        [(ngModel)]="searchTerm"
+        (ionInput)="searchPatients()">
+      </ion-input>
 
-      </ion-button>
+    </div>
 
-    }
+    <ion-button
+      fill="clear"
+      class="search-toggle"
+      (click)="toggleSearch()">
+
+      <ion-icon
+        name="close-outline">
+      </ion-icon>
+
+    </ion-button>
+
+  }
+
+</div>
 
   </div>
 
-  <!-- TITULO -->
+  <!-- =========================
+       LISTADO
+  ========================== -->
 
-  <div class="section-title">
+  @if(filteredPatients.length === 0){
 
-    Pacientes Registrados
-    ({{ filteredPatients.length }})
-
-  </div>
-
-  <!-- SIN RESULTADOS -->
-
-  @if(
-    filteredPatients.length === 0
-  ){
-
-    <ion-card>
+    <ion-card class="empty-card">
 
       <ion-card-content>
 
-        No se encontraron pacientes.
+        No hay pacientes registrados.
 
       </ion-card-content>
 
     </ion-card>
 
   }
-
-  <!-- LISTADO -->
 
   @for(
     patient of filteredPatients;
     track patient.id
   ){
 
-    <ion-card>
+    <ion-card class="patient-card">
 
       <ion-card-content>
 
-        <h2>
+        <div class="patient-name">
 
           {{ patient.firstName }}
           {{ patient.lastName }}
 
-        </h2>
+        </div>
 
-        <p>
+        <div class="patient-info">
 
-          Documento:
-          {{ patient.documentType }}
+          <strong>DNI:</strong>
           {{ patient.documentNumber }}
 
-        </p>
+        </div>
 
-        <p>
+        <div class="patient-info">
 
-          Fecha Nacimiento:
-          {{ patient.birthDate }}
-
-        </p>
-
-        <p>
-
-          Teléfono:
+          <strong>Teléfono:</strong>
           {{ patient.phone }}
 
-        </p>
+        </div>
 
-        <p>
+        <div class="patient-info">
 
-          Correo:
+          <strong>Correo:</strong>
           {{ patient.email }}
 
-        </p>
-
-        <p>
-
-          Dirección:
-          {{ patient.address }}
-
-        </p>
+        </div>
 
       </ion-card-content>
 
-      <ion-button
-        expand="block"
-        color="success"
-        (click)="editPatient(patient)">
+      <div class="card-actions">
 
-        <ion-icon
-          slot="start"
-          name="create-outline">
-        </ion-icon>
+        <ion-button
+          color="success"
+          fill="solid"
+          (click)="editPatient(patient)">
 
-        Editar
+          <ion-icon
+            slot="start"
+            name="create-outline">
+          </ion-icon>
 
-      </ion-button>
+          Editar
 
-      <ion-button
-        expand="block"
-        color="danger"
-        (click)="deletePatient(patient.id)">
+        </ion-button>
 
-        Eliminar
+        <ion-button
+          color="danger"
+          fill="solid"
+          (click)="deletePatient(patient.id)">
 
-      </ion-button>
+          Eliminar
+
+        </ion-button>
+
+      </div>
 
     </ion-card>
 
   }
+
+  <!-- =========================
+       BOTÓN FLOTANTE
+  ========================== -->
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed">
+
+    <ion-fab-button
+      (click)="openNewPatientModal()">
+
+      <ion-icon
+        name="add-outline">
+      </ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+  <!-- =========================
+       MODAL
+  ========================== -->
+
+  <ion-modal
+    [isOpen]="showPatientModal">
+
+    <ng-template>
+
+      <ion-header>
+
+        <ion-toolbar>
+
+          <ion-title>
+
+            @if(editingPatientId){
+
+              Editar Paciente
+
+            } @else {
+
+              Nuevo Paciente
+
+            }
+
+          </ion-title>
+
+          <ion-buttons slot="end">
+
+            <ion-button
+              (click)="closePatientModal()">
+
+              <ion-icon
+                name="close-outline">
+              </ion-icon>
+
+            </ion-button>
+
+          </ion-buttons>
+
+        </ion-toolbar>
+
+      </ion-header>
+
+      <ion-content>
+
+        <div class="modal-form">
+
+          <div class="form-section">
+
+            <h3>
+              Información General
+            </h3>
+
+            <ion-item>
+
+              <ion-input
+                label="Tipo Documento"
+                labelPlacement="stacked"
+                [(ngModel)]="documentType"
+                readonly>
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Número Documento"
+                labelPlacement="stacked"
+                [(ngModel)]="documentNumber">
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <div class="form-section">
+
+            <h3>
+              Datos Personales
+            </h3>
+
+            <ion-item>
+
+              <ion-input
+                label="Nombres"
+                labelPlacement="stacked"
+                [(ngModel)]="firstName">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Apellidos"
+                labelPlacement="stacked"
+                [(ngModel)]="lastName">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                type="date"
+                label="Fecha Nacimiento"
+                labelPlacement="stacked"
+                [(ngModel)]="birthDate">
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <div class="form-section">
+
+            <h3>
+              Contacto
+            </h3>
+
+            <ion-item>
+
+              <ion-input
+                label="Teléfono"
+                labelPlacement="stacked"
+                [(ngModel)]="phone">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                type="email"
+                label="Correo"
+                labelPlacement="stacked"
+                [(ngModel)]="email">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Dirección"
+                labelPlacement="stacked"
+                [(ngModel)]="address">
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <ion-button
+            expand="block"
+            class="save-button"
+            (click)="addPatient()">
+
+            @if(editingPatientId){
+
+              Actualizar Paciente
+
+            } @else {
+
+              Registrar Paciente
+
+            }
+
+          </ion-button>
+
+        </div>
+
+      </ion-content>
+
+    </ng-template>
+
+  </ion-modal>
 
 </ion-content>

@@ -10,13 +10,27 @@ import {
   IonCardContent,
   IonMenuButton,
   IonIcon,
+
+  IonFab,
+  IonFabButton,
+
+  IonModal,
+
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  
 } from '@ionic/angular/standalone';
+
 
 import { addIcons } from 'ionicons';
 
 import {
   searchOutline,
   createOutline,
+  addOutline,
+  closeOutline,
 } from 'ionicons/icons';
 
 import { PatientService }
@@ -38,6 +52,16 @@ from '../../services/patient.service';
     IonCardContent,
     IonMenuButton,
     IonIcon,
+
+    IonFab,
+    IonFabButton,
+
+    IonModal,
+
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
   ],
 })
 export class PatientsPage {
@@ -66,6 +90,8 @@ export class PatientsPage {
 
   showSearch = false;
 
+  showPatientModal = false;
+
   editingPatientId:
     number | null = null;
 
@@ -77,6 +103,8 @@ export class PatientsPage {
     addIcons({
       searchOutline,
       createOutline,
+      addOutline,
+      closeOutline,
     });
 
   }
@@ -110,6 +138,25 @@ export class PatientsPage {
         [...this.patients];
 
     }
+
+  }
+
+  openNewPatientModal() {
+
+    this.clearForm();
+
+    this.editingPatientId =
+      null;
+
+    this.showPatientModal =
+      true;
+
+  }
+
+  closePatientModal() {
+
+    this.showPatientModal =
+      false;
 
   }
 
@@ -285,9 +332,6 @@ export class PatientsPage {
 
         });
 
-      this.editingPatientId =
-        null;
-
     } else {
 
       this.patientService
@@ -325,6 +369,8 @@ export class PatientsPage {
 
     this.loadPatients();
 
+    this.closePatientModal();
+
     this.clearForm();
 
   }
@@ -360,19 +406,8 @@ export class PatientsPage {
     this.address =
       patient.address;
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-
-  }
-
-  cancelEdit() {
-
-    this.editingPatientId =
-      null;
-
-    this.clearForm();
+    this.showPatientModal =
+      true;
 
   }
 
