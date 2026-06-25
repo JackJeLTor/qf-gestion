@@ -4,7 +4,7 @@ import { Doctor }
 from '../models/doctor.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DoctorService {
 
@@ -15,7 +15,7 @@ export class DoctorService {
 
     const data =
       localStorage.getItem(
-        'doctors'
+        'doctors',
       );
 
     if (data) {
@@ -34,34 +34,58 @@ export class DoctorService {
   }
 
   getDoctorById(
-    id: number
+    id: number,
   ) {
 
     return this.doctors.find(
-      d => d.id === id
+      doctor =>
+        doctor.id === id,
     );
 
   }
 
   addDoctor(
-    doctor: Doctor
+    doctor: Doctor,
   ) {
 
     this.doctors.push(
-      doctor
+      doctor,
     );
 
     this.save();
 
   }
 
+  updateDoctor(
+    doctorUpdated: Doctor,
+  ) {
+
+    const index =
+      this.doctors.findIndex(
+        doctor =>
+          doctor.id ===
+          doctorUpdated.id,
+      );
+
+    if (index >= 0) {
+
+      this.doctors[index] =
+        doctorUpdated;
+
+      this.save();
+
+    }
+
+  }
+
   deleteDoctor(
-    id: number
+    id: number,
   ) {
 
     this.doctors =
       this.doctors.filter(
-        d => d.id !== id
+        doctor =>
+          doctor.id !== id,
       );
 
     this.save();
@@ -73,8 +97,8 @@ export class DoctorService {
     localStorage.setItem(
       'doctors',
       JSON.stringify(
-        this.doctors
-      )
+        this.doctors,
+      ),
     );
 
   }

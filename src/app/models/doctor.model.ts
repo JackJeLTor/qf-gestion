@@ -2,9 +2,17 @@ export interface Doctor {
 
   id: number;
 
-  name: string;
+  documentType: string;
+
+  documentNumber: string;
+
+  firstName: string;
+
+  lastName: string;
 
   cmp: string;
+
+  rne: string;
 
   specialty: string;
 

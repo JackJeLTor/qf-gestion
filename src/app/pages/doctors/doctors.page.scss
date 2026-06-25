@@ -1,15 +1,393 @@
-ion-card {
+/* ==================================
+   FONDO GENERAL
+================================== */
 
-  margin-top: 15px;
+ion-content {
 
-  border-radius: 16px;
+  --background: #f4f6f9;
 
 }
 
-h2 {
+/* ==================================
+   HEADER
+================================== */
 
-  color: #2144d8;
+.page-header {
 
-  font-weight: bold;
+  background: linear-gradient(
+    135deg,
+    #009A82,
+    #00B89A
+  );
+
+  padding: 10px 14px;
+
+  border-bottom-left-radius: 18px;
+
+  border-bottom-right-radius: 18px;
+
+  box-shadow:
+    0 4px 14px rgba(
+      0,
+      154,
+      130,
+      .18
+    );
+
+}
+
+.header-top {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 50px;
+
+}
+
+ion-menu-button {
+
+  --color: white;
+
+}
+
+.header-title {
+
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+}
+
+
+.header-title h1 {
+
+  margin: 0;
+
+  color: white;
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+  letter-spacing: .3px;
+
+}
+
+.search-toggle {
+
+  --color: white;
+
+  margin: 0;
+
+}
+
+/* ==================================
+   BUSCADOR EN HEADER
+================================== */
+
+.header-search {
+
+  flex: 1;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.18
+    );
+
+  border-radius: 12px;
+
+  padding: 0 12px;
+
+}
+
+.header-search ion-input {
+
+  --color: white;
+
+  --placeholder-color: rgba(
+    255,
+    255,
+    255,
+    .75
+  );
+
+  font-size: 14px;
+
+}
+
+/* ==================================
+   TARJETAS
+================================== */
+
+.doctor-card {
+
+  margin: 14px;
+
+  border-radius: 18px;
+
+  background: white;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0, 0, 0, .08);
+
+}
+
+.doctor-name {
+
+  color: #009A82;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  margin-bottom: 12px;
+
+}
+
+.doctor-info {
+
+  margin-bottom: 8px;
+
+  color: #374151;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+}
+
+.doctor-info strong {
+
+  color: #1F2937;
+
+}
+
+/* ==================================
+   ACCIONES
+================================== */
+
+.card-actions {
+
+  display: flex;
+
+  gap: 10px;
+
+  padding: 0 16px 16px;
+
+}
+
+.card-actions ion-button {
+
+  flex: 1;
+
+  --border-radius: 42px;
+
+  font-weight: 600;
+
+}
+
+
+/* ==================================
+   FAB
+================================== */
+
+ion-fab-button {
+
+  --background: #009A82;
+
+  --color: white;
+
+  --box-shadow:
+    0 6px 18px rgba(
+      0,
+      154,
+      130,
+      .35
+    );
+
+}
+/* ==================================
+   MODAL
+================================== */
+
+ion-modal {
+
+  --border-radius: 24px;
+
+}
+
+ion-toolbar {
+
+  --background: #009A82;
+
+  --color: white;
+
+}
+
+ion-title {
+
+  font-weight: 700;
+
+}
+
+.modal-form {
+
+  padding: 18px;
+
+}
+
+/* ==================================
+   SECCIONES
+================================== */
+
+.form-section {
+
+  background: white;
+
+  border-radius: 16px;
+
+  padding: 14px;
+
+  margin-bottom: 16px;
+
+  box-shadow:
+    0 3px 10px rgba(
+      0,
+      0,
+      0,
+      .04
+    );
+
+}
+
+
+.form-section h3 {
+
+  margin:
+    0
+    0
+    12px;
+
+  color: #009A82;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+}
+
+/* ==================================
+   INPUTS
+================================== */
+
+.form-section ion-item {
+
+  --background: white;
+
+  border-radius: 12px;
+
+  margin-bottom: 10px;
+
+  --padding-start: 12px;
+
+}
+
+ion-input {
+
+  --color: #111827;
+
+}
+
+/* ==================================
+   BOTON CERRAR MODAL
+================================== */
+
+ion-buttons ion-button {
+
+  --color: white;
+
+}
+
+ion-buttons ion-icon {
+
+  color: white;
+
+  font-size: 24px;
+
+}
+
+/* ==================================
+   BOTON GUARDAR
+================================== */
+
+.save-button {
+
+  margin-top: 20px;
+
+  --background: #009A82;
+
+  --background-hover: #00B89A;
+
+  --background-activated: #00806E;
+
+  --border-radius: 44px;
+
+  height: 50px;
+
+  font-weight: 700;
+
+}
+
+/* ==================================
+   TARJETA VACIA
+================================== */
+
+ion-card {
+
+  border-radius: 18px;
+
+}
+
+ion-card-content {
+
+  color: #6B7280;
+
+}
+
+
+/* ==================================
+   RESPONSIVE
+================================== */
+
+
+@media (min-width: 768px) {
+
+  .patient-card {
+
+    max-width: 900px;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+  }
+
+  .modal-form {
+
+    max-width: 900px;
+
+    margin: auto;
+
+  }
 
 }

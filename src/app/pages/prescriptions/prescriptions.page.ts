@@ -1,363 +1,545 @@
 import { Component } from '@angular/core';
+
+import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 import {
-IonContent,
-IonHeader,
-IonToolbar,
-IonTitle,
-IonItem,
-IonInput,
-IonTextarea,
-IonButton,
-IonCard,
-IonCardContent,
-IonSelect,
-IonSelectOption,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonTextarea,
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonSelect,
+  IonSelectOption,
+  IonMenuButton,
+  IonIcon,
+  IonFab,
+  IonFabButton,
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
 } from '@ionic/angular/standalone';
 
-import { PrescriptionService } from '../../services/prescription.service';
+import { addIcons } from 'ionicons';
 
-import { ProductionService } from '../../services/production.service';
+import {
+  searchOutline,
+  addOutline,
+  closeOutline,
+} from 'ionicons/icons';
 
-import { PatientService } from '../../services/patient.service';
+import { PrescriptionService }
+from '../../services/prescription.service';
 
-import { DoctorService } from '../../services/doctor.service';
+import { ProductionService }
+from '../../services/production.service';
 
-import { AuditService } from '../../services/audit.service';
+import { PatientService }
+from '../../services/patient.service';
+
+import { DoctorService }
+from '../../services/doctor.service';
+
+import { AuditService }
+from '../../services/audit.service';
 
 @Component({
-selector: 'app-prescriptions',
-templateUrl: './prescriptions.page.html',
-styleUrls: ['./prescriptions.page.scss'],
-standalone: true,
-imports: [
-FormsModule,
-IonContent,
-IonHeader,
-IonToolbar,
-IonTitle,
-IonItem,
-IonInput,
-IonTextarea,
-IonButton,
-IonCard,
-IonCardContent,
-IonSelect,
-IonSelectOption,
-],
+  selector: 'app-prescriptions',
+  templateUrl: './prescriptions.page.html',
+  styleUrls: ['./prescriptions.page.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+
+    IonContent,
+    IonItem,
+    IonInput,
+    IonTextarea,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonSelect,
+    IonSelectOption,
+
+    IonMenuButton,
+    IonIcon,
+
+    IonFab,
+    IonFabButton,
+
+    IonModal,
+
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+  ],
 })
 export class PrescriptionsPage {
-patientId = 0;
 
-doctorId = 0;
+  patientId = 0;
 
-formula = '';
+  doctorId = 0;
 
-pharmaceuticalForm = '';
+  formula = '';
 
-specialty = '';
+  pharmaceuticalForm = '';
 
-priority = 'Media';
+  specialty = '';
 
-responsible = '';
+  priority = 'Media';
 
-deliveryDate = '';
+  responsible = '';
 
-prescriptions: any[] = [];
+  deliveryDate = '';
 
-patients: any[] = [];
+  prescriptions: any[] = [];
 
-doctors: any[] = [];
+  filteredPrescriptions: any[] = [];
 
-constructor(
-private prescriptionService: PrescriptionService,
+  patients: any[] = [];
 
-private productionService: ProductionService,
+  doctors: any[] = [];
 
-private patientService: PatientService,
+  searchTerm = '';
 
-private doctorService: DoctorService,
+  showSearch = false;
 
-private auditService: AuditService
-) {}
+  showPrescriptionModal = false;
 
-ngOnInit() {
-this.loadPrescriptions();
+  constructor(
+    private prescriptionService:
+      PrescriptionService,
 
-this.patients = this.patientService.getPatients();
+    private productionService:
+      ProductionService,
 
-this.doctors = this.doctorService.getDoctors();
+    private patientService:
+      PatientService,
 
-}
+    private doctorService:
+      DoctorService,
 
-loadPrescriptions() {
-this.prescriptions = this.prescriptionService.getPrescriptions();
-}
+    private auditService:
+      AuditService
+  ) {
 
-onDoctorChange() {
-const doctor = this.doctors.find(
-(d) => d.id === this.doctorId
-);
+    addIcons({
+      searchOutline,
+      addOutline,
+      closeOutline,
+    });
 
-if (doctor) {
-  this.specialty = doctor.specialty;
-}
+  }
 
-}
-
-createPrescription() {
-const patient =
-this.patientService.getPatientById(
-this.patientId
-);
-
-const doctor =
-  this.doctorService.getDoctorById(
-    this.doctorId
-  );
-
-if (!patient) {
-  alert('Seleccione un paciente');
-  return;
-}
-
-if (!doctor) {
-  alert('Seleccione un médico');
-  return;
-}
-
-if (!this.pharmaceuticalForm) {
-  alert(
-    'Seleccione la forma farmacéutica'
-  );
-  return;
-}
-
-if (
-  this.responsible.trim().length < 3
-) {
-  alert(
-    'Ingrese un responsable válido'
-  );
-  return;
-}
-
-if (
-  this.formula.trim().length < 10
-) {
-  alert(
-    'La fórmula debe tener al menos 10 caracteres'
-  );
-  return;
-}
-
-const today =
-  new Date()
-    .toISOString()
-    .split('T')[0];
-
-if (
-  this.deliveryDate < today
-) {
-  alert(
-    'La fecha de entrega no puede ser anterior a hoy'
-  );
-  return;
-}
-
-this.prescriptionService.addPrescription({
-
-  id: Date.now(),
-
-  patientId: patient.id,
-
-  patientName:
-    patient.firstName +
-    ' ' +
-    patient.lastName,
-
-  doctorId: doctor.id,
-
-  doctorName: doctor.name,
-
-  formula: this.formula,
-
-  pharmaceuticalForm:
-    this.pharmaceuticalForm,
-
-  specialty: this.specialty,
-
-  priority: this.priority,
-
-  responsible: this.responsible,
-
-  deliveryDate: this.deliveryDate,
-
-  status: 'Pendiente',
-
-  date:
-    new Date()
-      .toLocaleDateString(),
-
-});
-
-this.auditService.addLog(
-  'Recetas',
-  'Crear',
-  this.responsible,
-  `Receta creada para ${patient.firstName} ${patient.lastName}`
-);
-
-this.loadPrescriptions();
-
-this.patientId = 0;
-
-this.doctorId = 0;
-
-this.formula = '';
-
-this.pharmaceuticalForm = '';
-
-this.specialty = '';
-
-this.priority = 'Media';
-
-this.responsible = '';
-
-this.deliveryDate = '';
-
-}
-
-nextStatus(
-prescription: any
+  nextStatus(
+  prescription: any,
 ) {
 
-switch (
-  prescription.status
-) {
+  switch (
+    prescription.status
+  ) {
 
-  case 'Pendiente':
+    case 'Pendiente':
 
-    this.prescriptionService
-      .updateStatus(
-        prescription.id,
-        'Validada'
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'Validada',
+        );
+
+      this.productionService
+        .addProduction({
+
+          id: Date.now(),
+
+          prescriptionId:
+            prescription.id,
+
+          patientName:
+            prescription.patientName,
+
+          formula:
+            prescription.formula,
+
+          responsible:
+            prescription.responsible,
+
+          startDate:
+            new Date()
+              .toLocaleDateString(),
+
+          endDate: '',
+
+          qualityDate: '',
+
+          qualityResponsible: '',
+
+          qualityStatus:
+            'Pendiente',
+
+          qualityResult: '',
+
+          observations: '',
+
+          status:
+            'Pendiente',
+
+          batchNumber:
+            'LOT-' +
+            Date.now(),
+
+          quantity: 1,
+
+          productionDate:
+            new Date()
+              .toLocaleDateString(),
+
+          pharmaceuticalForm:
+            prescription.pharmaceuticalForm,
+
+          specialty:
+            prescription.specialty,
+
+          priority:
+            prescription.priority,
+
+          rawMaterialsUsed: [],
+
+          history: [
+            'Producción creada desde receta validada',
+          ],
+
+        });
+
+      break;
+
+    case 'Validada':
+
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'En Preparación',
+        );
+
+      break;
+
+    case 'En Preparación':
+
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'Control de Calidad',
+        );
+
+      break;
+
+    case 'Control de Calidad':
+
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'Lista para Entrega',
+        );
+
+      break;
+
+    case 'Lista para Entrega':
+
+      this.prescriptionService
+        .updateStatus(
+          prescription.id,
+          'Entregada',
+        );
+
+      break;
+
+  }
+
+  this.loadPrescriptions();
+
+}
+
+  ngOnInit() {
+
+    this.loadPrescriptions();
+
+    this.patients =
+      this.patientService.getPatients();
+
+    this.doctors =
+      this.doctorService.getDoctors();
+
+  }
+
+  loadPrescriptions() {
+
+    this.prescriptions =
+      this.prescriptionService
+        .getPrescriptions();
+
+    this.filteredPrescriptions =
+      [...this.prescriptions];
+
+  }
+
+  toggleSearch() {
+
+    this.showSearch =
+      !this.showSearch;
+
+    if (!this.showSearch) {
+
+      this.searchTerm = '';
+
+      this.filteredPrescriptions =
+        [...this.prescriptions];
+
+    }
+
+  }
+
+  searchPrescriptions() {
+
+    const term =
+      this.searchTerm
+        .toLowerCase()
+        .trim();
+
+    if (!term) {
+
+      this.filteredPrescriptions =
+        [...this.prescriptions];
+
+      return;
+
+    }
+
+    this.filteredPrescriptions =
+      this.prescriptions.filter(
+        prescription =>
+
+          prescription.patientName
+            .toLowerCase()
+            .includes(term)
+
+          ||
+
+          prescription.doctorName
+            .toLowerCase()
+            .includes(term)
+
+          ||
+
+          prescription.status
+            .toLowerCase()
+            .includes(term)
       );
 
-    this.productionService
-      .addProduction({
+  }
+
+  openNewPrescriptionModal() {
+
+    this.clearForm();
+
+    this.showPrescriptionModal =
+      true;
+
+  }
+
+  closePrescriptionModal() {
+
+    this.showPrescriptionModal =
+      false;
+
+  }
+
+  onDoctorChange() {
+
+    const doctor =
+      this.doctors.find(
+        d => d.id === this.doctorId
+      );
+
+    if (doctor) {
+
+      this.specialty =
+        doctor.specialty;
+
+    }
+
+  }
+
+  createPrescription() {
+
+    const patient =
+      this.patientService
+        .getPatientById(
+          this.patientId
+        );
+
+    const doctor =
+      this.doctorService
+        .getDoctorById(
+          this.doctorId
+        );
+
+    if (!patient) {
+
+      alert(
+        'Seleccione un paciente'
+      );
+
+      return;
+
+    }
+
+    if (!doctor) {
+
+      alert(
+        'Seleccione un médico'
+      );
+
+      return;
+
+    }
+
+    if (!this.pharmaceuticalForm) {
+
+      alert(
+        'Seleccione la forma farmacéutica'
+      );
+
+      return;
+
+    }
+
+    if (
+      this.responsible
+        .trim()
+        .length < 3
+    ) {
+
+      alert(
+        'Ingrese un responsable válido'
+      );
+
+      return;
+
+    }
+
+    if (
+      this.formula
+        .trim()
+        .length < 10
+    ) {
+
+      alert(
+        'La fórmula debe tener al menos 10 caracteres'
+      );
+
+      return;
+
+    }
+
+    const today =
+      new Date()
+        .toISOString()
+        .split('T')[0];
+
+    if (
+      this.deliveryDate <
+      today
+    ) {
+
+      alert(
+        'La fecha de entrega no puede ser anterior a hoy'
+      );
+
+      return;
+
+    }
+
+    this.prescriptionService
+      .addPrescription({
 
         id: Date.now(),
 
-        prescriptionId:
-          prescription.id,
+        patientId:
+          patient.id,
 
         patientName:
-          prescription.patientName,
+          patient.firstName +
+          ' ' +
+          patient.lastName,
+
+        doctorId:
+          doctor.id,
+
+        doctorName:
+          doctor.firstName +
+          ' ' +
+          doctor.lastName,
 
         formula:
-          prescription.formula,
-
-        responsible:
-          prescription.responsible,
-
-        startDate:
-          new Date()
-            .toLocaleDateString(),
-
-        endDate: '',
-
-        qualityResult: '',
-
-        observations: '',
-
-        status: 'Pendiente',
-
-        batchNumber:
-          'LOT-' +
-          Date.now(),
-
-        quantity: 1,
-
-        productionDate:
-          new Date()
-            .toLocaleDateString(),
+          this.formula,
 
         pharmaceuticalForm:
-          prescription.pharmaceuticalForm,
+          this.pharmaceuticalForm,
 
         specialty:
-          prescription.specialty,
+          this.specialty,
 
         priority:
-          prescription.priority,
+          this.priority,
 
-        rawMaterialsUsed: [],
+        responsible:
+          this.responsible,
 
-        qualityDate: '',
+        deliveryDate:
+          this.deliveryDate,
 
-        qualityResponsible: '',
+        status:
+          'Pendiente',
 
-        qualityStatus: 'Pendiente',
-
-        history: [
-          'Producción creada desde receta validada'
-        ]
+        date:
+          new Date()
+            .toLocaleDateString(),
 
       });
 
-    this.auditService.addLog(
-      'Recetas',
-      'Validar',
-      prescription.responsible,
-      `Receta validada para ${prescription.patientName}`
-    );
+    this.loadPrescriptions();
 
-    break;
+    this.closePrescriptionModal();
 
-  case 'Validada':
+    this.clearForm();
 
-    this.prescriptionService
-      .updateStatus(
-        prescription.id,
-        'En Preparación'
-      );
+  }
 
-    break;
+  clearForm() {
 
-  case 'En Preparación':
+    this.patientId = 0;
 
-    this.prescriptionService
-      .updateStatus(
-        prescription.id,
-        'Control de Calidad'
-      );
+    this.doctorId = 0;
 
-    break;
+    this.formula = '';
 
-  case 'Control de Calidad':
+    this.pharmaceuticalForm = '';
 
-    this.prescriptionService
-      .updateStatus(
-        prescription.id,
-        'Lista para Entrega'
-      );
+    this.specialty = '';
 
-    break;
+    this.priority = 'Media';
 
-  case 'Lista para Entrega':
+    this.responsible = '';
 
-    this.prescriptionService
-      .updateStatus(
-        prescription.id,
-        'Entregada'
-      );
+    this.deliveryDate = '';
 
-    break;
-}
+  }
 
-this.loadPrescriptions();
-
-}
 }

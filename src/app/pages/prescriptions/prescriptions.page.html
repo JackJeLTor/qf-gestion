@@ -1,303 +1,483 @@
-<ion-header>
+<ion-content>
 
-  <ion-toolbar>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-    <ion-title>
+  <div class="page-header">
 
-      Recetas Magistrales
+    <div class="header-top">
 
-    </ion-title>
+      <ion-menu-button>
+      </ion-menu-button>
 
-  </ion-toolbar>
+      @if(!showSearch){
 
-</ion-header>
+        <div class="header-title">
 
-<ion-content class="ion-padding">
+          <h1>
+            Recetas Magistrales
+          </h1>
 
-  <ion-card class="form-card">
+        </div>
 
-    <ion-card-content>
+      } @else {
 
-      <ion-item>
+        <div class="header-search">
 
-        <ion-select
-          label="Paciente"
-          labelPlacement="floating"
-          [(ngModel)]="patientId">
+          <ion-input
+            autofocus="true"
+            placeholder="Buscar receta..."
+            [(ngModel)]="searchTerm"
+            (ionInput)="searchPrescriptions()">
+          </ion-input>
 
-          @for(
-            patient of patients;
-            track patient.id
-          ){
+        </div>
 
-            <ion-select-option
-              [value]="patient.id">
-
-              {{ patient.firstName }}
-              {{ patient.lastName }}
-
-            </ion-select-option>
-
-          }
-
-        </ion-select>
-
-      </ion-item>
-
-      <ion-item>
-
-        <ion-select
-  label="Médico"
-  labelPlacement="floating"
-  [(ngModel)]="doctorId"
-  (ionChange)="onDoctorChange()">
-
-  @for(
-    doctor of doctors;
-    track doctor.id
-  ){
-
-    <ion-select-option
-      [value]="doctor.id">
-
-      {{ doctor.name }}
-
-    </ion-select-option>
-
-  }
-
-</ion-select>
-
-        <ion-item>
-
-  <ion-select
-    label="Forma Farmacéutica"
-    labelPlacement="floating"
-    [(ngModel)]="pharmaceuticalForm">
-
-    <ion-select-option value="Crema">
-      Crema
-    </ion-select-option>
-
-    <ion-select-option value="Gel">
-      Gel
-    </ion-select-option>
-
-    <ion-select-option value="Loción">
-      Loción
-    </ion-select-option>
-
-    <ion-select-option value="Champú">
-      Champú
-    </ion-select-option>
-
-    <ion-select-option value="Cápsulas">
-      Cápsulas
-    </ion-select-option>
-
-    <ion-select-option value="Jarabe">
-      Jarabe
-    </ion-select-option>
-
-  </ion-select>
-
-</ion-item>
-
-<ion-item>
-
-  <ion-item>
-
-  <ion-input
-    label="Especialidad"
-    labelPlacement="floating"
-    [value]="specialty"
-    readonly>
-
-  </ion-input>
-
-</ion-item>
-
-</ion-item>
-
-      </ion-item>
-
-      <ion-item>
-
-  <ion-select
-    label="Prioridad"
-    labelPlacement="floating"
-    [(ngModel)]="priority">
-
-    <ion-select-option value="Alta">
-      Alta
-    </ion-select-option>
-
-    <ion-select-option value="Media">
-      Media
-    </ion-select-option>
-
-    <ion-select-option value="Baja">
-      Baja
-    </ion-select-option>
-
-  </ion-select>
-
-</ion-item>
-
-      <ion-item>
-
-        <ion-input
-          label="Responsable"
-          labelPlacement="floating"
-          [(ngModel)]="responsible">
-        </ion-input>
-
-      </ion-item>
-
-      <ion-item>
-
-        <ion-input
-          type="date"
-          label="Fecha Entrega"
-          labelPlacement="floating"
-          [(ngModel)]="deliveryDate">
-        </ion-input>
-
-      </ion-item>
-
-      <ion-item>
-
-        <ion-textarea
-          label="Fórmula Magistral"
-          labelPlacement="floating"
-          [(ngModel)]="formula">
-        </ion-textarea>
-
-      </ion-item>
+      }
 
       <ion-button
-        expand="block"
-        (click)="createPrescription()">
+        fill="clear"
+        class="search-toggle"
+        (click)="toggleSearch()">
 
-        Registrar Receta
+        <ion-icon
+          [name]="showSearch ? 'close-outline' : 'search-outline'">
+        </ion-icon>
 
       </ion-button>
 
-    </ion-card-content>
-
-  </ion-card>
-
-  <div class="section-title">
-
-    Producción Magistral
+    </div>
 
   </div>
 
-  @for(
-    prescription of prescriptions;
-    track prescription.id
-  ){
+  <!-- =========================
+       LISTADO VACIO
+  ========================== -->
 
-    <ion-card class="prescription-card">
+  @if(filteredPrescriptions.length === 0){
+
+    <ion-card>
 
       <ion-card-content>
 
-        <h2>
-
-          {{ prescription.patientName }}
-
-        </h2>
-
-        <p>
-
-          👨‍⚕️ {{ prescription.doctorName }}
-
-        </p>
-
-        <p>
-
-  💊 Forma:
-
-  {{ prescription.pharmaceuticalForm }}
-
-</p>
-
-<p>
-
-  🏥 Especialidad:
-
-  {{ prescription.specialty }}
-
-</p>
-
-        <p>
-
-          ⚡ Prioridad:
-          {{ prescription.priority }}
-
-        </p>
-
-        <p>
-
-          👤 Responsable:
-          {{ prescription.responsible }}
-
-        </p>
-
-        <p>
-
-          📅 Entrega:
-          {{ prescription.deliveryDate }}
-
-        </p>
-
-        <p>
-
-          🧪 {{ prescription.formula }}
-
-        </p>
-
-        <p
-          class="status"
-          [style.background]="
-            prescription.status === 'Pendiente'
-              ? '#fde68a'
-              : prescription.status === 'Validada'
-              ? '#bfdbfe'
-              : prescription.status === 'En Preparación'
-              ? '#c4b5fd'
-              : prescription.status === 'Control de Calidad'
-              ? '#fbcfe8'
-              : prescription.status === 'Lista para Entrega'
-              ? '#86efac'
-              : '#22c55e'
-          "
-        >
-
-          {{ prescription.status }}
-
-        </p>
-
-        @if(
-          prescription.status !==
-          'Entregada'
-        ){
-
-          <ion-button
-            expand="block"
-            size="small"
-            (click)="nextStatus(prescription)">
-
-            Avanzar Estado
-
-          </ion-button>
-
-        }
+        No hay recetas registradas.
 
       </ion-card-content>
 
     </ion-card>
 
   }
+
+  <!-- =========================
+       LISTADO
+  ========================== -->
+
+  @for(
+    prescription of filteredPrescriptions;
+    track prescription.id
+  ){
+
+    <ion-card
+      class="prescription-card">
+
+      <ion-card-content>
+
+        <div class="patient-name">
+
+          {{ prescription.patientName }}
+
+        </div>
+
+        <div class="prescription-info">
+
+          <strong>
+            Médico:
+          </strong>
+
+          {{ prescription.doctorName }}
+
+        </div>
+
+        <div class="prescription-info">
+
+          <strong>
+            Forma:
+          </strong>
+
+          {{ prescription.pharmaceuticalForm }}
+
+        </div>
+
+        <div class="prescription-info">
+
+          <strong>
+            Especialidad:
+          </strong>
+
+          {{ prescription.specialty }}
+
+        </div>
+
+        <div class="prescription-info">
+
+          <strong>
+            Prioridad:
+          </strong>
+
+          {{ prescription.priority }}
+
+        </div>
+
+        <div class="prescription-info">
+
+          <strong>
+            Responsable:
+          </strong>
+
+          {{ prescription.responsible }}
+
+        </div>
+
+        <div class="prescription-info">
+
+          <strong>
+            Entrega:
+          </strong>
+
+          {{ prescription.deliveryDate }}
+
+        </div>
+
+        <div class="prescription-info formula">
+
+          {{ prescription.formula }}
+
+        </div>
+
+        <div
+          class="status-badge"
+          [ngClass]="{
+
+            'pending':
+              prescription.status === 'Pendiente',
+
+            'validated':
+              prescription.status === 'Validada',
+
+            'preparing':
+              prescription.status === 'En Preparación',
+
+            'quality':
+              prescription.status === 'Control de Calidad',
+
+            'delivery':
+              prescription.status === 'Lista para Entrega',
+
+            'completed':
+              prescription.status === 'Entregada'
+
+          }">
+
+          {{ prescription.status }}
+
+        </div>
+
+      </ion-card-content>
+
+      @if(
+        prescription.status !==
+        'Entregada'
+      ){
+
+        <div class="card-actions">
+
+          <ion-button
+            expand="block"
+            color="success"
+            (click)="nextStatus(prescription)">
+
+            Avanzar Estado
+
+          </ion-button>
+
+        </div>
+
+      }
+
+    </ion-card>
+
+  }
+
+  <!-- =========================
+       FAB
+  ========================== -->
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed">
+
+    <ion-fab-button
+      (click)="openNewPrescriptionModal()">
+
+      <ion-icon
+        name="add-outline">
+      </ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+  <!-- =========================
+       MODAL
+  ========================== -->
+
+  <ion-modal
+    [isOpen]="showPrescriptionModal">
+
+    <ng-template>
+
+      <ion-header>
+
+        <ion-toolbar>
+
+          <ion-title>
+
+            Nueva Receta
+
+          </ion-title>
+
+          <ion-buttons
+            slot="end">
+
+            <ion-button
+              (click)="closePrescriptionModal()">
+
+              <ion-icon
+                name="close-outline">
+              </ion-icon>
+
+            </ion-button>
+
+          </ion-buttons>
+
+        </ion-toolbar>
+
+      </ion-header>
+
+      <ion-content>
+
+        <div class="modal-form">
+
+          <!-- PACIENTE -->
+
+          <div class="form-section">
+
+            <h3>
+              Paciente
+            </h3>
+
+            <ion-item>
+
+              <ion-select
+                label="Paciente"
+                labelPlacement="stacked"
+                [(ngModel)]="patientId">
+
+                @for(
+                  patient of patients;
+                  track patient.id
+                ){
+
+                  <ion-select-option
+                    [value]="patient.id">
+
+                    {{ patient.firstName }}
+                    {{ patient.lastName }}
+
+                  </ion-select-option>
+
+                }
+
+              </ion-select>
+
+            </ion-item>
+
+          </div>
+
+          <!-- MEDICO -->
+
+          <div class="form-section">
+
+            <h3>
+              Médico
+            </h3>
+
+            <ion-item>
+
+              <ion-select
+                label="Médico"
+                labelPlacement="stacked"
+                [(ngModel)]="doctorId"
+                (ionChange)="onDoctorChange()">
+
+                @for(
+                  doctor of doctors;
+                  track doctor.id
+                ){
+
+                  <ion-select-option
+                    [value]="doctor.id">
+
+                    {{ doctor.firstName }}
+                    {{ doctor.lastName }}
+
+                  </ion-select-option>
+
+                }
+
+              </ion-select>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Especialidad"
+                labelPlacement="stacked"
+                [value]="specialty"
+                readonly>
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <!-- FORMULA -->
+
+          <div class="form-section">
+
+            <h3>
+              Preparación
+            </h3>
+
+            <ion-item>
+
+              <ion-select
+                label="Forma Farmacéutica"
+                labelPlacement="stacked"
+                [(ngModel)]="pharmaceuticalForm">
+
+                <ion-select-option value="Crema">
+                  Crema
+                </ion-select-option>
+
+                <ion-select-option value="Gel">
+                  Gel
+                </ion-select-option>
+
+                <ion-select-option value="Loción">
+                  Loción
+                </ion-select-option>
+
+                <ion-select-option value="Champú">
+                  Champú
+                </ion-select-option>
+
+                <ion-select-option value="Cápsulas">
+                  Cápsulas
+                </ion-select-option>
+
+                <ion-select-option value="Jarabe">
+                  Jarabe
+                </ion-select-option>
+
+              </ion-select>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-textarea
+                label="Fórmula Magistral"
+                labelPlacement="stacked"
+                [(ngModel)]="formula">
+              </ion-textarea>
+
+            </ion-item>
+
+          </div>
+
+          <!-- CONTROL -->
+
+          <div class="form-section">
+
+            <h3>
+              Control
+            </h3>
+
+            <ion-item>
+
+              <ion-select
+                label="Prioridad"
+                labelPlacement="stacked"
+                [(ngModel)]="priority">
+
+                <ion-select-option value="Alta">
+                  Alta
+                </ion-select-option>
+
+                <ion-select-option value="Media">
+                  Media
+                </ion-select-option>
+
+                <ion-select-option value="Baja">
+                  Baja
+                </ion-select-option>
+
+              </ion-select>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Responsable"
+                labelPlacement="stacked"
+                [(ngModel)]="responsible">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                type="date"
+                label="Fecha Entrega"
+                labelPlacement="stacked"
+                [(ngModel)]="deliveryDate">
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <ion-button
+            expand="block"
+            class="save-button"
+            (click)="createPrescription()">
+
+            Registrar Receta
+
+          </ion-button>
+
+        </div>
+
+      </ion-content>
+
+    </ng-template>
+
+  </ion-modal>
 
 </ion-content>

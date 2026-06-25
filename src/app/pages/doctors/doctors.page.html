@@ -1,135 +1,233 @@
-<ion-header>
+<ion-content>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-  <ion-toolbar>
+  <div class="page-header">
+  <div class="header-top">
+    <ion-menu-button> </ion-menu-button>
 
-    <ion-title>
+    @if(!showSearch){
+      <div class="header-title">
+        <h1>Médicos</h1>
+      </div>
+    } @else {
+      <div class="header-search">
+        <ion-input
+          autofocus="true"
+          placeholder="Buscar médico..."
+          [(ngModel)]="searchTerm"
+          (ionInput)="searchDoctors()"
+        >
+        </ion-input>
+      </div>
+    }
 
-      Médicos
+    <!-- Botón único optimizado fuera del @if -->
+    <ion-button fill="clear" class="search-toggle" (click)="toggleSearch()">
+      <ion-icon [name]="showSearch ? 'close-outline' : 'search-outline'">
+      </ion-icon>
+    </ion-button>
+  </div>
+</div>
 
-    </ion-title>
+  <!-- =========================
+       LISTADO
+  ========================== -->
 
-  </ion-toolbar>
+  @if(filteredDoctors.length === 0){
 
-</ion-header>
+  <ion-card>
+    <ion-card-content> No hay médicos registrados. </ion-card-content>
+  </ion-card>
 
-<ion-content class="ion-padding">
+  } @for( doctor of filteredDoctors; track doctor.id ){
 
-  <ion-item>
+  <ion-card class="doctor-card">
+    <ion-card-content>
+      <div class="doctor-name">
+        Dr(a). {{ doctor.firstName }} {{ doctor.lastName }}
+      </div>
 
-    <ion-input
-      label="Nombre"
-      labelPlacement="floating"
-      [(ngModel)]="name">
-    </ion-input>
+      <div class="doctor-info">
+        <strong> Documento: </strong>
 
-  </ion-item>
+        {{ doctor.documentType }} {{ doctor.documentNumber }}
+      </div>
 
-  <ion-item>
+      <div class="doctor-info">
+        <strong> CMP: </strong>
 
-    <ion-input
-  type="number"
-  label="CMP"
-  labelPlacement="floating"
-  [(ngModel)]="cmp">
-</ion-input>
+        {{ doctor.cmp }}
+      </div>
 
-  </ion-item>
+      <div class="doctor-info">
+        <strong> RNE: </strong>
 
-  <ion-item>
+        {{ doctor.rne }}
+      </div>
 
-    <ion-input
-      label="Especialidad"
-      labelPlacement="floating"
-      [(ngModel)]="specialty">
-    </ion-input>
+      <div class="doctor-info">
+        <strong> Especialidad: </strong>
 
-  </ion-item>
+        {{ doctor.specialty }}
+      </div>
 
-  <ion-item>
+      <div class="doctor-info">
+        <strong> Teléfono: </strong>
 
-    <ion-input
-  type="number"
-  label="Teléfono"
-  labelPlacement="floating"
-  [(ngModel)]="phone">
-</ion-input>
+        {{ doctor.phone }}
+      </div>
 
-  </ion-item>
+      <div class="doctor-info">
+        <strong> Correo: </strong>
 
-  <ion-item>
+        {{ doctor.email }}
+      </div>
+    </ion-card-content>
 
-    <ion-input
-      label="Correo"
-      labelPlacement="floating"
-      [(ngModel)]="email">
-    </ion-input>
+    <div class="card-actions">
+      <ion-button color="success" fill="solid" (click)="editDoctor(doctor)">
+        <ion-icon slot="start" name="create-outline"> </ion-icon>
 
-  </ion-item>
-
-  <ion-button
-    expand="block"
-    (click)="addDoctor()">
-
-    Registrar Médico
-
-  </ion-button>
-
-  @for(
-    doctor of doctors;
-    track doctor.id
-  ){
-
-    <ion-card>
-
-      <ion-card-content>
-
-        <h2>
-
-          {{ doctor.name }}
-
-        </h2>
-
-        <p>
-
-          CMP:
-          {{ doctor.cmp }}
-
-        </p>
-
-        <p>
-
-          Especialidad:
-          {{ doctor.specialty }}
-
-        </p>
-
-        <p>
-
-          Teléfono:
-          {{ doctor.phone }}
-
-        </p>
-
-        <p>
-
-          Correo:
-          {{ doctor.email }}
-
-        </p>
-
-      </ion-card-content>
-
-      <ion-button
-        color="danger"
-        expand="block"
-        (click)="deleteDoctor(doctor.id)">
-
-        Eliminar
-
+        Editar
       </ion-button>
 
-    </ion-card>
+      <ion-button color="danger" fill="solid" (click)="deleteDoctor(doctor.id)">
+        Eliminar
+      </ion-button>
+    </div>
+  </ion-card>
 
   }
 
+  <!-- =========================
+       BOTON FLOTANTE
+  ========================== -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openNewDoctorModal()">
+      <ion-icon name="add-outline"> </ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- =========================
+       MODAL
+  ========================== -->
+
+  <ion-modal [isOpen]="showDoctorModal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>
+            @if(editingDoctorId){ Editar Médico } @else { Nuevo Médico }
+          </ion-title>
+
+          <ion-buttons slot="end">
+            <ion-button (click)="closeDoctorModal()">
+              <ion-icon name="close-outline"> </ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <div class="modal-form">
+          <div class="form-section">
+            <h3>Documento</h3>
+
+            <ion-item>
+              <ion-input
+                label="Tipo Documento"
+                labelPlacement="stacked"
+                [(ngModel)]="documentType"
+              >
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input
+                label="Número Documento"
+                labelPlacement="stacked"
+                [(ngModel)]="documentNumber"
+              >
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <div class="form-section">
+            <h3>Datos Personales</h3>
+
+            <ion-item>
+              <ion-input
+                label="Nombres"
+                labelPlacement="stacked"
+                [(ngModel)]="firstName"
+              >
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input
+                label="Apellidos"
+                labelPlacement="stacked"
+                [(ngModel)]="lastName"
+              >
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <div class="form-section">
+            <h3>Información Profesional</h3>
+
+            <ion-item>
+              <ion-input label="CMP" labelPlacement="stacked" [(ngModel)]="cmp">
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input label="RNE" labelPlacement="stacked" [(ngModel)]="rne">
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input
+                label="Especialidad"
+                labelPlacement="stacked"
+                [(ngModel)]="specialty"
+              >
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <div class="form-section">
+            <h3>Contacto</h3>
+
+            <ion-item>
+              <ion-input
+                label="Teléfono"
+                labelPlacement="stacked"
+                [(ngModel)]="phone"
+              >
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input
+                type="email"
+                label="Correo"
+                labelPlacement="stacked"
+                [(ngModel)]="email"
+              >
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <ion-button expand="block" class="save-button" (click)="addDoctor()">
+            @if(editingDoctorId){ Actualizar Médico } @else { Registrar Médico }
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

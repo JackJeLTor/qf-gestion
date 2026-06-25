@@ -1,50 +1,350 @@
+/* ==================================
+   FONDO GENERAL
+================================== */
+
 ion-content {
-  --background: #f5f7fb;
+
+  --background: #f4f6f9;
+
 }
 
-.form-card {
-  border-radius: 18px;
-  margin-bottom: 20px;
+/* ==================================
+   HEADER
+================================== */
+
+.page-header {
+
+  background: linear-gradient(
+    135deg,
+    #009A82,
+    #00B89A
+  );
+
+  padding: 10px 14px;
+
+  border-bottom-left-radius: 18px;
+
+  border-bottom-right-radius: 18px;
+
+  box-shadow:
+    0 4px 14px rgba(
+      0,
+      154,
+      130,
+      .18
+    );
+
 }
 
-.section-title {
+.header-top {
+
+  display: flex;
+
+  align-items: center;
+
+  min-height: 50px;
+
+}
+
+ion-menu-button {
+
+  --color: white;
+
+}
+
+.header-title {
+
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+}
+
+.header-title h1 {
+
+  margin: 0;
+
+  color: white;
 
   font-size: 20px;
 
-  font-weight: bold;
+  font-weight: 700;
 
-  margin-bottom: 15px;
-
-  color: #1f2937;
 }
 
-.prescription-card {
+/* ==================================
+   FORMULARIO
+================================== */
 
-  border-radius: 18px;
+.modal-form {
 
-  margin-bottom: 15px;
+  padding: 18px;
 
-  box-shadow: 0 4px 10px rgba(0,0,0,.08);
 }
 
-.prescription-card h2 {
+.form-section {
 
-  margin-bottom: 10px;
+  background: white;
 
-  color: #2144d8;
+  border-radius: 16px;
+
+  padding: 14px;
+
+  margin-bottom: 16px;
+
+  box-shadow:
+    0 3px 10px rgba(
+      0,
+      0,
+      0,
+      .04
+    );
+
 }
 
-.status {
+.form-section h3 {
 
-  margin-top: 12px;
+  margin:
+    0
+    0
+    12px;
 
-  padding: 8px 12px;
+  color: #009A82;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+}
+
+.form-section ion-item {
+
+  --background: white;
 
   border-radius: 12px;
 
+  margin-bottom: 10px;
+
+}
+
+ion-input,
+ion-textarea,
+ion-select {
+
+  --color: #111827;
+
+}
+
+/* ==================================
+   BOTON REGISTRAR
+================================== */
+
+.save-button {
+
+  margin-top: 20px;
+
+  --background: #009A82;
+
+  --border-radius: 44px;
+
+  height: 50px;
+
+  font-weight: 700;
+
+}
+
+/* ==================================
+   TARJETAS
+================================== */
+
+.prescription-card {
+
+  margin: 14px;
+
+  border-radius: 18px;
+
+  background: white;
+
+  box-shadow:
+    0 4px 12px rgba(
+      0,
+      0,
+      0,
+      .08
+    );
+
+}
+
+.patient-name {
+
+  color: #009A82;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  margin-bottom: 12px;
+
+}
+
+.prescription-info {
+
+  margin-bottom: 8px;
+
+  color: #374151;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+}
+
+.prescription-info strong {
+
+  color: #1F2937;
+
+}
+
+/* ==================================
+   BADGES DE ESTADO
+================================== */
+
+.status-badge {
+
+  margin-top: 16px;
+
+  padding: 10px;
+
+  border-radius: 40px;
+
   text-align: center;
 
-  font-weight: bold;
+  font-weight: 700;
 
-  background: #e5e7eb;
+  font-size: 14px;
+
+}
+
+/* Pendiente */
+
+.pending {
+
+  background: #FEF3C7;
+
+  color: #92400E;
+
+}
+
+/* Validada */
+
+.validated {
+
+  background: #DBEAFE;
+
+  color: #1E40AF;
+
+}
+
+/* En Preparación */
+
+.preparing {
+
+  background: #E9D5FF;
+
+  color: #6B21A8;
+
+}
+
+/* Control Calidad */
+
+.quality {
+
+  background: #FCE7F3;
+
+  color: #BE185D;
+
+}
+
+/* Lista Entrega */
+
+.delivery {
+
+  background: #DCFCE7;
+
+  color: #166534;
+
+}
+
+/* Entregada */
+
+.completed {
+
+  background: #22C55E;
+
+  color: white;
+
+}
+
+/* ==================================
+   ACCIONES
+================================== */
+
+.card-actions {
+
+  padding: 0 16px 16px;
+
+}
+
+.card-actions ion-button {
+
+  --background: #009A82;
+
+  --border-radius: 42px;
+
+  font-weight: 600;
+
+}
+
+/* ==================================
+   CARD VACIA
+================================== */
+
+ion-card {
+
+  border-radius: 18px;
+
+}
+
+ion-card-content {
+
+  color: #6B7280;
+
+}
+
+/* ==================================
+   RESPONSIVE
+================================== */
+
+@media (min-width: 768px) {
+
+  .prescription-card {
+
+    max-width: 900px;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+  }
+
+  .modal-form {
+
+    max-width: 900px;
+
+    margin: auto;
+
+  }
+
 }
