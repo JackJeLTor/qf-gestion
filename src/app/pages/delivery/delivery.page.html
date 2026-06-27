@@ -1,109 +1,147 @@
-<ion-header>
+<ion-content>
 
-  <ion-toolbar>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-    <ion-title>
+  <div class="page-header">
 
-      Entregas
+    <div class="header-top">
 
-    </ion-title>
+      <ion-menu-button>
+      </ion-menu-button>
 
-  </ion-toolbar>
+      <div class="header-title">
 
-</ion-header>
+        <h1>
 
-<ion-content class="ion-padding">
+          Entregas
 
-  <div class="section-title">
+        </h1>
 
-    Entregas Pendientes y Completadas
+      </div>
+
+    </div>
 
   </div>
+
+  @if(deliveries.length === 0){
+
+    <ion-card class="empty-card">
+
+      <ion-card-content>
+
+        No hay entregas registradas.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
 
   @for(
     delivery of deliveries;
     track delivery.id
   ){
 
-    <ion-card>
+    <ion-card class="delivery-card">
 
       <ion-card-content>
 
-        <h2>
+        <div class="patient-name">
 
           {{ delivery.patientName }}
 
-        </h2>
+        </div>
 
-        <p>
-
-          🏷️ Lote:
-
-          {{ delivery.batchNumber }}
-
-        </p>
-
-        <p>
-
-          Fórmula:
-
-          {{ delivery.formula }}
-
-        </p>
-
-        <p>
-
-          Responsable:
-
-          {{ delivery.responsible }}
-
-        </p>
-
-        <p>
-
-          Estado:
+        <div class="delivery-info">
 
           <strong>
 
-            {{ delivery.status }}
+            Lote:
 
           </strong>
 
-        </p>
+          {{ delivery.batchNumber }}
+
+        </div>
+
+        <div class="delivery-info">
+
+          <strong>
+
+            Fórmula:
+
+          </strong>
+
+          {{ delivery.formula }}
+
+        </div>
+
+        <div class="delivery-info">
+
+          <strong>
+
+            Responsable:
+
+          </strong>
+
+          {{ delivery.responsible }}
+
+        </div>
+
+        <div
+          class="status-badge"
+          [class.pending]="delivery.status === 'Pendiente'"
+          [class.completed]="delivery.status === 'Entregado'">
+
+          {{ delivery.status }}
+
+        </div>
 
         @if(
           delivery.status !== 'Entregado'
         ){
 
-          <ion-item>
+          <div class="form-section">
 
-            <ion-input
-              label="Entregado por"
-              labelPlacement="floating"
-              [(ngModel)]="deliveredBy">
-            </ion-input>
+            <h3>
 
-          </ion-item>
+              Datos de Entrega
 
-          <ion-item>
+            </h3>
 
-            <ion-input
-              label="Recibido por"
-              labelPlacement="floating"
-              [(ngModel)]="receivedBy">
-            </ion-input>
+            <ion-item>
 
-          </ion-item>
+              <ion-input
+                label="Entregado por"
+                labelPlacement="stacked"
+                [(ngModel)]="deliveredBy">
+              </ion-input>
 
-          <ion-item>
+            </ion-item>
 
-            <ion-input
-              label="Observación"
-              labelPlacement="floating"
-              [(ngModel)]="observation">
-            </ion-input>
+            <ion-item>
 
-          </ion-item>
+              <ion-input
+                label="Recibido por"
+                labelPlacement="stacked"
+                [(ngModel)]="receivedBy">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Observación"
+                labelPlacement="stacked"
+                [(ngModel)]="observation">
+              </ion-input>
+
+            </ion-item>
+
+          </div>
 
         }
 
@@ -111,56 +149,77 @@
           delivery.status === 'Entregado'
         ){
 
-          <p>
+          <div class="delivery-info">
 
-            📅 Fecha:
+            <strong>
+
+              Fecha:
+
+            </strong>
 
             {{ delivery.deliveryDate }}
 
-          </p>
+          </div>
 
-          <p>
+          <div class="delivery-info">
 
-            🚚 Entregado por:
+            <strong>
+
+              Entregado por:
+
+            </strong>
 
             {{ delivery.deliveredBy }}
 
-          </p>
+          </div>
 
-          <p>
+          <div class="delivery-info">
 
-            👤 Recibido por:
+            <strong>
+
+              Recibido por:
+
+            </strong>
 
             {{ delivery.receivedBy }}
 
-          </p>
+          </div>
 
-          <p>
+          <div class="delivery-info">
 
-            📝 Observación:
+            <strong>
+
+              Observación:
+
+            </strong>
 
             {{ delivery.observation }}
 
-          </p>
+          </div>
 
-          <hr>
-
-          <h3>
-
-            Historial
-
-          </h3>
-
-          @for(
-            item of delivery.history;
-            track item
+          @if(
+            delivery.history &&
+            delivery.history.length > 0
           ){
 
-            <p>
+            <div class="section-title">
 
-              {{ item }}
+              Historial
 
-            </p>
+            </div>
+
+            @for(
+              item of delivery.history;
+              track item
+            ){
+
+              <div class="history-item">
+
+                {{ item }}
+
+              </div>
+
+            }
 
           }
 
@@ -172,14 +231,18 @@
         delivery.status !== 'Entregado'
       ){
 
-        <ion-button
-          expand="block"
-          color="success"
-          (click)="markAsDelivered(delivery)">
+        <div class="card-actions">
 
-          Confirmar Entrega
+          <ion-button
+            expand="block"
+            color="success"
+            (click)="markAsDelivered(delivery)">
 
-        </ion-button>
+            Confirmar Entrega
+
+          </ion-button>
+
+        </div>
 
       }
 

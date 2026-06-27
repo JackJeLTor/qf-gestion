@@ -5,15 +5,29 @@ from '../../services/movement.service';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonItem,
   IonInput,
   IonButton,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonMenuButton,
+  IonIcon,
+  IonFab,
+  IonFabButton,
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
 } from '@ionic/angular/standalone';
+
+import { addIcons } from 'ionicons';
+
+import {
+  searchOutline,
+  closeOutline,
+  addOutline,
+} from 'ionicons/icons';
 
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
@@ -26,14 +40,20 @@ import { Product } from '../../models/product.model';
   imports: [
     FormsModule,
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonItem,
     IonInput,
     IonButton,
     IonCard,
-    IonCardContent
+    IonCardContent,
+    IonMenuButton,
+    IonIcon,
+    IonFab,
+    IonFabButton,
+    IonModal,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
   ]
 })
 export class ProductsPage {
@@ -48,6 +68,10 @@ export class ProductsPage {
 
   searchText = '';
 
+  showSearch = false;
+
+  showProductModal = false;
+
   editingProductId: number | null = null;
 
   products: Product[] = [];
@@ -56,7 +80,15 @@ export class ProductsPage {
   constructor(
   private productService: ProductService,
   private movementService: MovementService
-) {}
+) {
+
+    addIcons({
+      searchOutline,
+      closeOutline,
+      addOutline,
+    });
+
+  }
 
   ngOnInit() {
     this.loadProducts();
@@ -69,6 +101,36 @@ export class ProductsPage {
 
     this.filteredProducts =
       [...this.products];
+  }
+
+  toggleSearch() {
+
+    this.showSearch = !this.showSearch;
+
+    if (!this.showSearch) {
+
+      this.searchText = '';
+
+      this.searchProduct();
+
+    }
+
+  }
+
+  openNewProductModal() {
+
+    this.clearForm();
+
+    this.showProductModal = true;
+
+  }
+
+  closeProductModal() {
+
+    this.showProductModal = false;
+
+    this.clearForm();
+
   }
 
   addProduct(): void {
@@ -114,7 +176,7 @@ export class ProductsPage {
     .toLocaleString()
 });
 
-    this.clearForm();
+    this.closeProductModal();
 
     this.loadProducts();
   }
@@ -141,6 +203,8 @@ export class ProductsPage {
 
     this.productExpirationDate =
       product.expirationDate;
+
+    this.showProductModal = true;
   }
 
   updateProduct(): void {
@@ -175,7 +239,7 @@ export class ProductsPage {
       updatedProduct
     );
 
-    this.clearForm();
+    this.closeProductModal();
 
     this.loadProducts();
   }

@@ -162,20 +162,62 @@ export class PrescriptionsPage {
           prescriptionId:
             prescription.id,
 
+          prescriptionCode:
+            prescription.code,
+
+          patientId:
+            prescription.patientId,
+
           patientName:
             prescription.patientName,
+
+          doctorId:
+            prescription.doctorId,
+
+          doctorName:
+            prescription.doctorName,
+
+          doctorCmp:
+            prescription.doctorCmp,
 
           formula:
             prescription.formula,
 
+          pharmaceuticalForm:
+            prescription.pharmaceuticalForm,
+
+          specialty:
+            prescription.specialty,
+
+          priority:
+            prescription.priority,
+
           responsible:
             prescription.responsible,
+
+          batchNumber:
+            'LOT-' +
+            Date.now(),
+
+          quantity: 1,
+
+          createdDate:
+            prescription.createdDate,
 
           startDate:
             new Date()
               .toLocaleDateString(),
 
           endDate: '',
+
+          estimatedDuration: 0,
+
+          productionDate:
+            new Date()
+              .toLocaleDateString(),
+
+          deliveryDate:
+            prescription.deliveryDate,
 
           qualityDate: '',
 
@@ -191,29 +233,16 @@ export class PrescriptionsPage {
           status:
             'Pendiente',
 
-          batchNumber:
-            'LOT-' +
-            Date.now(),
-
-          quantity: 1,
-
-          productionDate:
-            new Date()
-              .toLocaleDateString(),
-
-          pharmaceuticalForm:
-            prescription.pharmaceuticalForm,
-
-          specialty:
-            prescription.specialty,
-
-          priority:
-            prescription.priority,
-
           rawMaterialsUsed: [],
 
           history: [
-            'Producción creada desde receta validada',
+            {
+              date: new Date().toLocaleString(),
+
+              action: 'Creación',
+
+              description: 'Producción creada desde receta validada',
+            },
           ],
 
         });
@@ -471,6 +500,10 @@ export class PrescriptionsPage {
 
         id: Date.now(),
 
+        code:
+          'RX-' +
+          Date.now(),
+
         patientId:
           patient.id,
 
@@ -486,6 +519,9 @@ export class PrescriptionsPage {
           doctor.firstName +
           ' ' +
           doctor.lastName,
+
+        doctorCmp:
+          doctor.cmp,
 
         formula:
           this.formula,
@@ -507,6 +543,10 @@ export class PrescriptionsPage {
 
         status:
           'Pendiente',
+
+        createdDate:
+          new Date()
+            .toLocaleDateString(),
 
         date:
           new Date()

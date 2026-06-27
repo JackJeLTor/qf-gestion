@@ -1,15 +1,265 @@
-ion-card {
+ion-content {
 
-  margin-bottom: 15px;
-
-  border-radius: 16px;
+  --background: #F4F7FA;
 
 }
 
-h2 {
+.page-header {
 
-  color: #2144d8;
+  background: linear-gradient(
+    135deg,
+    #009A82,
+    #00B89A
+  );
 
-  font-weight: bold;
+  padding: 10px 14px;
+
+  border-bottom-left-radius: 18px;
+
+  border-bottom-right-radius: 18px;
+
+  box-shadow:
+    0 4px 14px rgba(
+      0,
+      154,
+      130,
+      .18
+    );
+
+}
+
+.header-top {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 50px;
+
+}
+
+ion-menu-button {
+
+  --color: white;
+
+}
+
+.header-title {
+
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+}
+
+.header-title h1 {
+
+  margin: 0;
+
+  color: white;
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+}
+
+.quality-card {
+
+  margin: 14px;
+
+  border-radius: 18px;
+
+  background: white;
+
+  box-shadow:
+    0 4px 14px rgba(
+      0,
+      0,
+      0,
+      .05
+    );
+
+}
+
+.patient-name {
+
+  color: #009A82;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+
+}
+
+.quality-info {
+
+  margin-bottom: 8px;
+
+  color: #374151;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+}
+
+.quality-info strong {
+
+  color: #1F2937;
+
+}
+
+.formula-box {
+
+  margin-top: 12px;
+
+  background: #F8FAFC;
+
+  border-left: 5px solid #009A82;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  white-space: pre-wrap;
+
+  font-family: monospace;
+
+  color: #374151;
+
+}
+
+.status-badge {
+
+  margin-top: 16px;
+
+  padding: 10px;
+
+  border-radius: 40px;
+
+  text-align: center;
+
+  font-weight: 700;
+
+  font-size: 14px;
+
+}
+
+.quality {
+
+  background: #FCE7F3;
+
+  color: #BE185D;
+
+}
+
+.section-title {
+
+  color: #009A82;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  margin:
+    16px
+    0
+    10px;
+
+}
+
+.material-item {
+
+  background: #F9FAFB;
+
+  border-radius: 12px;
+
+  padding: 10px;
+
+  margin-bottom: 8px;
+
+  font-size: 13px;
+
+  color: #374151;
+
+}
+
+.form-section {
+
+  background: #F9FAFB;
+
+  border-radius: 16px;
+
+  padding: 14px;
+
+  margin-top: 16px;
+
+}
+
+.form-section h3 {
+
+  margin:
+    0
+    0
+    12px;
+
+  color: #009A82;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+}
+
+.form-section ion-item {
+
+  --background: white;
+
+  border-radius: 12px;
+
+  margin-bottom: 10px;
+
+}
+
+.card-actions {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  padding: 0 16px 16px;
+
+}
+
+.card-actions ion-button {
+
+  --border-radius: 42px;
+
+  font-weight: 600;
+
+}
+
+.empty-card {
+
+  margin: 14px;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+}
+
+ion-card-content {
+
+  color: #6B7280;
 
 }

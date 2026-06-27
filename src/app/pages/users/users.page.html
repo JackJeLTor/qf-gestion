@@ -1,225 +1,428 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title> Gestión de Usuarios </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
 
-<ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-content>
-      <h2>Nuevo Usuario</h2>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-      <ion-item>
-        <ion-input
-          label="Usuario"
-          labelPlacement="stacked"
-          [(ngModel)]="username"
-        >
-        </ion-input>
-      </ion-item>
+  <div class="page-header">
 
-      <ion-item>
-        <ion-input
-          label="Contraseña"
-          labelPlacement="stacked"
-          type="password"
-          [(ngModel)]="password"
-        >
-        </ion-input>
-      </ion-item>
+    <div class="header-top">
 
-      <ion-item>
-        <ion-input
-          label="Nombre Completo"
-          labelPlacement="stacked"
-          [(ngModel)]="fullName"
-        >
-        </ion-input>
-      </ion-item>
+      <ion-menu-button>
+      </ion-menu-button>
 
-      <ion-item>
-        <ion-input
-          label="Correo Electrónico"
-          labelPlacement="stacked"
-          [(ngModel)]="email"
-        >
-        </ion-input>
-      </ion-item>
+      <div class="header-title">
 
-      <ion-item>
-        <ion-input
-          label="Teléfono"
-          labelPlacement="stacked"
-          [(ngModel)]="phone"
-        >
-        </ion-input>
-      </ion-item>
+        <h1>
 
-      <ion-item>
-        <ion-select label="Rol" labelPlacement="stacked" [(ngModel)]="role">
-          <ion-select-option value="Administrador">
-            Administrador
-          </ion-select-option>
+          Usuarios
 
-          <ion-select-option value="Produccion"> Producción </ion-select-option>
+        </h1>
 
-          <ion-select-option value="Calidad"> Calidad </ion-select-option>
+      </div>
 
-          <ion-select-option value="Recepcion"> Recepción </ion-select-option>
+    </div>
 
-          <ion-select-option value="Medico"> Médico </ion-select-option>
+  </div>
 
-          <ion-select-option value="Consulta"> Consulta </ion-select-option>
-        </ion-select>
-      </ion-item>
+  @if(users.length === 0){
 
-      
-      <ion-item>
-        <ion-select
-          label="Permisos"
-          labelPlacement="stacked"
-          multiple="true"
-          [(ngModel)]="permissions"
-        >
-          @for( permission of availablePermissions; track permission ){
+    <ion-card class="empty-card">
 
-          <ion-select-option [value]="permission">
-            {{ permission }}
-          </ion-select-option>
+      <ion-card-content>
 
-          }
-        </ion-select>
-      </ion-item>
+        No hay usuarios registrados.
 
-      <ion-item>
-        <ion-toggle [(ngModel)]="active"> Usuario Activo </ion-toggle>
-      </ion-item>
+      </ion-card-content>
 
-      <br />
+    </ion-card>
 
-      <ion-button expand="block" (click)="saveUser()">
-        Guardar Usuario
-      </ion-button>
+  }
 
-      @if(editingUserId){
+  @for( user of users; track user.id ){
 
-      <ion-button expand="block" color="medium" (click)="clearForm()">
-        Cancelar Edición
-      </ion-button>
+    <ion-card class="user-card">
 
-      }
-    </ion-card-content>
-  </ion-card>
+      <ion-card-content>
 
-  <ion-card>
-    <ion-card-content>
-      <h2>Usuarios Registrados</h2>
+        <div class="user-name">
 
-      @for( user of users; track user.id ){
+          {{ user.fullName }}
 
-      <ion-item>
-        <div style="width: 100%">
-          <strong> {{ user.fullName }} </strong>
+        </div>
 
-          <br />
+        <div class="user-info">
 
-          Usuario: {{ user.username }}
+          <strong>
 
-          <br />
+            Usuario:
 
-          Rol: {{ user.role }}
+          </strong>
 
-          <br />
+          {{ user.username }}
 
-          <br />
+        </div>
 
-          Permisos:
+        <div class="user-info">
 
-          <br />
+          <strong>
 
-          {{ user.permissions?.join(', ') }} Correo: {{ user.email }}
+            Rol:
 
-          <br />
+          </strong>
 
-          Teléfono: {{ user.phone }}
+          {{ user.role }}
 
-          <br />
+        </div>
 
-          Estado: @if(user.active){
+        <div class="user-info">
 
-          <span> ✅ Activo </span>
+          <strong>
+
+            Correo:
+
+          </strong>
+
+          {{ user.email }}
+
+        </div>
+
+        <div class="user-info">
+
+          <strong>
+
+            Teléfono:
+
+          </strong>
+
+          {{ user.phone }}
+
+        </div>
+
+        <div class="user-info">
+
+          <strong>
+
+            Permisos:
+
+          </strong>
+
+          {{ user.permissions?.join(', ') }}
+
+        </div>
+
+        <div class="user-info">
+
+          <strong>
+
+            Creado:
+
+          </strong>
+
+          {{ user.createdDate }}
+
+        </div>
+
+        <div class="user-info">
+
+          <strong>
+
+            Último Acceso:
+
+          </strong>
+
+          {{ user.lastLogin }}
+
+        </div>
+
+        <div class="user-info">
+
+          <strong>
+
+            Intentos Fallidos:
+
+          </strong>
+
+          {{ user.failedAttempts || 0 }}
+
+        </div>
+
+        <div
+          class="status-badge"
+          [class.active]="user.active"
+          [class.inactive]="!user.active">
+
+          @if(user.active){
+
+            Activo
 
           } @else {
 
-          <span> ❌ Inactivo </span>
+            Inactivo
 
           }
 
-          <br />
-
-          Creado: {{ user.createdDate }}
-
-          <br />
-
-          Último Acceso: {{ user.lastLogin }}
-
-          <br />
-
-          Intentos Fallidos: {{ user.failedAttempts || 0 }}
-
-          <br />
-
-          @if(user.locked){
-
-          <span style="color: red; font-weight: bold">
-            🔒 Cuenta Bloqueada
-          </span>
-
-          <br /><br />
-
-          }
-
-          <br />
-
-          Creado por: {{ user.createdBy }}
-
-          <br />
-
-          Última modificación: {{ user.updatedDate || '-' }}
-
-          <br />
-
-          Modificado por: {{ user.updatedBy || '-' }}
-
-          <br /><br />
-
-          <ion-button size="small" color="primary" (click)="editUser(user)">
-            Editar
-          </ion-button>
-
-          @if(user.locked){
-
-          <ion-button size="small" color="success" (click)="unlockUser(user)">
-            🔓 Desbloquear
-          </ion-button>
-
-          }
-
-          <ion-button size="small" color="warning" (click)="toggleStatus(user)">
-            @if(user.active){ Desactivar } @else { Activar }
-          </ion-button>
-
-          @if( user.username !== 'admin' ){
-
-          <ion-button size="small" color="danger" (click)="deleteUser(user)">
-            Eliminar
-          </ion-button>
-
-          }
         </div>
-      </ion-item>
 
-      }
-    </ion-card-content>
-  </ion-card>
+        @if(user.locked){
+
+          <div class="locked-badge">
+
+            Cuenta Bloqueada
+
+          </div>
+
+        }
+
+      </ion-card-content>
+
+      <div class="card-actions">
+
+        <ion-button
+          color="success"
+          fill="solid"
+          (click)="editUser(user)">
+
+          Editar
+
+        </ion-button>
+
+        @if(user.locked){
+
+          <ion-button
+            color="warning"
+            fill="solid"
+            (click)="unlockUser(user)">
+
+            Desbloquear
+
+          </ion-button>
+
+        }
+
+        <ion-button
+          color="medium"
+          fill="solid"
+          (click)="toggleStatus(user)">
+
+          @if(user.active){ Desactivar } @else { Activar }
+
+        </ion-button>
+
+        @if( user.username !== 'admin' ){
+
+          <ion-button
+            color="danger"
+            fill="solid"
+            (click)="deleteUser(user)">
+
+            Eliminar
+
+          </ion-button>
+
+        }
+
+      </div>
+
+    </ion-card>
+
+  }
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+
+    <ion-fab-button (click)="openNewUserModal()">
+
+      <ion-icon name="add-outline">
+      </ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+  <ion-modal [isOpen]="showUserModal">
+
+    <ng-template>
+
+      <ion-header>
+
+        <ion-toolbar>
+
+          <ion-title>
+
+            @if(editingUserId){ Editar Usuario } @else { Nuevo Usuario }
+
+          </ion-title>
+
+          <ion-buttons slot="end">
+
+            <ion-button fill="clear" (click)="closeUserModal()">
+
+              <ion-icon name="close-outline">
+              </ion-icon>
+
+            </ion-button>
+
+          </ion-buttons>
+
+        </ion-toolbar>
+
+      </ion-header>
+
+      <ion-content>
+
+        <div class="modal-form">
+
+          <div class="form-section">
+
+            <h3>
+
+              Credenciales
+
+            </h3>
+
+            <ion-item>
+
+              <ion-input
+                label="Usuario"
+                labelPlacement="stacked"
+                [(ngModel)]="username"
+              >
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Contraseña"
+                labelPlacement="stacked"
+                type="password"
+                [(ngModel)]="password"
+              >
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <div class="form-section">
+
+            <h3>
+
+              Datos Personales
+
+            </h3>
+
+            <ion-item>
+
+              <ion-input
+                label="Nombre Completo"
+                labelPlacement="stacked"
+                [(ngModel)]="fullName"
+              >
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Correo Electrónico"
+                labelPlacement="stacked"
+                [(ngModel)]="email"
+              >
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Teléfono"
+                labelPlacement="stacked"
+                [(ngModel)]="phone"
+              >
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <div class="form-section">
+
+            <h3>
+
+              Acceso
+
+            </h3>
+
+            <ion-item>
+
+              <ion-select label="Rol" labelPlacement="stacked" [(ngModel)]="role">
+
+                <ion-select-option value="Administrador">
+
+                  Administrador
+
+                </ion-select-option>
+
+                <ion-select-option value="Produccion"> Producción </ion-select-option>
+
+                <ion-select-option value="Calidad"> Calidad </ion-select-option>
+
+                <ion-select-option value="Recepcion"> Recepción </ion-select-option>
+
+                <ion-select-option value="Medico"> Médico </ion-select-option>
+
+                <ion-select-option value="Consulta"> Consulta </ion-select-option>
+
+              </ion-select>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-select
+                label="Permisos"
+                labelPlacement="stacked"
+                multiple="true"
+                [(ngModel)]="permissions"
+              >
+
+                @for( permission of availablePermissions; track permission ){
+
+                <ion-select-option [value]="permission">
+
+                  {{ permission }}
+
+                </ion-select-option>
+
+                }
+
+              </ion-select>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-toggle [(ngModel)]="active"> Usuario Activo </ion-toggle>
+
+            </ion-item>
+
+          </div>
+
+          <ion-button expand="block" class="save-button" (click)="saveUser()">
+
+            @if(editingUserId){ Actualizar Usuario } @else { Guardar Usuario }
+
+          </ion-button>
+
+        </div>
+
+      </ion-content>
+
+    </ng-template>
+
+  </ion-modal>
+
 </ion-content>

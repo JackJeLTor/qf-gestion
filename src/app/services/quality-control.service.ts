@@ -119,13 +119,21 @@ export class QualityControlService {
 
     }
 
-    production.history.push(
-      `${control.date} - Control de calidad aprobado por ${responsible}`
-    );
+    production.history.push({
+      date: control.date,
 
-    production.history.push(
-      `${new Date().toLocaleString()} - Lote aprobado en Control de Calidad`
-    );
+      action: 'Control de Calidad',
+
+      description: `Control de calidad aprobado por ${responsible}`,
+    });
+
+    production.history.push({
+      date: new Date().toLocaleString(),
+
+      action: 'Aprobación',
+
+      description: 'Lote aprobado en Control de Calidad',
+    });
 
     this.auditService.addLog(
       'Control Calidad',
@@ -219,13 +227,21 @@ export class QualityControlService {
 
     }
 
-    production.history.push(
-      `${control.date} - Observado por ${responsible}: ${observation}`
-    );
+    production.history.push({
+      date: control.date,
 
-    production.history.push(
-      `${new Date().toLocaleString()} - Lote observado: ${observation}`
-    );
+      action: 'Observación',
+
+      description: `Observado por ${responsible}: ${observation}`,
+    });
+
+    production.history.push({
+      date: new Date().toLocaleString(),
+
+      action: 'Observación',
+
+      description: `Lote observado: ${observation}`,
+    });
 
     this.auditService.addLog(
       'Control Calidad',

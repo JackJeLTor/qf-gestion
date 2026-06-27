@@ -3,15 +3,13 @@ import { FormsModule } from '@angular/forms';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonCard,
   IonCardContent,
   IonButton,
   IonTextarea,
   IonItem,
   IonInput,
+  IonMenuButton,
 } from '@ionic/angular/standalone';
 
 import { ProductionService } from '../../services/production.service';
@@ -26,15 +24,13 @@ import { QualityControlService } from '../../services/quality-control.service';
   imports: [
     FormsModule,
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonCard,
     IonCardContent,
     IonButton,
     IonTextarea,
     IonItem,
     IonInput,
+    IonMenuButton,
   ],
 })
 export class QualityControlPage {

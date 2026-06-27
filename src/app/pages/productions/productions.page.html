@@ -1,258 +1,394 @@
-<ion-header>
+<ion-content>
 
-  <ion-toolbar>
+  <!-- ==================================
+       HEADER
+  =================================== -->
 
-    <ion-title>
+  <div class="page-header">
 
-      Producción Magistral
+    <div class="header-top">
 
-    </ion-title>
+      <ion-menu-button>
+      </ion-menu-button>
 
-  </ion-toolbar>
+      @if(!showSearch){
 
-</ion-header>
+        <div class="header-title">
 
-<ion-content class="ion-padding">
+          <h1>
 
-  @for(
-    production of productions;
-    track production.id
-  ){
+            Producción
 
-    <ion-card>
+          </h1>
+
+        </div>
+
+      } @else {
+
+        <div class="header-search">
+
+          <ion-input
+            autofocus="true"
+            placeholder="Buscar producción..."
+            [(ngModel)]="searchTerm"
+            (ionInput)="applyFilters()"
+          >
+          </ion-input>
+
+        </div>
+
+      }
+
+      <ion-button fill="clear" class="search-toggle" (click)="toggleSearch()">
+
+        <ion-icon [name]="showSearch ? 'close-outline' : 'search-outline'">
+        </ion-icon>
+
+      </ion-button>
+
+    </div>
+
+  </div>
+
+  <!-- ==================================
+       SIN PRODUCCIONES
+  =================================== -->
+
+  @if(filteredProductions.length === 0){
+
+    <ion-card class="empty-card">
 
       <ion-card-content>
 
-        <h2>
+        No existen producciones registradas.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+  <!-- ==================================
+       LISTADO
+  =================================== -->
+
+  @for(
+    production of filteredProductions;
+    track production.id
+  ){
+
+    <ion-card class="production-card">
+
+      <ion-card-content>
+
+        <div class="patient-name">
 
           {{ production.patientName }}
 
-        </h2>
+        </div>
 
-        <p>
+        <div class="production-info">
 
-          Responsable:
-          {{ production.responsible }}
+          <strong>
 
-        </p>
-
-        <p>
-
-          💊 Forma Farmacéutica:
-          {{ production.pharmaceuticalForm }}
-
-        </p>
-
-        <p>
-
-          🏥 Especialidad:
-          {{ production.specialty }}
-
-        </p>
-
-        <p>
-
-          ⚡ Prioridad:
-          {{ production.priority }}
-
-        </p>
-
-        <p>
-
-          Lote:
-          {{ production.batchNumber }}
-
-        </p>
-
-        <p>
-
-          Cantidad:
-          {{ production.quantity }}
-
-        </p>
-
-        <p>
-
-          Elaboración:
-          {{ production.productionDate }}
-
-        </p>
-
-        <p>
-
-          Fórmula:
-          {{ production.formula }}
-
-        </p>
-
-        @if(
-  production.rawMaterialsUsed &&
-  production.rawMaterialsUsed.length > 0
-){
-
-<hr>
-
-<h3>
-
-  🧪 Materias Primas Utilizadas
-
-</h3>
-
-@for(
-  material of production.rawMaterialsUsed;
-  track $index
-){
-
-<p>
-
-  {{ material.materialName }}
-
-  -
-
-  {{ material.quantity }}
-
-  {{ material.unit }}
-
-</p>
-
-<p>
-
-  Lote:
-  {{ material.lotNumber }}
-
-</p>
-
-}
-
-}
-
-        <p>
-
-          Inicio:
-          {{ production.startDate }}
-
-        </p>
-
-        @if(production.endDate){
-
-<p>
-
-  Fin:
-
-  {{ production.endDate }}
-
-</p>
-
-}
-
-        <p>
-
-          Estado:
-
-          <strong
-            [style.color]="
-              production.status === 'Pendiente'
-                ? '#f59e0b'
-                : production.status === 'En Producción'
-                ? '#3b82f6'
-                : production.status === 'Control Calidad'
-                ? '#8b5cf6'
-                : production.status === 'Lista para Entrega'
-                ? '#10b981'
-                : production.status === 'Observado'
-                ? '#ef4444'
-                : '#22c55e'
-            "
-          >
-
-            {{ production.status }}
+            Responsable:
 
           </strong>
 
-        </p>
+          {{ production.responsible }}
 
-        <hr>
+        </div>
+
+        <div class="production-info">
+
+          <strong>
+
+            Forma Farmacéutica:
+
+          </strong>
+
+          {{ production.pharmaceuticalForm }}
+
+        </div>
+
+        <div class="production-info">
+
+          <strong>
+
+            Especialidad:
+
+          </strong>
+
+          {{ production.specialty }}
+
+        </div>
+
+        <div class="production-info">
+
+          <strong>
+
+            Prioridad:
+
+          </strong>
+
+          {{ production.priority }}
+
+        </div>
+
+        <div class="production-info">
+
+          <strong>
+
+            Lote:
+
+          </strong>
+
+          {{ production.batchNumber }}
+
+        </div>
+
+        <div class="production-info">
+
+          <strong>
+
+            Cantidad:
+
+          </strong>
+
+          {{ production.quantity }}
+
+        </div>
+
+        <div class="production-info">
+
+          <strong>
+
+            Fecha Producción:
+
+          </strong>
+
+          {{ production.productionDate }}
+
+        </div>
+
+        <div class="production-info">
+
+          <strong>
+
+            Inicio:
+
+          </strong>
+
+          {{ production.startDate }}
+
+        </div>
+
+        @if(production.endDate){
+
+          <div class="production-info">
+
+            <strong>
+
+              Fin:
+
+            </strong>
+
+            {{ production.endDate }}
+
+          </div>
+
+        }
+
+        <div class="formula-box">
+
+          {{ production.formula }}
+
+        </div>
+
+        <!-- ==========================
+             MATERIAS PRIMAS
+        =========================== -->
+
+        @if(
+          production.rawMaterialsUsed &&
+          production.rawMaterialsUsed.length > 0
+        ){
+
+          <div class="section-title">
+
+            Materias Primas
+
+          </div>
+
+          @for(
+            material of production.rawMaterialsUsed;
+            track $index
+          ){
+
+            <div class="material-card">
+
+              <div>
+
+                <strong>
+
+                  {{ material.materialName }}
+
+                </strong>
+
+              </div>
+
+              <div>
+
+                {{ material.quantity }}
+                {{ material.unit }}
+
+              </div>
+
+              <div>
+
+                Lote:
+                {{ material.lotNumber }}
+
+              </div>
+
+              <div>
+
+                Fecha:
+                {{ material.consumedDate }}
+
+              </div>
+
+              <div>
+
+                Responsable:
+                {{ material.consumedBy }}
+
+              </div>
+
+            </div>
+
+          }
+
+        }
+
+        <!-- ==========================
+             ESTADO
+        =========================== -->
+
+        <div
+          class="status-badge"
+          [class.pending]="production.status === 'Pendiente'"
+          [class.production]="production.status === 'En Producción'"
+          [class.quality]="production.status === 'Control Calidad'"
+          [class.completed]="production.status === 'Finalizado'"
+          [class.observed]="production.status === 'Observado'">
+
+          {{ production.status }}
+
+        </div>
+
+        <!-- ==========================
+             CONTROL CALIDAD
+        =========================== -->
+
+        @if(
+          production.qualityStatus
+        ){
+
+          <div class="section-title">
+
+            Control de Calidad
+
+          </div>
+
+          <div class="production-info">
+
+            <strong>
+
+              Resultado:
+
+            </strong>
+
+            {{ production.qualityResult }}
+
+          </div>
+
+          <div class="production-info">
+
+            <strong>
+
+              Estado:
+
+            </strong>
+
+            {{ production.qualityStatus }}
+
+          </div>
+
+          <div class="production-info">
+
+            <strong>
+
+              Responsable:
+
+            </strong>
+
+            {{ production.qualityResponsible }}
+
+          </div>
+
+          <div class="production-info">
+
+            <strong>
+
+              Fecha:
+
+            </strong>
+
+            {{ production.qualityDate }}
+
+          </div>
+
+          <div class="production-info">
+
+            <strong>
+
+              Observaciones:
+
+            </strong>
+
+            {{ production.observations }}
+
+          </div>
+
+        }
+
+      </ion-card-content>
+
+      <div class="card-actions">
 
         <ion-button
-          expand="block"
           fill="outline"
-          (click)="viewHistory(
-            production.id
-          )">
+          color="medium"
+          (click)="viewHistory(production.id)">
 
           Ver Historial
 
         </ion-button>
 
-        @if(
-          production.status === 'Finalizado' ||
-          production.status === 'Observado' ||
-          production.status === 'Lista para Entrega'
-        ){
-
-          <hr>
-
-          <h3>
-
-            🔬 Control de Calidad
-
-          </h3>
-
-          <p>
-
-            Resultado:
-            {{ production.qualityResult }}
-
-          </p>
-
-          <p>
-
-            Estado Calidad:
-            {{ production.qualityStatus }}
-
-          </p>
-
-          <p>
-
-            Responsable:
-            {{ production.qualityResponsible }}
-
-          </p>
-
-          <p>
-
-            Fecha Calidad:
-            {{ production.qualityDate }}
-
-          </p>
-
-          <p>
-
-            Observaciones:
-            {{ production.observations }}
-
-          </p>
-
-        }
-
-        @if(
-          production.status !==
-          'Finalizado'
-        ){
+        @if(production.status !== 'Finalizado'){
 
           <ion-button
-            expand="block"
-            (click)="nextStatus(
-              production
-            )">
+            color="success"
+            (click)="nextStatus(production)">
 
-            Avanzar Producción
+            Avanzar
 
           </ion-button>
 
         }
 
-      </ion-card-content>
+      </div>
 
     </ion-card>
 

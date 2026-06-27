@@ -1,54 +1,37 @@
 <ion-content>
-
   <!-- =========================
        HEADER
   ========================== -->
 
   <div class="page-header">
-
     <div class="header-top">
-
-      <ion-menu-button>
-      </ion-menu-button>
+      <ion-menu-button> </ion-menu-button>
 
       @if(!showSearch){
 
-        <div class="header-title">
-
-          <h1>
-            Recetas Magistrales
-          </h1>
-
-        </div>
+      <div class="header-title">
+        <h1>Recetas Magistrales</h1>
+      </div>
 
       } @else {
 
-        <div class="header-search">
-
-          <ion-input
-            autofocus="true"
-            placeholder="Buscar receta..."
-            [(ngModel)]="searchTerm"
-            (ionInput)="searchPrescriptions()">
-          </ion-input>
-
-        </div>
+      <div class="header-search">
+        <ion-input
+          autofocus="true"
+          placeholder="Buscar receta..."
+          [(ngModel)]="searchTerm"
+          (ionInput)="searchPrescriptions()"
+        >
+        </ion-input>
+      </div>
 
       }
 
-      <ion-button
-        fill="clear"
-        class="search-toggle"
-        (click)="toggleSearch()">
-
-        <ion-icon
-          [name]="showSearch ? 'close-outline' : 'search-outline'">
+      <ion-button fill="clear" class="search-toggle" (click)="toggleSearch()">
+        <ion-icon [name]="showSearch ? 'close-outline' : 'search-outline'">
         </ion-icon>
-
       </ion-button>
-
     </div>
-
   </div>
 
   <!-- =========================
@@ -57,15 +40,9 @@
 
   @if(filteredPrescriptions.length === 0){
 
-    <ion-card>
-
-      <ion-card-content>
-
-        No hay recetas registradas.
-
-      </ion-card-content>
-
-    </ion-card>
+  <ion-card>
+    <ion-card-content> No hay recetas registradas. </ion-card-content>
+  </ion-card>
 
   }
 
@@ -73,91 +50,53 @@
        LISTADO
   ========================== -->
 
-  @for(
-    prescription of filteredPrescriptions;
-    track prescription.id
-  ){
+  @for( prescription of filteredPrescriptions; track prescription.id ){
 
-    <ion-card
-      class="prescription-card">
+  <ion-card class="prescription-card">
+    <ion-card-content>
+      <div class="patient-name">{{ prescription.patientName }}</div>
 
-      <ion-card-content>
+      <div class="prescription-info">
+        <strong> Médico: </strong>
 
-        <div class="patient-name">
+        {{ prescription.doctorName }}
+      </div>
 
-          {{ prescription.patientName }}
+      <div class="prescription-info">
+        <strong> Forma: </strong>
 
-        </div>
+        {{ prescription.pharmaceuticalForm }}
+      </div>
 
-        <div class="prescription-info">
+      <div class="prescription-info">
+        <strong> Especialidad: </strong>
 
-          <strong>
-            Médico:
-          </strong>
+        {{ prescription.specialty }}
+      </div>
 
-          {{ prescription.doctorName }}
+      <div class="prescription-info">
+        <strong> Prioridad: </strong>
 
-        </div>
+        {{ prescription.priority }}
+      </div>
 
-        <div class="prescription-info">
+      <div class="prescription-info">
+        <strong> Responsable: </strong>
 
-          <strong>
-            Forma:
-          </strong>
+        {{ prescription.responsible }}
+      </div>
 
-          {{ prescription.pharmaceuticalForm }}
+      <div class="prescription-info">
+        <strong> Entrega: </strong>
 
-        </div>
+        {{ prescription.deliveryDate }}
+      </div>
 
-        <div class="prescription-info">
+      <div class="prescription-info formula">{{ prescription.formula }}</div>
 
-          <strong>
-            Especialidad:
-          </strong>
-
-          {{ prescription.specialty }}
-
-        </div>
-
-        <div class="prescription-info">
-
-          <strong>
-            Prioridad:
-          </strong>
-
-          {{ prescription.priority }}
-
-        </div>
-
-        <div class="prescription-info">
-
-          <strong>
-            Responsable:
-          </strong>
-
-          {{ prescription.responsible }}
-
-        </div>
-
-        <div class="prescription-info">
-
-          <strong>
-            Entrega:
-          </strong>
-
-          {{ prescription.deliveryDate }}
-
-        </div>
-
-        <div class="prescription-info formula">
-
-          {{ prescription.formula }}
-
-        </div>
-
-        <div
-          class="status-badge"
-          [ngClass]="{
+      <div
+        class="status-badge"
+        [ngClass]="{
 
             'pending':
               prescription.status === 'Pendiente',
@@ -177,35 +116,26 @@
             'completed':
               prescription.status === 'Entregada'
 
-          }">
+          }"
+      >
+        {{ prescription.status }}
+      </div>
+    </ion-card-content>
 
-          {{ prescription.status }}
+    @if( prescription.status !== 'Entregada' ){
 
-        </div>
+    <div class="card-actions">
+      <ion-button
+        expand="block"
+        color="success"
+        (click)="nextStatus(prescription)"
+      >
+        Avanzar Estado
+      </ion-button>
+    </div>
 
-      </ion-card-content>
-
-      @if(
-        prescription.status !==
-        'Entregada'
-      ){
-
-        <div class="card-actions">
-
-          <ion-button
-            expand="block"
-            color="success"
-            (click)="nextStatus(prescription)">
-
-            Avanzar Estado
-
-          </ion-button>
-
-        </div>
-
-      }
-
-    </ion-card>
+    }
+  </ion-card>
 
   }
 
@@ -213,271 +143,172 @@
        FAB
   ========================== -->
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="end"
-    slot="fixed">
-
-    <ion-fab-button
-      (click)="openNewPrescriptionModal()">
-
-      <ion-icon
-        name="add-outline">
-      </ion-icon>
-
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openNewPrescriptionModal()">
+      <ion-icon name="add-outline"> </ion-icon>
     </ion-fab-button>
-
   </ion-fab>
 
   <!-- =========================
        MODAL
   ========================== -->
 
-  <ion-modal
-    [isOpen]="showPrescriptionModal">
-
+  <ion-modal [isOpen]="showPrescriptionModal">
     <ng-template>
-
       <ion-header>
-
         <ion-toolbar>
+          <ion-title> Nueva Receta </ion-title>
 
-          <ion-title>
-
-            Nueva Receta
-
-          </ion-title>
-
-          <ion-buttons
-            slot="end">
-
-            <ion-button
-              (click)="closePrescriptionModal()">
-
-              <ion-icon
-                name="close-outline">
-              </ion-icon>
-
+          <ion-buttons slot="end">
+            <ion-button fill="clear" (click)="closePrescriptionModal()">
+              <ion-icon name="close-outline"> </ion-icon>
             </ion-button>
-
           </ion-buttons>
-
         </ion-toolbar>
-
       </ion-header>
 
       <ion-content>
-
         <div class="modal-form">
-
           <!-- PACIENTE -->
 
           <div class="form-section">
-
-            <h3>
-              Paciente
-            </h3>
+            <h3>Paciente</h3>
 
             <ion-item>
-
               <ion-select
                 label="Paciente"
                 labelPlacement="stacked"
-                [(ngModel)]="patientId">
+                [(ngModel)]="patientId"
+              >
+                @for( patient of patients; track patient.id ){
 
-                @for(
-                  patient of patients;
-                  track patient.id
-                ){
-
-                  <ion-select-option
-                    [value]="patient.id">
-
-                    {{ patient.firstName }}
-                    {{ patient.lastName }}
-
-                  </ion-select-option>
+                <ion-select-option [value]="patient.id">
+                  {{ patient.firstName }} {{ patient.lastName }}
+                </ion-select-option>
 
                 }
-
               </ion-select>
-
             </ion-item>
-
           </div>
 
           <!-- MEDICO -->
 
           <div class="form-section">
-
-            <h3>
-              Médico
-            </h3>
+            <h3>Médico</h3>
 
             <ion-item>
-
               <ion-select
                 label="Médico"
                 labelPlacement="stacked"
                 [(ngModel)]="doctorId"
-                (ionChange)="onDoctorChange()">
+                (ionChange)="onDoctorChange()"
+              >
+                @for( doctor of doctors; track doctor.id ){
 
-                @for(
-                  doctor of doctors;
-                  track doctor.id
-                ){
-
-                  <ion-select-option
-                    [value]="doctor.id">
-
-                    {{ doctor.firstName }}
-                    {{ doctor.lastName }}
-
-                  </ion-select-option>
+                <ion-select-option [value]="doctor.id">
+                  {{ doctor.firstName }} {{ doctor.lastName }}
+                </ion-select-option>
 
                 }
-
               </ion-select>
-
             </ion-item>
 
             <ion-item>
-
               <ion-input
                 label="Especialidad"
                 labelPlacement="stacked"
                 [value]="specialty"
-                readonly>
+                readonly
+              >
               </ion-input>
-
             </ion-item>
-
           </div>
 
           <!-- FORMULA -->
 
           <div class="form-section">
-
-            <h3>
-              Preparación
-            </h3>
+            <h3>Preparación</h3>
 
             <ion-item>
-
               <ion-select
                 label="Forma Farmacéutica"
                 labelPlacement="stacked"
-                [(ngModel)]="pharmaceuticalForm">
+                [(ngModel)]="pharmaceuticalForm"
+              >
+                <ion-select-option value="Crema"> Crema </ion-select-option>
 
-                <ion-select-option value="Crema">
-                  Crema
-                </ion-select-option>
+                <ion-select-option value="Gel"> Gel </ion-select-option>
 
-                <ion-select-option value="Gel">
-                  Gel
-                </ion-select-option>
+                <ion-select-option value="Loción"> Loción </ion-select-option>
 
-                <ion-select-option value="Loción">
-                  Loción
-                </ion-select-option>
-
-                <ion-select-option value="Champú">
-                  Champú
-                </ion-select-option>
+                <ion-select-option value="Champú"> Champú </ion-select-option>
 
                 <ion-select-option value="Cápsulas">
                   Cápsulas
                 </ion-select-option>
 
-                <ion-select-option value="Jarabe">
-                  Jarabe
-                </ion-select-option>
-
+                <ion-select-option value="Jarabe"> Jarabe </ion-select-option>
               </ion-select>
-
             </ion-item>
 
             <ion-item>
-
               <ion-textarea
                 label="Fórmula Magistral"
                 labelPlacement="stacked"
-                [(ngModel)]="formula">
+                [(ngModel)]="formula"
+              >
               </ion-textarea>
-
             </ion-item>
-
           </div>
 
           <!-- CONTROL -->
 
           <div class="form-section">
-
-            <h3>
-              Control
-            </h3>
+            <h3>Control</h3>
 
             <ion-item>
-
               <ion-select
                 label="Prioridad"
                 labelPlacement="stacked"
-                [(ngModel)]="priority">
+                [(ngModel)]="priority"
+              >
+                <ion-select-option value="Alta"> Alta </ion-select-option>
 
-                <ion-select-option value="Alta">
-                  Alta
-                </ion-select-option>
+                <ion-select-option value="Media"> Media </ion-select-option>
 
-                <ion-select-option value="Media">
-                  Media
-                </ion-select-option>
-
-                <ion-select-option value="Baja">
-                  Baja
-                </ion-select-option>
-
+                <ion-select-option value="Baja"> Baja </ion-select-option>
               </ion-select>
-
             </ion-item>
 
             <ion-item>
-
               <ion-input
                 label="Responsable"
                 labelPlacement="stacked"
-                [(ngModel)]="responsible">
+                [(ngModel)]="responsible"
+              >
               </ion-input>
-
             </ion-item>
 
             <ion-item>
-
               <ion-input
                 type="date"
                 label="Fecha Entrega"
                 labelPlacement="stacked"
-                [(ngModel)]="deliveryDate">
+                [(ngModel)]="deliveryDate"
+              >
               </ion-input>
-
             </ion-item>
-
           </div>
 
           <ion-button
             expand="block"
             class="save-button"
-            (click)="createPrescription()">
-
+            (click)="createPrescription()"
+          >
             Registrar Receta
-
           </ion-button>
-
         </div>
-
       </ion-content>
-
     </ng-template>
-
   </ion-modal>
-
 </ion-content>

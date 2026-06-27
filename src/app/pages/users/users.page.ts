@@ -3,9 +3,6 @@ import { FormsModule } from '@angular/forms';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonItem,
   IonInput,
   IonButton,
@@ -14,7 +11,23 @@ import {
   IonCard,
   IonCardContent,
   IonToggle,
+  IonMenuButton,
+  IonIcon,
+  IonFab,
+  IonFabButton,
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
 } from '@ionic/angular/standalone';
+
+import { addIcons } from 'ionicons';
+
+import {
+  closeOutline,
+  addOutline,
+} from 'ionicons/icons';
 
 import { UserService } from '../../services/user.service';
 
@@ -28,9 +41,6 @@ import { AuditService } from '../../services/audit.service';
   imports: [
     FormsModule,
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonItem,
     IonInput,
     IonButton,
@@ -39,6 +49,15 @@ import { AuditService } from '../../services/audit.service';
     IonCard,
     IonCardContent,
     IonToggle,
+    IonMenuButton,
+    IonIcon,
+    IonFab,
+    IonFabButton,
+    IonModal,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
   ],
 })
 export class UsersPage {
@@ -79,11 +98,20 @@ export class UsersPage {
 
   editingUserId: number | null = null;
 
+  showUserModal = false;
+
   constructor(
     private userService: UserService,
 
     private auditService: AuditService,
-  ) {}
+  ) {
+
+    addIcons({
+      closeOutline,
+      addOutline,
+    });
+
+  }
 
   ngOnInit() {
     this.loadUsers();
@@ -180,7 +208,25 @@ export class UsersPage {
 
     this.clearForm();
 
+    this.closeUserModal();
+
     this.loadUsers();
+  }
+
+  openNewUserModal() {
+
+    this.clearForm();
+
+    this.showUserModal = true;
+
+  }
+
+  closeUserModal() {
+
+    this.showUserModal = false;
+
+    this.clearForm();
+
   }
 
   editUser(user: any) {
@@ -201,6 +247,8 @@ export class UsersPage {
     this.phone = user.phone;
 
     this.active = user.active;
+
+    this.showUserModal = true;
   }
 
   clearForm() {

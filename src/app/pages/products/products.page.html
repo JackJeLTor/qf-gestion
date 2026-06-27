@@ -1,105 +1,67 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Gestión de Productos
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
 
-<ion-content class="ion-padding">
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-  <!-- BUSCADOR -->
+  <div class="page-header">
 
-  <ion-item>
-    <ion-input
-      label="Buscar producto"
-      labelPlacement="floating"
-      [(ngModel)]="searchText"
-      (ionInput)="searchProduct()">
-    </ion-input>
-  </ion-item>
+    <div class="header-top">
 
-  <br>
+      <ion-menu-button>
+      </ion-menu-button>
 
-  <!-- FORMULARIO -->
+      @if(!showSearch){
 
-  <ion-item>
-    <ion-input
-      label="Nombre"
-      labelPlacement="floating"
-      [(ngModel)]="productName">
-    </ion-input>
-  </ion-item>
+        <div class="header-title">
 
-  <ion-item>
-    <ion-input
-      type="number"
-      label="Stock"
-      labelPlacement="floating"
-      [(ngModel)]="productStock">
-    </ion-input>
-  </ion-item>
+          <h1>
 
-  <ion-item>
-    <ion-input
-      type="number"
-      label="Precio"
-      labelPlacement="floating"
-      [(ngModel)]="productPrice">
-    </ion-input>
-  </ion-item>
+            Productos
 
-  <ion-item>
-    <ion-input
-      label="Categoría"
-      labelPlacement="floating"
-      [(ngModel)]="productCategory">
-    </ion-input>
-  </ion-item>
+          </h1>
 
-  <ion-item>
-    <ion-input
-      label="Laboratorio"
-      labelPlacement="floating"
-      [(ngModel)]="productLaboratory">
-    </ion-input>
-  </ion-item>
+        </div>
 
-  <ion-item>
-    <ion-input
-      type="date"
-      label="Fecha Vencimiento"
-      labelPlacement="floating"
-      [(ngModel)]="productExpirationDate">
-    </ion-input>
-  </ion-item>
+      } @else {
 
-  @if(editingProductId === null){
+        <div class="header-search">
 
-    <ion-button
-      expand="block"
-      (click)="addProduct()">
+          <ion-input
+            autofocus="true"
+            placeholder="Buscar producto..."
+            [(ngModel)]="searchText"
+            (ionInput)="searchProduct()">
+          </ion-input>
 
-      Agregar Producto
+        </div>
 
-    </ion-button>
+      }
 
-  } @else {
+      <ion-button fill="clear" class="search-toggle" (click)="toggleSearch()">
 
-    <ion-button
-      color="success"
-      expand="block"
-      (click)="updateProduct()">
+        <ion-icon [name]="showSearch ? 'close-outline' : 'search-outline'">
+        </ion-icon>
 
-      Actualizar Producto
+      </ion-button>
 
-    </ion-button>
+    </div>
+
+  </div>
+
+  @if(filteredProducts.length === 0){
+
+    <ion-card class="empty-card">
+
+      <ion-card-content>
+
+        No hay productos registrados.
+
+      </ion-card-content>
+
+    </ion-card>
 
   }
-
-  <br>
-
-  <!-- LISTADO -->
 
   @for(product of filteredProducts; track product.id){
 
@@ -107,61 +69,259 @@
 
       <ion-card-content>
 
-        <h2>
-          💊 {{ product.name }}
-        </h2>
+        <div class="product-name">
 
-        <p>
-          <strong>Código:</strong>
+          {{ product.name }}
+
+        </div>
+
+        <div class="product-info">
+
+          <strong>
+
+            Código:
+
+          </strong>
+
           {{ product.code }}
-        </p>
 
-        <p>
-          <strong>Categoría:</strong>
+        </div>
+
+        <div class="product-info">
+
+          <strong>
+
+            Categoría:
+
+          </strong>
+
           {{ product.category }}
-        </p>
 
-        <p>
-          <strong>Laboratorio:</strong>
+        </div>
+
+        <div class="product-info">
+
+          <strong>
+
+            Laboratorio:
+
+          </strong>
+
           {{ product.laboratory }}
-        </p>
 
-        <p>
-          <strong>Stock:</strong>
+        </div>
+
+        <div class="product-info">
+
+          <strong>
+
+            Stock:
+
+          </strong>
+
           {{ product.stock }}
-        </p>
 
-        <p>
-          <strong>Precio:</strong>
+        </div>
+
+        <div class="product-info">
+
+          <strong>
+
+            Precio:
+
+          </strong>
+
           S/. {{ product.price }}
-        </p>
 
-        <p>
-          <strong>Vence:</strong>
+        </div>
+
+        <div class="product-info">
+
+          <strong>
+
+            Vence:
+
+          </strong>
+
           {{ product.expirationDate }}
-        </p>
+
+        </div>
 
       </ion-card-content>
 
-      <ion-button
-        expand="block"
-        (click)="editProduct(product)">
+      <div class="card-actions">
 
-        Editar
+        <ion-button
+          color="success"
+          fill="solid"
+          (click)="editProduct(product)">
 
-      </ion-button>
+          Editar
 
-      <ion-button
-        color="danger"
-        expand="block"
-        (click)="deleteProduct(product.id)">
+        </ion-button>
 
-        Eliminar
+        <ion-button
+          color="danger"
+          fill="solid"
+          (click)="deleteProduct(product.id)">
 
-      </ion-button>
+          Eliminar
+
+        </ion-button>
+
+      </div>
 
     </ion-card>
 
   }
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+
+    <ion-fab-button (click)="openNewProductModal()">
+
+      <ion-icon name="add-outline">
+      </ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+  <ion-modal [isOpen]="showProductModal">
+
+    <ng-template>
+
+      <ion-header>
+
+        <ion-toolbar>
+
+          <ion-title>
+
+            @if(editingProductId){ Editar Producto } @else { Nuevo Producto }
+
+          </ion-title>
+
+          <ion-buttons slot="end">
+
+            <ion-button fill="clear" (click)="closeProductModal()">
+
+              <ion-icon name="close-outline">
+              </ion-icon>
+
+            </ion-button>
+
+          </ion-buttons>
+
+        </ion-toolbar>
+
+      </ion-header>
+
+      <ion-content>
+
+        <div class="modal-form">
+
+          <div class="form-section">
+
+            <h3>
+
+              Información del Producto
+
+            </h3>
+
+            <ion-item>
+
+              <ion-input
+                label="Nombre"
+                labelPlacement="stacked"
+                [(ngModel)]="productName">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                type="number"
+                label="Stock"
+                labelPlacement="stacked"
+                [(ngModel)]="productStock">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                type="number"
+                label="Precio"
+                labelPlacement="stacked"
+                [(ngModel)]="productPrice">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Categoría"
+                labelPlacement="stacked"
+                [(ngModel)]="productCategory">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Laboratorio"
+                labelPlacement="stacked"
+                [(ngModel)]="productLaboratory">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                type="date"
+                label="Fecha Vencimiento"
+                labelPlacement="stacked"
+                [(ngModel)]="productExpirationDate">
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          @if(editingProductId === null){
+
+            <ion-button
+              expand="block"
+              class="save-button"
+              (click)="addProduct()">
+
+              Agregar Producto
+
+            </ion-button>
+
+          } @else {
+
+            <ion-button
+              expand="block"
+              class="save-button"
+              (click)="updateProduct()">
+
+              Actualizar Producto
+
+            </ion-button>
+
+          }
+
+        </div>
+
+      </ion-content>
+
+    </ng-template>
+
+  </ion-modal>
 
 </ion-content>

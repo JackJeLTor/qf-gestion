@@ -3,15 +3,28 @@ import { FormsModule } from '@angular/forms';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonItem,
   IonInput,
   IonButton,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonMenuButton,
+  IonIcon,
+  IonFab,
+  IonFabButton,
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
 } from '@ionic/angular/standalone';
+
+import { addIcons } from 'ionicons';
+
+import {
+  closeOutline,
+  addOutline,
+} from 'ionicons/icons';
 
 import { RawMaterialService }
 from '../../services/raw-material.service';
@@ -27,14 +40,20 @@ from '../../services/audit.service';
   imports: [
     FormsModule,
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonItem,
     IonInput,
     IonButton,
     IonCard,
-    IonCardContent
+    IonCardContent,
+    IonMenuButton,
+    IonIcon,
+    IonFab,
+    IonFabButton,
+    IonModal,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
   ]
 })
 export class RawMaterialsPage {
@@ -55,6 +74,8 @@ export class RawMaterialsPage {
 
   minimumStock = 10;
 
+  showMaterialModal = false;
+
   rawMaterials: any[] = [];
 
   constructor(
@@ -63,7 +84,14 @@ export class RawMaterialsPage {
 
     private auditService:
       AuditService
-  ) {}
+  ) {
+
+    addIcons({
+      closeOutline,
+      addOutline,
+    });
+
+  }
 
   ngOnInit() {
 
@@ -188,6 +216,12 @@ export class RawMaterialsPage {
 
     this.loadRawMaterials();
 
+    this.closeMaterialModal();
+
+  }
+
+  openNewMaterialModal() {
+
     this.name = '';
     this.category = '';
     this.laboratoryName = '';
@@ -196,6 +230,14 @@ export class RawMaterialsPage {
     this.unit = '';
     this.expirationDate = '';
     this.minimumStock = 10;
+
+    this.showMaterialModal = true;
+
+  }
+
+  closeMaterialModal() {
+
+    this.showMaterialModal = false;
 
   }
 

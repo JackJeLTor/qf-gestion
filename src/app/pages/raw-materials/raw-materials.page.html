@@ -1,116 +1,329 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title> Materias Primas </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
 
-<ion-content class="ion-padding">
-  <ion-item>
-    <ion-input label="Nombre" labelPlacement="floating" [(ngModel)]="name">
-    </ion-input>
-  </ion-item>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-  <ion-item>
-    <ion-input
-      label="Categoría"
-      labelPlacement="floating"
-      [(ngModel)]="category"
-    >
-    </ion-input>
-  </ion-item>
+  <div class="page-header">
 
-  <ion-item>
-    <ion-input
-      label="Laboratorio"
-      labelPlacement="floating"
-      [(ngModel)]="laboratoryName"
-    >
-    </ion-input>
-  </ion-item>
+    <div class="header-top">
 
-  <ion-item>
-    <ion-input
-      label="Número de Lote"
-      labelPlacement="floating"
-      [(ngModel)]="lotNumber"
-    >
-    </ion-input>
-  </ion-item>
+      <ion-menu-button>
+      </ion-menu-button>
 
-  <ion-item>
-    <ion-input
-      type="number"
-      label="Stock"
-      labelPlacement="floating"
-      [(ngModel)]="stock"
-    >
-    </ion-input>
-  </ion-item>
+      <div class="header-title">
 
-  <ion-item>
-    <ion-input label="Unidad" labelPlacement="floating" [(ngModel)]="unit">
-    </ion-input>
-  </ion-item>
+        <h1>
 
-  <ion-item>
-    <ion-input
-      type="number"
-      label="Stock Mínimo"
-      labelPlacement="floating"
-      [(ngModel)]="minimumStock"
-    >
-    </ion-input>
-  </ion-item>
+          Materias Primas
 
-  <ion-item>
-    <ion-input
-      type="date"
-      label="Fecha Vencimiento"
-      labelPlacement="floating"
-      [(ngModel)]="expirationDate"
-    >
-    </ion-input>
-  </ion-item>
+        </h1>
 
-  <ion-button expand="block" (click)="addRawMaterial()">
-    Registrar Materia Prima
-  </ion-button>
+      </div>
+
+    </div>
+
+  </div>
+
+  @if(rawMaterials.length === 0){
+
+    <ion-card class="empty-card">
+
+      <ion-card-content>
+
+        No hay materias primas registradas.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
 
   @for( material of rawMaterials; track material.id ){
 
-  <ion-card>
-    <ion-card-content>
-      <h2>{{ material.name }}</h2>
+    <ion-card class="material-card">
 
-      <p>Código: {{ material.code }}</p>
+      <ion-card-content>
 
-      <p>Categoría: {{ material.category }}</p>
+        <div class="material-name">
 
-      <p>Laboratorio: {{ material.laboratoryName }}</p>
+          {{ material.name }}
 
-      <p>Lote: {{ material.lotNumber }}</p>
+        </div>
 
-      <p>Stock: {{ material.stock }} {{ material.unit }}</p>
+        <div class="material-info">
 
-      <p>Stock mínimo: {{ material.minimumStock }}</p>
+          <strong>
 
-      <p>Vence: {{ material.expirationDate }}</p>
+            Código:
 
-      <p>
-        Estado:
+          </strong>
 
-        <strong> {{ material.status }} </strong>
-      </p>
-    </ion-card-content>
+          {{ material.code }}
 
-    <ion-button
-      color="danger"
-      expand="block"
-      (click)="deleteRawMaterial(material.id)"
-    >
-      Eliminar
-    </ion-button>
-  </ion-card>
+        </div>
+
+        <div class="material-info">
+
+          <strong>
+
+            Categoría:
+
+          </strong>
+
+          {{ material.category }}
+
+        </div>
+
+        <div class="material-info">
+
+          <strong>
+
+            Laboratorio:
+
+          </strong>
+
+          {{ material.laboratoryName }}
+
+        </div>
+
+        <div class="material-info">
+
+          <strong>
+
+            Lote:
+
+          </strong>
+
+          {{ material.lotNumber }}
+
+        </div>
+
+        <div class="material-info">
+
+          <strong>
+
+            Stock:
+
+          </strong>
+
+          {{ material.stock }} {{ material.unit }}
+
+        </div>
+
+        <div class="material-info">
+
+          <strong>
+
+            Stock mínimo:
+
+          </strong>
+
+          {{ material.minimumStock }}
+
+        </div>
+
+        <div class="material-info">
+
+          <strong>
+
+            Vence:
+
+          </strong>
+
+          {{ material.expirationDate }}
+
+        </div>
+
+        <div
+          class="status-badge"
+          [class.available]="material.status === 'Disponible'"
+          [class.low]="material.status === 'Stock Bajo'"
+          [class.expiring]="material.status === 'Próximo a Vencer'">
+
+          {{ material.status }}
+
+        </div>
+
+      </ion-card-content>
+
+      <div class="card-actions">
+
+        <ion-button
+          color="danger"
+          fill="solid"
+          (click)="deleteRawMaterial(material.id)"
+        >
+
+          Eliminar
+
+        </ion-button>
+
+      </div>
+
+    </ion-card>
 
   }
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+
+    <ion-fab-button (click)="openNewMaterialModal()">
+
+      <ion-icon name="add-outline">
+      </ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+  <ion-modal [isOpen]="showMaterialModal">
+
+    <ng-template>
+
+      <ion-header>
+
+        <ion-toolbar>
+
+          <ion-title>
+
+            Nueva Materia Prima
+
+          </ion-title>
+
+          <ion-buttons slot="end">
+
+            <ion-button fill="clear" (click)="closeMaterialModal()">
+
+              <ion-icon name="close-outline">
+              </ion-icon>
+
+            </ion-button>
+
+          </ion-buttons>
+
+        </ion-toolbar>
+
+      </ion-header>
+
+      <ion-content>
+
+        <div class="modal-form">
+
+          <div class="form-section">
+
+            <h3>
+
+              Información General
+
+            </h3>
+
+            <ion-item>
+
+              <ion-input label="Nombre" labelPlacement="stacked" [(ngModel)]="name">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Categoría"
+                labelPlacement="stacked"
+                [(ngModel)]="category"
+              >
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Laboratorio"
+                labelPlacement="stacked"
+                [(ngModel)]="laboratoryName"
+              >
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                label="Número de Lote"
+                labelPlacement="stacked"
+                [(ngModel)]="lotNumber"
+              >
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <div class="form-section">
+
+            <h3>
+
+              Stock
+
+            </h3>
+
+            <ion-item>
+
+              <ion-input
+                type="number"
+                label="Stock"
+                labelPlacement="stacked"
+                [(ngModel)]="stock"
+              >
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input label="Unidad" labelPlacement="stacked" [(ngModel)]="unit">
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                type="number"
+                label="Stock Mínimo"
+                labelPlacement="stacked"
+                [(ngModel)]="minimumStock"
+              >
+              </ion-input>
+
+            </ion-item>
+
+            <ion-item>
+
+              <ion-input
+                type="date"
+                label="Fecha Vencimiento"
+                labelPlacement="stacked"
+                [(ngModel)]="expirationDate"
+              >
+              </ion-input>
+
+            </ion-item>
+
+          </div>
+
+          <ion-button expand="block" class="save-button" (click)="addRawMaterial()">
+
+            Registrar Materia Prima
+
+          </ion-button>
+
+        </div>
+
+      </ion-content>
+
+    </ng-template>
+
+  </ion-modal>
+
 </ion-content>

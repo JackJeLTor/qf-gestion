@@ -1,24 +1,35 @@
-<ion-header>
+<ion-content>
 
-  <ion-toolbar>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-    <ion-title>
+  <div class="page-header">
 
-      Control de Calidad
+    <div class="header-top">
 
-    </ion-title>
+      <ion-menu-button>
+      </ion-menu-button>
 
-  </ion-toolbar>
+      <div class="header-title">
 
-</ion-header>
+        <h1>
 
-<ion-content class="ion-padding">
+          Control de Calidad
+
+        </h1>
+
+      </div>
+
+    </div>
+
+  </div>
 
   @if(
     productions.length === 0
   ){
 
-    <ion-card>
+    <ion-card class="empty-card">
 
       <ion-card-content>
 
@@ -35,157 +46,178 @@
     track production.id
   ){
 
-    <ion-card>
+    <ion-card class="quality-card">
 
       <ion-card-content>
 
-        <h2>
+        <div class="patient-name">
 
           {{ production.patientName }}
 
-        </h2>
+        </div>
 
-        <p>
-
-          🏷️ Lote:
-
-          {{ production.batchNumber }}
-
-        </p>
-
-        <p>
-
-          💊 Forma Farmacéutica:
-
-          {{ production.pharmaceuticalForm }}
-
-        </p>
-
-        <p>
-
-          🏥 Especialidad:
-
-          {{ production.specialty }}
-
-        </p>
-
-        <p>
-
-          📦 Cantidad:
-
-          {{ production.quantity }}
-
-        </p>
-
-        <p>
-
-          👤 Responsable Producción:
-
-          {{ production.responsible }}
-
-        </p>
-
-        <p>
-
-          📅 Inicio:
-
-          {{ production.startDate }}
-
-        </p>
-
-        <p>
-
-          🧪 Fórmula:
-
-          {{ production.formula }}
-
-        </p>
-
-        <p>
-
-          📌 Estado:
+        <div class="quality-info">
 
           <strong>
 
-            {{ production.status }}
+            Lote:
 
           </strong>
 
-        </p>
+          {{ production.batchNumber }}
+
+        </div>
+
+        <div class="quality-info">
+
+          <strong>
+
+            Forma Farmacéutica:
+
+          </strong>
+
+          {{ production.pharmaceuticalForm }}
+
+        </div>
+
+        <div class="quality-info">
+
+          <strong>
+
+            Especialidad:
+
+          </strong>
+
+          {{ production.specialty }}
+
+        </div>
+
+        <div class="quality-info">
+
+          <strong>
+
+            Cantidad:
+
+          </strong>
+
+          {{ production.quantity }}
+
+        </div>
+
+        <div class="quality-info">
+
+          <strong>
+
+            Responsable Producción:
+
+          </strong>
+
+          {{ production.responsible }}
+
+        </div>
+
+        <div class="quality-info">
+
+          <strong>
+
+            Inicio:
+
+          </strong>
+
+          {{ production.startDate }}
+
+        </div>
+
+        <div class="quality-info formula-box">
+
+          {{ production.formula }}
+
+        </div>
+
+        <div
+          class="status-badge quality">
+
+          {{ production.status }}
+
+        </div>
 
         @if(
           production.rawMaterialsUsed &&
           production.rawMaterialsUsed.length > 0
         ){
 
-          <hr>
-
-          <h3>
+          <div class="section-title">
 
             Materias Primas Utilizadas
 
-          </h3>
+          </div>
 
           @for(
             material of production.rawMaterialsUsed;
             track $index
           ){
 
-            <p>
+            <div class="material-item">
 
-              • {{ material.materialName }}
+              <strong>
 
-              -
+                {{ material.materialName }}
+
+              </strong>
+
+              —
 
               {{ material.quantity }}
 
               {{ material.unit }}
 
-            </p>
-
-            <p>
+              <br>
 
               Lote:
 
               {{ material.lotNumber }}
 
-            </p>
+            </div>
 
           }
 
         }
 
-        <hr>
+        <div class="form-section">
 
-        <h3>
+          <h3>
 
-          Control de Calidad
+            Control de Calidad
 
-        </h3>
+          </h3>
 
-        <ion-item>
+          <ion-item>
 
-          <ion-input
-            label="Responsable de Calidad"
-            labelPlacement="floating"
-            [(ngModel)]="responsible">
+            <ion-input
+              label="Responsable de Calidad"
+              labelPlacement="stacked"
+              [(ngModel)]="responsible">
 
-          </ion-input>
+            </ion-input>
 
-        </ion-item>
+          </ion-item>
 
-        <ion-item>
+          <ion-item>
 
-          <ion-textarea
-            label="Observaciones"
-            labelPlacement="floating"
-            [(ngModel)]="observation">
+            <ion-textarea
+              label="Observaciones"
+              labelPlacement="stacked"
+              [(ngModel)]="observation">
 
-          </ion-textarea>
+            </ion-textarea>
 
-        </ion-item>
+          </ion-item>
 
-        <br>
+        </div>
+
+      </ion-card-content>
+
+      <div class="card-actions">
 
         <ion-button
           expand="block"
@@ -209,7 +241,7 @@
 
         </ion-button>
 
-      </ion-card-content>
+      </div>
 
     </ion-card>
 

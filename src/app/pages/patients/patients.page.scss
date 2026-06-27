@@ -245,6 +245,26 @@ ion-title {
 
 }
 
+/* ==================================
+   BOTON CERRAR MODAL
+================================== */
+
+ion-buttons ion-button {
+
+  --color: white;
+
+  --background: transparent;
+
+}
+
+ion-buttons ion-icon {
+
+  color: white;
+
+  font-size: 24px;
+
+}
+
 .modal-form {
 
   padding: 18px;

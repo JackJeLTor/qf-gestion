@@ -42,6 +42,8 @@ ion-content {
 
   align-items: center;
 
+  gap: 10px;
+
   min-height: 50px;
 
 }
@@ -72,17 +74,107 @@ ion-menu-button {
 
   font-weight: 700;
 
+  letter-spacing: .3px;
+
+}
+
+.search-toggle {
+
+  --color: white;
+
+  margin: 0;
+
 }
 
 /* ==================================
-   FORMULARIO
+   BUSCADOR EN HEADER
 ================================== */
+
+.header-search {
+
+  flex: 1;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    .18
+  );
+
+  border-radius: 12px;
+
+  padding: 0 10px;
+
+}
+
+.header-search ion-input {
+
+  --color: white;
+
+  --placeholder-color: rgba(
+    255,
+    255,
+    255,
+    .75
+  );
+
+  font-size: 14px;
+
+}
+
+/* ==================================
+   MODAL
+================================== */
+
+ion-modal {
+
+  --border-radius: 24px;
+
+}
+
+ion-toolbar {
+
+  --background: #009A82;
+
+  --color: white;
+
+}
+
+ion-title {
+
+  font-weight: 700;
+
+}
+
+/* ==================================
+   BOTON CERRAR MODAL
+================================== */
+
+ion-buttons ion-button {
+
+  --color: white;
+
+  --background: transparent;
+
+}
+
+ion-buttons ion-icon {
+
+  color: white;
+
+  font-size: 24px;
+
+}
 
 .modal-form {
 
   padding: 18px;
 
 }
+
+/* ==================================
+   SECCIONES
+================================== */
 
 .form-section {
 
@@ -118,6 +210,11 @@ ion-menu-button {
   font-weight: 700;
 
 }
+
+/* ==================================
+   INPUTS
+================================== */
+
 
 .form-section ion-item {
 
@@ -156,7 +253,7 @@ ion-select {
 }
 
 /* ==================================
-   TARJETAS
+   LISTADO
 ================================== */
 
 .prescription-card {

@@ -1,177 +1,455 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Historial de Producción
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
 
-  @if(production){
+  <!--====================================
+  HEADER
+  =====================================-->
 
-    <ion-card>
+  <div class="page-header">
 
-      <ion-card-content>
+    <div class="header-top">
 
-        <h2>Información General</h2>
+      <ion-back-button defaultHref="/productions" text="">
+      </ion-back-button>
 
-        <p>
-          <strong>Paciente:</strong>
-          {{ production.patientName }}
-        </p>
+      <div class="header-title">
 
-        <p>
-          <strong>Lote:</strong>
-          {{ production.batchNumber }}
-        </p>
+        <h1>
 
-        <p>
-          <strong>Responsable:</strong>
-          {{ production.responsible }}
-        </p>
+          Historial de Producción
 
-        <p>
-          <strong>Forma farmacéutica:</strong>
-          {{ production.pharmaceuticalForm }}
-        </p>
+        </h1>
 
-        <p>
-          <strong>Especialidad:</strong>
-          {{ production.specialty }}
-        </p>
+      </div>
 
-        <p>
-          <strong>Prioridad:</strong>
-          {{ production.priority }}
-        </p>
+    </div>
 
-        <p>
-          <strong>Estado actual:</strong>
-          {{ production.status }}
-        </p>
+  </div>
 
-        <p>
-          <strong>Fecha inicio:</strong>
-          {{ production.startDate }}
-        </p>
+@if(production){
 
-        <p>
-          <strong>Fecha fin:</strong>
-          {{ production.endDate || 'Pendiente' }}
-        </p>
+<!--====================================
+RESUMEN GENERAL
+=====================================-->
 
-        <p>
-          <strong>Resultado Calidad:</strong>
-          {{ production.qualityResult || 'Pendiente' }}
-        </p>
+<ion-card class="summary-card">
 
-        <p>
-          <strong>Responsable Calidad:</strong>
-          {{ production.qualityResponsible || 'Pendiente' }}
-        </p>
+  <ion-card-content>
 
-      </ion-card-content>
+    <div class="header-info">
 
-    </ion-card>
+      <div>
 
-    <ion-card>
+        <div class="label">
 
-      <ion-card-content>
+          Receta
 
-        <h2>Materias Primas Utilizadas</h2>
+        </div>
 
-        @if(
-          production.rawMaterialsUsed &&
-          production.rawMaterialsUsed.length > 0
-        ){
+        <div class="value">
 
-          @for(
-            material of production.rawMaterialsUsed;
-            track material
-          ){
+          {{ production.prescriptionCode }}
 
-            <p>
+        </div>
 
-              <strong>
-                {{ material.materialName }}
-              </strong>
+      </div>
 
-              <br>
+      <div class="lot-badge">
 
-              Cantidad:
-              {{ material.quantity }}
-              {{ material.unit }}
+        {{ production.batchNumber }}
 
-              <br>
+      </div>
 
-              Lote:
-              {{ material.lotNumber }}
+    </div>
 
-              <br>
+    <hr>
 
-              Consumido por:
-              {{ material.consumedBy }}
+    <div class="section">
 
-              <br>
+      <div class="section-title">
 
-              Fecha:
-              {{ material.consumedDate }}
+        Paciente
 
-            </p>
+      </div>
 
-            <hr>
+      <div class="section-value">
 
-          }
+        {{ production.patientName }}
 
-        } @else {
+      </div>
 
-          <p>
-            No existen materias primas registradas.
-          </p>
+    </div>
 
-        }
+    <div class="section">
 
-      </ion-card-content>
+      <div class="section-title">
 
-    </ion-card>
+        Médico
 
-    <ion-card>
+      </div>
 
-      <ion-card-content>
+      <div class="section-value">
 
-        <h2>Historial de Eventos</h2>
+        {{ production.doctorName }}
 
-        @if(
-          production.history &&
-          production.history.length > 0
-        ){
+      </div>
 
-          @for(
-            item of production.history;
-            track item
-          ){
+      <small>
 
-            <p>
+        CMP {{ production.doctorCmp }}
 
-              • {{ item }}
+      </small>
 
-            </p>
+    </div>
 
-          }
+    <div class="section">
 
-        } @else {
+      <div class="section-title">
 
-          <p>
-            No existen eventos registrados.
-          </p>
+        Responsable
 
-        }
+      </div>
 
-      </ion-card-content>
+      <div class="section-value">
 
-    </ion-card>
+        {{ production.responsible }}
 
-  }
+      </div>
+
+    </div>
+
+    <div class="section">
+
+      <div class="section-title">
+
+        Forma Farmacéutica
+
+      </div>
+
+      <div class="section-value">
+
+        {{ getFormIcon(production.pharmaceuticalForm) }}
+
+        {{ production.pharmaceuticalForm }}
+
+      </div>
+
+    </div>
+
+    <div class="section">
+
+      <div class="section-title">
+
+        Especialidad
+
+      </div>
+
+      <div class="section-value">
+
+        {{ production.specialty }}
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="badges">
+
+      <span
+        class="status-badge"
+        [ngClass]="getStatusClass(production.status)">
+
+        {{ production.status }}
+
+      </span>
+
+      <span
+        class="priority-badge"
+        [ngClass]="getPriorityClass(production.priority)">
+
+        {{ production.priority }}
+
+      </span>
+
+    </div>
+
+    <div class="progress-container">
+
+      <div
+        class="progress-bar">
+
+        <div
+
+          class="progress-fill"
+
+          [style.width.%]="progress">
+
+        </div>
+
+      </div>
+
+      <div class="progress-text">
+
+        {{ progress }} %
+
+      </div>
+
+    </div>
+
+    <div class="dates">
+
+      <div>
+
+        <strong>
+
+          Inicio
+
+        </strong>
+
+        <br>
+
+        {{ production.startDate }}
+
+      </div>
+
+      <div>
+
+        <strong>
+
+          Transcurrido
+
+        </strong>
+
+        <br>
+
+        {{ elapsedDays }} día(s)
+
+      </div>
+
+      <div>
+
+        <strong>
+
+          Entrega
+
+        </strong>
+
+        <br>
+
+        {{ production.deliveryDate }}
+
+      </div>
+
+    </div>
+
+  </ion-card-content>
+
+</ion-card>
+
+<!--====================================
+ÚLTIMO MOVIMIENTO
+=====================================-->
+
+@if(lastHistory){
+
+<ion-card class="last-history-card">
+
+  <ion-card-content>
+
+    <h2>
+
+      Último Movimiento
+
+    </h2>
+
+    <p>
+
+      <strong>
+
+        Fecha:
+
+      </strong>
+
+      {{ lastHistory.date }}
+
+    </p>
+
+    <p>
+
+      <strong>
+
+        Acción:
+
+      </strong>
+
+      {{ lastHistory.action }}
+
+    </p>
+
+    <p>
+
+      {{ lastHistory.description }}
+
+    </p>
+
+  </ion-card-content>
+
+</ion-card>
+
+}
+
+<!--====================================
+CONTROL DE CALIDAD
+=====================================-->
+
+@if(production.qualityStatus){
+
+<ion-card class="quality-card">
+
+  <ion-card-content>
+
+    <h2>
+
+      Control de Calidad
+
+    </h2>
+
+    <p>
+
+      <strong>
+
+        Estado:
+
+      </strong>
+
+      {{ production.qualityStatus }}
+
+    </p>
+
+    <p>
+
+      <strong>
+
+        Resultado:
+
+      </strong>
+
+      {{ production.qualityResult }}
+
+    </p>
+
+    <p>
+
+      <strong>
+
+        Responsable:
+
+      </strong>
+
+      {{ production.qualityResponsible }}
+
+    </p>
+
+    <p>
+
+      <strong>
+
+        Fecha:
+
+      </strong>
+
+      {{ production.qualityDate }}
+
+    </p>
+
+    <p>
+
+      <strong>
+
+        Observaciones:
+
+      </strong>
+
+      {{ production.observations }}
+
+    </p>
+
+  </ion-card-content>
+
+</ion-card>
+
+}
+
+<!--====================================
+TIMELINE
+=====================================-->
+
+<ion-card class="timeline-card">
+
+  <ion-card-content>
+
+    <h2>
+
+      Historial de Eventos
+
+    </h2>
+
+    @for(
+
+      event of production.history;
+
+      track $index
+
+    ){
+
+    <div class="timeline-item">
+
+      <div class="timeline-dot">
+
+      </div>
+
+      <div class="timeline-content">
+
+        <div class="timeline-date">
+
+          {{ event.date }}
+
+        </div>
+
+        <div class="timeline-action">
+
+          {{ event.action }}
+
+        </div>
+
+        <div class="timeline-description">
+
+          {{ event.description }}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    }
+
+  </ion-card-content>
+
+</ion-card>
+
+} @else {
+
+<ion-card class="empty-card">
+
+  <ion-card-content>
+
+    No se encontró la producción solicitada.
+
+  </ion-card-content>
+
+</ion-card>
+
+}
 
 </ion-content>
