@@ -1,165 +1,235 @@
-<ion-header>
+<ion-content>
 
-  <ion-toolbar>
+  <div class="page-header">
 
-    <ion-title>
+    <div class="header-top">
 
-      Consumo de Materias Primas
+      <ion-menu-button>
+      </ion-menu-button>
 
-    </ion-title>
+      <div class="header-title">
 
-  </ion-toolbar>
+        <h1>
 
-</ion-header>
+          Consumo MP
 
-<ion-content class="ion-padding">
+        </h1>
 
-  <ion-item>
+      </div>
 
-    <ion-select
-      label="Producción"
-      labelPlacement="floating"
-      [(ngModel)]="productionId">
+    </div>
 
-      @for(
-        production of productions;
-        track production.id
-      ){
+  </div>
 
-        <ion-select-option
-          [value]="production.id">
+  <ion-card class="form-card">
 
-          {{ production.patientName }}
+    <ion-card-content>
 
-          -
+      <div class="section-title">
 
-          {{ production.batchNumber }}
+        Registrar Consumo
 
-        </ion-select-option>
+      </div>
 
-      }
+      <ion-item>
 
-    </ion-select>
+        <ion-select
+          label="Producción"
+          labelPlacement="stacked"
+          [(ngModel)]="productionId">
 
-  </ion-item>
+          @for(
+            production of productions;
+            track production.id
+          ){
 
-  <ion-item>
+            <ion-select-option
+              [value]="production.id">
 
-    <ion-select
-      label="Materia Prima"
-      labelPlacement="floating"
-      [(ngModel)]="rawMaterialId">
+              {{ production.patientName }}
 
-      @for(
-        material of rawMaterials;
-        track material.id
-      ){
+              -
 
-        <ion-select-option
-          [value]="material.id">
+              {{ production.batchNumber }}
 
-          {{ material.name }}
+            </ion-select-option>
 
-          -
+          }
 
-          Lote {{ material.lotNumber }}
+        </ion-select>
 
-        </ion-select-option>
+      </ion-item>
 
-      }
+      <ion-item>
 
-    </ion-select>
+        <ion-select
+          label="Materia Prima"
+          labelPlacement="stacked"
+          [(ngModel)]="rawMaterialId">
 
-  </ion-item>
+          @for(
+            material of rawMaterials;
+            track material.id
+          ){
 
-  <ion-item>
+            <ion-select-option
+              [value]="material.id">
 
-    <ion-input
-      type="number"
-      label="Cantidad Consumida"
-      labelPlacement="floating"
-      [(ngModel)]="quantity">
-    </ion-input>
+              {{ material.name }}
 
-  </ion-item>
+              -
 
-  <ion-item>
+              Lote {{ material.lotNumber }}
 
-    <ion-input
-      label="Responsable"
-      labelPlacement="floating"
-      [(ngModel)]="consumedBy">
-    </ion-input>
+            </ion-select-option>
 
-  </ion-item>
+          }
 
-  <ion-button
-    expand="block"
-    (click)="registerConsumption()">
+        </ion-select>
 
-    Registrar Consumo
+      </ion-item>
 
-  </ion-button>
+      <ion-item>
 
-  <hr>
+        <ion-input
+          type="number"
+          label="Cantidad Consumida"
+          labelPlacement="stacked"
+          [(ngModel)]="quantity">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-input
+          label="Responsable"
+          labelPlacement="stacked"
+          [(ngModel)]="consumedBy">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        class="save-button"
+        (click)="registerConsumption()">
+
+        Registrar Consumo
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <div class="section-title">
+
+    Historial de Consumos
+
+  </div>
+
+  @if(consumptions.length === 0){
+
+    <ion-card class="empty-card">
+
+      <ion-card-content>
+
+        No hay consumos registrados.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
 
   @for(
     item of consumptions;
     track item.id
   ){
 
-    <ion-card>
+    <ion-card class="consumption-card">
 
       <ion-card-content>
 
-        <h2>
+        <div class="patient-name">
 
           {{ item.productionPatient }}
 
-        </h2>
+        </div>
 
-        <p>
+        <div class="consumption-info">
 
-          Lote Producción:
+          <strong>
+
+            Lote Producción:
+
+          </strong>
+
           {{ item.batchNumber }}
 
-        </p>
+        </div>
 
-        <p>
+        <div class="consumption-info">
 
-          Materia Prima:
+          <strong>
+
+            Materia Prima:
+
+          </strong>
+
           {{ item.rawMaterialName }}
 
-        </p>
+        </div>
 
-        <p>
+        <div class="consumption-info">
 
-          Lote Materia Prima:
+          <strong>
+
+            Lote MP:
+
+          </strong>
+
           {{ item.lotNumber }}
 
-        </p>
+        </div>
 
-        <p>
+        <div class="consumption-info">
 
-          Cantidad:
+          <strong>
+
+            Cantidad:
+
+          </strong>
+
           {{ item.quantity }}
           {{ item.unit }}
 
-        </p>
+        </div>
 
-        <p>
+        <div class="consumption-info">
 
-          Responsable:
+          <strong>
+
+            Responsable:
+
+          </strong>
+
           {{ item.consumedBy }}
 
-        </p>
+        </div>
 
-        <p>
+        <div class="consumption-info">
 
-          Fecha:
+          <strong>
+
+            Fecha:
+
+          </strong>
+
           {{ item.date }}
 
-        </p>
+        </div>
 
       </ion-card-content>
 

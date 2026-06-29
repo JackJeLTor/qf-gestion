@@ -3,9 +3,6 @@ import { FormsModule } from '@angular/forms';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonItem,
   IonInput,
   IonButton,
@@ -13,6 +10,7 @@ import {
   IonCardContent,
   IonSelect,
   IonSelectOption,
+  IonMenuButton,
 } from '@ionic/angular/standalone';
 
 import { RawMaterialService } from '../../services/raw-material.service';
@@ -29,9 +27,6 @@ import { ProductionConsumptionService } from '../../services/production-consumpt
   imports: [
     FormsModule,
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonItem,
     IonInput,
     IonButton,
@@ -39,6 +34,7 @@ import { ProductionConsumptionService } from '../../services/production-consumpt
     IonCardContent,
     IonSelect,
     IonSelectOption,
+    IonMenuButton,
   ],
 })
 export class ProductionConsumptionPage {
@@ -65,11 +61,21 @@ export class ProductionConsumptionPage {
   ) {}
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  ionViewWillEnter() {
+    this.loadData();
+  }
+
+  loadData() {
+
     this.productions = this.productionService.getProductions();
 
     this.rawMaterials = this.rawMaterialService.getRawMaterials();
 
-    this.consumptions = this.consumptionService.getConsumptions();
+    this.consumptions = this.consumptionService.getConsumptions().reverse();
+
   }
 
   registerConsumption() {
@@ -123,7 +129,7 @@ export class ProductionConsumptionPage {
       consumedBy: this.consumedBy,
     });
 
-    this.consumptions = this.consumptionService.getConsumptions();
+    this.loadData();
 
     this.quantity = 0;
 

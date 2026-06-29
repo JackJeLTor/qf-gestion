@@ -1,85 +1,36 @@
-<ion-header>
+<ion-content>
+  <div class="page-header">
+    <div class="header-top">
+      <ion-menu-button></ion-menu-button>
+      <div class="header-title">
+        <h1>Historial de accesos</h1>
+      </div>
+    </div>
+  </div>
 
-  <ion-toolbar>
-
-    <ion-title>
-
-      Historial de Accesos
-
-    </ion-title>
-
-  </ion-toolbar>
-
-</ion-header>
-
-<ion-content class="ion-padding">
+  <section class="access-intro">
+    <h2>Control de ingresos</h2>
+    <p>Registro de intentos, accesos exitosos y eventos de seguridad.</p>
+  </section>
 
   @if(logs.length === 0){
-
-    <ion-card>
-
-      <ion-card-content>
-
-        No existen accesos registrados.
-
-      </ion-card-content>
-
+    <ion-card class="empty-card">
+      <ion-card-content>No existen accesos registrados.</ion-card-content>
     </ion-card>
-
   }
 
-  @for(
-    log of logs;
-    track log.id
-  ){
-
-    <ion-card>
-
+  @for(log of logs; track log.id){
+    <ion-card class="access-card">
       <ion-card-content>
+        <div class="access-header">
+          <h2>{{ log.username }}</h2>
+          <span>{{ log.result }}</span>
+        </div>
 
-        <h2>
-
-          {{ log.username }}
-
-        </h2>
-
-        <p>
-
-          📅 Fecha:
-          {{ log.date }}
-
-        </p>
-
-        <p>
-
-          🕒 Hora:
-          {{ log.time }}
-
-        </p>
-
-        <p>
-
-          🌐 IP:
-          {{ log.ip }}
-
-        </p>
-
-        <p>
-
-          Resultado:
-
-          <strong>
-
-            {{ log.result }}
-
-          </strong>
-
-        </p>
-
+        <div class="access-info"><strong>Fecha:</strong> {{ log.date }}</div>
+        <div class="access-info"><strong>Hora:</strong> {{ log.time }}</div>
+        <div class="access-info"><strong>IP:</strong> {{ log.ip }}</div>
       </ion-card-content>
-
     </ion-card>
-
   }
-
 </ion-content>

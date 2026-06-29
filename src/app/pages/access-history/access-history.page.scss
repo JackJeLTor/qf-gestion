@@ -1,37 +1,99 @@
 ion-content {
-
-  --background: #f4f6f9;
-
+  --background: #F4F7FA;
 }
 
-ion-card {
+.page-header {
+  background: linear-gradient(135deg, #009A82, #00B89A);
+  padding: 10px 14px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 154, 130, .18);
+}
 
-  border-radius: 15px;
+.header-top {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+ion-menu-button {
+  --color: #FFFFFF;
+}
+
+.header-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header-title h1 {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.access-intro {
+  padding: 18px 16px 2px;
+}
+
+.access-intro h2 {
+  margin: 0;
+  color: #1F2937;
+  font-size: 19px;
+  font-weight: 850;
+}
+
+.access-intro p {
+  margin: 6px 0 0;
+  color: #6B7280;
+  font-size: 14px;
+}
+
+.access-card,
+.empty-card {
+  margin: 14px;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .06);
+}
+
+.access-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 12px;
-
-  box-shadow:
-    0 3px 10px
-    rgba(0,0,0,.08);
-
 }
 
-h2 {
-
-  color: #2563eb;
-
+.access-header h2 {
+  margin: 0;
+  color: #009A82;
   font-size: 18px;
-
-  font-weight: 700;
-
-  margin-bottom: 10px;
-
+  font-weight: 850;
 }
 
-p {
+.access-header span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #E6FFFB;
+  color: #00806E;
+  font-size: 12px;
+  font-weight: 850;
+}
 
-  margin: 5px 0;
-
+.access-info {
+  margin-bottom: 8px;
   color: #374151;
+  font-size: 14px;
+}
 
+.access-info strong {
+  color: #1F2937;
+}
+
+.empty-card {
+  text-align: center;
+  color: #6B7280;
 }

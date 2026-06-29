@@ -579,3 +579,16 @@ hr {
   }
 
 }
+ion-card,
+.summary-card,
+.empty-card {
+  --background: #FFFFFF;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .06);
+}
+
+ion-card:last-child,
+.empty-card:last-child {
+  margin-bottom: calc(132px + env(safe-area-inset-bottom));
+}

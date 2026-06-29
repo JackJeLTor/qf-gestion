@@ -107,7 +107,7 @@
 
           </strong>
 
-          {{ user.permissions?.join(', ') }}
+          {{ formatPermissions(user.permissions) }}
 
         </div>
 
@@ -303,6 +303,16 @@
 
             </ion-item>
 
+            @if(editingUserId){
+
+            <div class="password-note">
+
+              Ingrese una nueva contraseña solo si desea cambiar la actual.
+
+            </div>
+
+            }
+
           </div>
 
           <div class="form-section">
@@ -358,7 +368,7 @@
 
             <ion-item>
 
-              <ion-select label="Rol" labelPlacement="stacked" [(ngModel)]="role">
+              <ion-select label="Rol" labelPlacement="stacked" [(ngModel)]="role" (ionChange)="syncRolePermissions()">
 
                 <ion-select-option value="Administrador">
 
@@ -366,7 +376,7 @@
 
                 </ion-select-option>
 
-                <ion-select-option value="Produccion"> Producción </ion-select-option>
+                <ion-select-option value="Producción"> Producción </ion-select-option>
 
                 <ion-select-option value="Calidad"> Calidad </ion-select-option>
 
@@ -389,11 +399,11 @@
                 [(ngModel)]="permissions"
               >
 
-                @for( permission of availablePermissions; track permission ){
+                @for( permission of availablePermissions; track permission.key ){
 
-                <ion-select-option [value]="permission">
+                <ion-select-option [value]="permission.key">
 
-                  {{ permission }}
+                  {{ permission.label }}
 
                 </ion-select-option>
 

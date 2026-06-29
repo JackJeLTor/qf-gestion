@@ -1,168 +1,295 @@
-<ion-header>
+<ion-content>
 
-  <ion-toolbar>
+  <div class="page-header">
 
-    <ion-title>
+    <div class="header-top">
 
-      Auditoría
+      <ion-menu-button>
+      </ion-menu-button>
 
-    </ion-title>
+      @if(!showSearch){
 
-  </ion-toolbar>
+        <div class="header-title">
 
-</ion-header>
+          <h1>
 
-<ion-content class="ion-padding">
+            Auditoría
 
-  <ion-card>
+          </h1>
 
-    <ion-card-content>
+        </div>
 
-      <h2>
+      } @else {
 
-        Total Eventos:
+        <div class="header-search">
 
-        {{ totalLogs }}
+          <ion-input
+            autofocus="true"
+            placeholder="Buscar evento..."
+            [(ngModel)]="searchText"
+            (ionInput)="filterLogs()">
 
-      </h2>
+          </ion-input>
 
-    </ion-card-content>
+        </div>
 
-  </ion-card>
+      }
 
-  <ion-card>
+      <ion-button fill="clear" class="search-toggle" (click)="toggleSearch()">
 
-  <ion-card-content>
+        <ion-icon [name]="showSearch ? 'close-outline' : 'search-outline'">
+        </ion-icon>
 
-    📄 Recetas:
-    {{ recipesLogs }}
+      </ion-button>
 
-    <br>
+    </div>
 
-    🏭 Producción:
-    {{ productionLogs }}
+  </div>
 
-    <br>
+  <ion-grid class="stats-grid">
 
-    🔬 Calidad:
-    {{ qualityLogs }}
+    <ion-row>
 
-    <br>
+      <ion-col size="6">
 
-    🚚 Entregas:
-    {{ deliveryLogs }}
+        <ion-card class="stat-card total">
 
-  </ion-card-content>
+          <ion-card-content>
 
-</ion-card>
+            <h2>
 
-<ion-button
-  expand="block"
-  color="danger"
-  (click)="clearAudit()">
+              {{ totalLogs }}
 
-  Limpiar Auditoría
+            </h2>
 
-</ion-button>
+            <p>
 
-  <ion-item>
+              Total Eventos
 
-    <ion-input
-      label="Buscar"
-      labelPlacement="floating"
-      [(ngModel)]="searchText"
-      (ionInput)="filterLogs()">
+            </p>
 
-    </ion-input>
+          </ion-card-content>
 
-  </ion-item>
+        </ion-card>
 
-  <ion-item>
+      </ion-col>
 
-    <ion-select
-      label="Módulo"
-      labelPlacement="floating"
-      [(ngModel)]="moduleFilter"
-      (ionChange)="filterLogs()">
+      <ion-col size="6">
 
-      <ion-select-option
-        value="Todos">
+        <ion-card class="stat-card recipes">
 
-        Todos
+          <ion-card-content>
 
-      </ion-select-option>
+            <h2>
 
-      <ion-select-option
-        value="Recetas">
+              {{ recipesLogs }}
 
-        Recetas
+            </h2>
 
-      </ion-select-option>
+            <p>
 
-      <ion-select-option
-        value="Producción">
+              Recetas
 
-        Producción
+            </p>
 
-      </ion-select-option>
+          </ion-card-content>
 
-      <ion-select-option
-        value="Control Calidad">
+        </ion-card>
 
-        Control Calidad
+      </ion-col>
 
-      </ion-select-option>
+      <ion-col size="6">
 
-      <ion-select-option
-        value="Entregas">
+        <ion-card class="stat-card production">
 
-        Entregas
+          <ion-card-content>
 
-      </ion-select-option>
+            <h2>
 
-      <ion-select-option
-        value="Materias Primas">
+              {{ productionLogs }}
 
-        Materias Primas
+            </h2>
 
-      </ion-select-option>
+            <p>
 
-    </ion-select>
+              Producción
 
-  </ion-item>
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="stat-card quality">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ qualityLogs }}
+
+            </h2>
+
+            <p>
+
+              Calidad
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+
+  <div class="filters-card">
+
+    <ion-item>
+
+      <ion-select
+        label="Módulo"
+        labelPlacement="stacked"
+        [(ngModel)]="moduleFilter"
+        (ionChange)="filterLogs()">
+
+        <ion-select-option
+          value="Todos">
+
+          Todos
+
+        </ion-select-option>
+
+        <ion-select-option
+          value="Recetas">
+
+          Recetas
+
+        </ion-select-option>
+
+        <ion-select-option
+          value="Producción">
+
+          Producción
+
+        </ion-select-option>
+
+        <ion-select-option
+          value="Control Calidad">
+
+          Control Calidad
+
+        </ion-select-option>
+
+        <ion-select-option
+          value="Entregas">
+
+          Entregas
+
+        </ion-select-option>
+
+        <ion-select-option
+          value="Materias Primas">
+
+          Materias Primas
+
+        </ion-select-option>
+
+        <ion-select-option
+          value="Usuarios">
+
+          Usuarios
+
+        </ion-select-option>
+
+        <ion-select-option
+          value="Reportes">
+
+          Reportes
+
+        </ion-select-option>
+
+      </ion-select>
+
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      color="danger"
+      fill="outline"
+      (click)="clearAudit()">
+
+      Limpiar Auditoría
+
+    </ion-button>
+
+  </div>
+
+  @if(filteredLogs.length === 0){
+
+    <ion-card class="empty-card">
+
+      <ion-card-content>
+
+        No hay eventos registrados.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
 
   @for(
     log of filteredLogs;
     track log.id
   ){
 
-    <ion-card>
+    <ion-card class="log-card">
 
       <ion-card-content>
 
-        <strong>
+        <div class="log-module">
 
           {{ log.module }}
 
-        </strong>
+        </div>
 
-        <br>
+        <div class="log-info">
 
-        Acción:
+          <strong>
 
-        {{ log.action }}
+            Acción:
 
-        <br>
+          </strong>
 
-        Responsable:
+          {{ log.action }}
 
-        {{ log.responsible }}
+        </div>
 
-        <br>
+        <div class="log-info">
 
-        {{ log.description }}
+          <strong>
 
-        <br>
+            Responsable:
+
+          </strong>
+
+          {{ log.responsible }}
+
+        </div>
+
+        <div class="log-description">
+
+          {{ log.description }}
+
+        </div>
 
         <small>
 

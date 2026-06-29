@@ -1,163 +1,73 @@
-<ion-header>
+<ion-content>
+  <div class="page-header">
+    <div class="header-top">
+      <ion-menu-button></ion-menu-button>
+      <div class="header-title">
+        <h1>Laboratorios</h1>
+      </div>
+    </div>
+  </div>
 
-  <ion-toolbar>
+  <ion-card class="form-card laboratory-form">
+    <ion-card-content>
+      <div class="section-title">Registrar laboratorio</div>
 
-    <ion-title>
+      <ion-item>
+        <ion-input label="Nombre" labelPlacement="stacked" [(ngModel)]="name"></ion-input>
+      </ion-item>
 
-      Laboratorios
+      <ion-item>
+        <ion-input label="RUC" labelPlacement="stacked" [(ngModel)]="ruc"></ion-input>
+      </ion-item>
 
-    </ion-title>
+      <ion-item>
+        <ion-input label="Contacto" labelPlacement="stacked" [(ngModel)]="contact"></ion-input>
+      </ion-item>
 
-  </ion-toolbar>
+      <ion-item>
+        <ion-input label="Teléfono" labelPlacement="stacked" [(ngModel)]="phone"></ion-input>
+      </ion-item>
 
-</ion-header>
+      <ion-item>
+        <ion-input label="Correo" labelPlacement="stacked" [(ngModel)]="email"></ion-input>
+      </ion-item>
 
-<ion-content class="ion-padding">
+      <ion-item>
+        <ion-input label="Dirección" labelPlacement="stacked" [(ngModel)]="address"></ion-input>
+      </ion-item>
 
-  <ion-item>
-
-    <ion-input
-      label="Nombre"
-      labelPlacement="floating"
-      [(ngModel)]="name">
-    </ion-input>
-
-  </ion-item>
-
-  <ion-item>
-
-    <ion-input
-      label="RUC"
-      labelPlacement="floating"
-      [(ngModel)]="ruc">
-    </ion-input>
-
-  </ion-item>
-
-  <ion-item>
-
-    <ion-input
-      label="Contacto"
-      labelPlacement="floating"
-      [(ngModel)]="contact">
-    </ion-input>
-
-  </ion-item>
-
-  <ion-item>
-
-    <ion-input
-      label="Teléfono"
-      labelPlacement="floating"
-      [(ngModel)]="phone">
-    </ion-input>
-
-  </ion-item>
-
-  <ion-item>
-
-    <ion-input
-      label="Correo"
-      labelPlacement="floating"
-      [(ngModel)]="email">
-    </ion-input>
-
-  </ion-item>
-
-  <ion-item>
-
-    <ion-input
-      label="Dirección"
-      labelPlacement="floating"
-      [(ngModel)]="address">
-    </ion-input>
-
-  </ion-item>
-
-  <ion-button
-    expand="block"
-    (click)="addLaboratory()">
-
-    Registrar Laboratorio
-
-  </ion-button>
-
-  @for(
-    laboratory of laboratories;
-    track laboratory.id
-  ){
-
-    <ion-card>
-
-      <ion-card-content>
-
-        <h2>
-
-          {{ laboratory.name }}
-
-        </h2>
-
-        <p>
-
-          RUC:
-          {{ laboratory.ruc }}
-
-        </p>
-
-        <p>
-
-          Contacto:
-          {{ laboratory.contact }}
-
-        </p>
-
-        <p>
-
-          Teléfono:
-          {{ laboratory.phone }}
-
-        </p>
-
-        <p>
-
-          Correo:
-          {{ laboratory.email }}
-
-        </p>
-
-        <p>
-
-          Dirección:
-          {{ laboratory.address }}
-
-        </p>
-
-        <p>
-
-          Estado:
-          <strong>
-
-            {{ laboratory.status }}
-
-          </strong>
-
-        </p>
-
-      </ion-card-content>
-
-      <ion-button
-        color="danger"
-        expand="block"
-        (click)="deleteLaboratory(
-          laboratory.id
-        )">
-
-        Eliminar
-
+      <ion-button expand="block" class="save-button" (click)="addLaboratory()">
+        Registrar laboratorio
       </ion-button>
+    </ion-card-content>
+  </ion-card>
 
+  <div class="section-title list-title">Laboratorios registrados</div>
+
+  @if(laboratories.length === 0){
+    <ion-card class="empty-card">
+      <ion-card-content>No hay laboratorios registrados.</ion-card-content>
     </ion-card>
-
   }
 
+  @for(laboratory of laboratories; track laboratory.id){
+    <ion-card class="laboratory-card">
+      <ion-card-content>
+        <div class="card-header-row">
+          <h2>{{ laboratory.name }}</h2>
+          <span>{{ laboratory.status }}</span>
+        </div>
+
+        <div class="info-row"><strong>RUC:</strong> {{ laboratory.ruc }}</div>
+        <div class="info-row"><strong>Contacto:</strong> {{ laboratory.contact }}</div>
+        <div class="info-row"><strong>Teléfono:</strong> {{ laboratory.phone }}</div>
+        <div class="info-row"><strong>Correo:</strong> {{ laboratory.email }}</div>
+        <div class="info-row"><strong>Dirección:</strong> {{ laboratory.address }}</div>
+
+        <ion-button expand="block" color="danger" fill="outline" (click)="deleteLaboratory(laboratory.id)">
+          Eliminar laboratorio
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  }
 </ion-content>

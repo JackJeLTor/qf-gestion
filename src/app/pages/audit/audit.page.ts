@@ -3,17 +3,26 @@ import { FormsModule } from '@angular/forms';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonCard,
   IonCardContent,
   IonItem,
   IonInput,
   IonSelect,
   IonSelectOption,
-  IonButton
+  IonButton,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonMenuButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
+
+import { addIcons } from 'ionicons';
+
+import {
+  searchOutline,
+  closeOutline,
+} from 'ionicons/icons';
 
 import { AuditService }
 from '../../services/audit.service';
@@ -26,16 +35,18 @@ from '../../services/audit.service';
   imports: [
     FormsModule,
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonCard,
     IonCardContent,
     IonItem,
     IonInput,
     IonSelect,
     IonSelectOption,
-    IonButton
+    IonButton,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonMenuButton,
+    IonIcon,
   ]
 })
 export class AuditPage {
@@ -45,6 +56,8 @@ export class AuditPage {
   filteredLogs: any[] = [];
 
   searchText = '';
+
+  showSearch = false;
 
   moduleFilter = 'Todos';
 
@@ -61,7 +74,14 @@ export class AuditPage {
   constructor(
     private auditService:
       AuditService
-  ) {}
+  ) {
+
+    addIcons({
+      searchOutline,
+      closeOutline,
+    });
+
+  }
 
   ionViewWillEnter() {
 
@@ -164,6 +184,20 @@ export class AuditPage {
 
         }
       );
+
+  }
+
+  toggleSearch() {
+
+    this.showSearch = !this.showSearch;
+
+    if (!this.showSearch) {
+
+      this.searchText = '';
+
+      this.filterLogs();
+
+    }
 
   }
 

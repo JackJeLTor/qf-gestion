@@ -1,951 +1,191 @@
 <ion-content>
+  <div class="dashboard-header">
+    <div class="header-top">
+      <ion-menu-button menu="mainMenu" class="menu-button"></ion-menu-button>
 
-  <!-- HEADER -->
+      @if(currentUser){
+        <div class="user-summary">
+          <div class="greeting-block">
+            <span class="eyebrow">Inicio</span>
+            <h1>Hola, {{ currentUser.fullName }}</h1>
+            <p>{{ currentUser.role }}</p>
+          </div>
 
-<div class="dashboard-header">
-
-  <div class="header-top">
-
-    <ion-menu-button
-  menu="mainMenu"
-  class="menu-button">
-</ion-menu-button>
-
-    <div class="header-title">
-
-      QF Gestión App
-
-    </div>
-
-  </div>
-  
-    <div class="user-avatar">
-
-      @if(currentUser?.photo){
-
-        <img
-          [src]="currentUser.photo"
-          alt="Foto Usuario"
-          class="avatar-image">
-
-      } @else {
-
-        👤
-
+          <div class="user-avatar">
+            @if(currentUser?.photo){
+              <img [src]="currentUser.photo" alt="Foto de usuario" class="avatar-image">
+            } @else {
+              <span>{{ currentUser.fullName?.charAt(0) || 'U' }}</span>
+            }
+          </div>
+        </div>
       }
-
     </div>
-
-
-    <p>
-      Sistema Integral de Gestión Farmacéutica Magistral
-    </p>
-
-    @if(currentUser){
-
-      <div class="welcome-box">
-
-        <strong>
-          {{ currentUser.fullName }}
-        </strong>
-
-        <br>
-
-        Usuario:
-        {{ currentUser.username }}
-
-        <br>
-
-        Rol:
-        {{ currentUser.role }}
-
-      </div>
-
-    }
-
   </div>
-<!-- ESTADO GENERAL -->
 
-<div class="section-title">
-  📈 Estado General
-</div>
-
-<ion-card class="status-card">
-
-  <ion-card-content>
-
-    <div class="status-grid">
-
-      <div>
-
-        <h2>
-          {{ activeProductions }}
-        </h2>
-
-        <span>
-          Producciones
-        </span>
-
-      </div>
-
-      <div>
-
-        <h2>
-          {{ pendingDeliveries }}
-        </h2>
-
-        <span>
-          Entregas
-        </span>
-
-      </div>
-
-      <div>
-
-        <h2>
-          {{ observedProductions }}
-        </h2>
-
-        <span>
-          Alertas
-        </span>
-
-      </div>
-
+  <section class="dashboard-section">
+    <div class="section-heading">
+      <h2>Estado operativo</h2>
+      <p>Seguimiento de trabajo pendiente, producción y entregas.</p>
     </div>
 
-  </ion-card-content>
-
-</ion-card>
-
-<!-- KPI -->
-
-<div class="section-title">
-  📊 Resumen General
-</div>
-
-<ion-grid>
-
-  <ion-row>
-
-    <ion-col size="6">
-
-      <ion-card class="kpi-card">
-
-        <ion-card-content>
-
-          <h2>
-            {{ totalPrescriptions }}
-          </h2>
-
-          <p>
-            Recetas
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="kpi-card">
-
-        <ion-card-content>
-
-          <h2>
-            {{ activeProductions }}
-          </h2>
-
-          <p>
-            Producciones
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="kpi-card">
-
-        <ion-card-content>
-
-          <h2>
-            {{ pendingDeliveries }}
-          </h2>
-
-          <p>
-            Entregas
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="kpi-card">
-
-        <ion-card-content>
-
-          <h2>
-            {{ observedProductions }}
-          </h2>
-
-          <p>
-            Alertas
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-  </ion-row>
-
-</ion-grid>
-
-<!-- ACCESOS RAPIDOS -->
-
-<div class="section-title">
-  ⚡ Accesos Rápidos
-</div>
-
-<div class="quick-actions">
-
-  @if(canPrescriptions){
-
-    <button
-      (click)="goPrescriptions()">
-
-      📄
-
-      <span>
-        Recetas
-      </span>
-
-    </button>
-
-  }
-
-  @if(canProductions){
-
-    <button
-      (click)="goProductions()">
-
-      🏭
-
-      <span>
-        Producción
-      </span>
-
-    </button>
-
-  }
-
-  @if(canQuality){
-
-    <button
-      (click)="goQualityControl()">
-
-      🔬
-
-      <span>
-        Calidad
-      </span>
-
-    </button>
-
-  }
-
-  @if(canDeliveries){
-
-    <button
-      (click)="goDeliveries()">
-
-      🚚
-
-      <span>
-        Entregas
-      </span>
-
-    </button>
-
-  }
-
-</div>
-
-<!-- MOVIMIENTOS RECIENTES -->
-
-<div class="section-title">
-  📋 Movimientos Recientes
-</div>
-
-<ion-card>
-
-  <ion-card-content>
-
-    @if(recentMovements.length === 0){
-
-      <p>
-        No existen movimientos registrados.
-      </p>
-
-    }
-
-    @for(
-      movement of recentMovements;
-      track movement.id
-    ){
-
-      <div class="movement-item">
-
-        <strong>
-          {{ movement.type }}
-        </strong>
-
-        <br>
-
-        <small>
-
-          {{ movement.productName }}
-
-        </small>
-
-        <br>
-
-        <small>
-
-          Cantidad:
-          {{ movement.quantity }}
-
-        </small>
-
-      </div>
-
-      <hr>
-
-    }
-
-  </ion-card-content>
-
-</ion-card>
-
-<!-- ALERTAS -->
-
-<div class="section-title">
-  ⚠ Centro de Alertas
-</div>
-
-<ion-grid>
-
-  <ion-row>
-
-    <ion-col size="6">
-
-      <ion-card class="alert-card">
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ lowStock }}
-
-          </h3>
-
-          <p>
-
-            Stock Bajo
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="warning-card">
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ expiringProducts }}
-
-          </h3>
-
-          <p>
-
-            Próximos a Vencer
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="alert-card">
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ lowRawMaterials }}
-
-          </h3>
-
-          <p>
-
-            MP Stock Bajo
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="warning-card">
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ expiringRawMaterials }}
-
-          </h3>
-
-          <p>
-
-            MP por Vencer
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="info-card">
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ observedProductions }}
-
-          </h3>
-
-          <p>
-
-            Observaciones
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="success-card">
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ pendingDeliveries }}
-
-          </h3>
-
-          <p>
-
-            Entregas Pendientes
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-  </ion-row>
-
-</ion-grid>
-
-<!-- DASHBOARD EJECUTIVO -->
-
-<div class="section-title">
-  📊 Dashboard Ejecutivo
-</div>
-
-<ion-grid>
-
-  <ion-row>
-
-    <ion-col size="6">
-
-      <ion-card class="info-card">
-
-        <ion-card-content>
-
-          <h3>
-
-            S/ {{ inventoryValue.toFixed(2) }}
-
-          </h3>
-
-          <p>
-
-            Valor Inventario
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card>
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ totalProducts }}
-
-          </h3>
-
-          <p>
-
-            Productos
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card>
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ totalRawMaterials }}
-
-          </h3>
-
-          <p>
-
-            Materias Primas
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card>
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ totalPatients }}
-
-          </h3>
-
-          <p>
-
-            Pacientes
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card>
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ totalDoctors }}
-
-          </h3>
-
-          <p>
-
-            Médicos
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card>
-
-        <ion-card-content>
-
-          <h3>
-
-            {{ totalLaboratories }}
-
-          </h3>
-
-          <p>
-
-            Laboratorios
-
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-  </ion-row>
-
-</ion-grid>
-
-<!-- PRODUCCIÓN MAGISTRAL -->
-
-<div class="section-title">
-  🏭 Producción Magistral
-</div>
-
-<ion-grid>
-
-  <ion-row>
-
-    <ion-col size="6">
-
-      <ion-card class="info-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ activeProductions }}
-          </h3>
-
-          <p>
-            Activas
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="success-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ finishedProductions }}
-          </h3>
-
-          <p>
-            Finalizadas
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="warning-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ qualityProductions }}
-          </h3>
-
-          <p>
-            Control Calidad
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="alert-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ observedProductions }}
-          </h3>
-
-          <p>
-            Observadas
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-  </ion-row>
-
-</ion-grid>
-
-<!-- INVENTARIO Y MATERIAS PRIMAS -->
-
-<div class="section-title">
-  📦 Inventario y Materias Primas
-</div>
-
-<ion-grid>
-
-  <ion-row>
-
-    <ion-col size="6">
-
-      <ion-card class="info-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ totalProducts }}
-          </h3>
-
-          <p>
-            Productos
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="alert-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ lowStock }}
-          </h3>
-
-          <p>
-            Stock Bajo
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="warning-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ expiringProducts }}
-          </h3>
-
-          <p>
-            Por Vencer
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card>
-
-        <ion-card-content>
-
-          <h3>
-            {{ totalRawMaterials }}
-          </h3>
-
-          <p>
-            Materias Primas
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="alert-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ lowRawMaterials }}
-          </h3>
-
-          <p>
-            MP Stock Bajo
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-    <ion-col size="6">
-
-      <ion-card class="warning-card">
-
-        <ion-card-content>
-
-          <h3>
-            {{ expiringRawMaterials }}
-          </h3>
-
-          <p>
-            MP por Vencer
-          </p>
-
-        </ion-card-content>
-
-      </ion-card>
-
-    </ion-col>
-
-  </ion-row>
-
-</ion-grid>
-
-<!-- BARRA INFERIOR -->
-
-<div class="bottom-nav">
-
-  <button (click)="goDashboard()">
-
-    🏠
-
-    <span>
-      Inicio
-    </span>
-
-  </button>
-
-  @if(canPrescriptions){
-
-    <button (click)="goPrescriptions()">
-
-      📄
-
-      <span>
-        Recetas
-      </span>
-
-    </button>
-
-  }
-
-  @if(canProductions){
-
-    <button (click)="goProductions()">
-
-      🏭
-
-      <span>
-        Producción
-      </span>
-
-    </button>
-
-  }
-
-  @if(canDeliveries){
-
-    <button (click)="goDeliveries()">
-
-      🚚
-
-      <span>
-        Entregas
-      </span>
-
-    </button>
-
-  }
-
-  <button (click)="goProfile()">
-
-    👤
-
-    <span>
-      Perfil
-    </span>
-
-  </button>
-
-</div>
+    <ion-grid class="kpi-grid">
+      <ion-row>
+        <ion-col size="6" size-md="3">
+          <ion-card class="kpi-card primary">
+            <ion-card-content>
+              <span>Recetas pendientes</span>
+              <strong>{{ pendingPrescriptions }}</strong>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="6" size-md="3">
+          <ion-card class="kpi-card primary">
+            <ion-card-content>
+              <span>Producción activa</span>
+              <strong>{{ activeProductions }}</strong>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="6" size-md="3">
+          <ion-card class="kpi-card warning">
+            <ion-card-content>
+              <span>Entregas pendientes</span>
+              <strong>{{ pendingDeliveries }}</strong>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="6" size-md="3">
+          <ion-card class="kpi-card danger">
+            <ion-card-content>
+              <span>Alertas abiertas</span>
+              <strong>{{ observedProductions + lowRawMaterials }}</strong>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+
+  <section class="dashboard-section split-section">
+    <ion-card class="panel-card operations-card">
+      <ion-card-content>
+        <div class="panel-title">
+          <h2>Resumen de gestión</h2>
+          <p>Volumen registrado en la operación.</p>
+        </div>
+
+        <div class="metric-list">
+          <div class="metric-row">
+            <span>Pacientes</span>
+            <strong>{{ totalPatients }}</strong>
+          </div>
+
+          <div class="metric-row">
+            <span>Médicos</span>
+            <strong>{{ totalDoctors }}</strong>
+          </div>
+
+          <div class="metric-row">
+            <span>Laboratorios</span>
+            <strong>{{ totalLaboratories }}</strong>
+          </div>
+
+          <div class="metric-row">
+            <span>Materias primas</span>
+            <strong>{{ totalRawMaterials }}</strong>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="panel-card alerts-card">
+      <ion-card-content>
+        <div class="panel-title">
+          <h2>Atención requerida</h2>
+          <p>Puntos que conviene revisar hoy.</p>
+        </div>
+
+        <div class="alert-list">
+          <div class="alert-row danger">
+            <span>Producciones observadas</span>
+            <strong>{{ observedProductions }}</strong>
+          </div>
+
+          <div class="alert-row warning">
+            <span>MP por vencer</span>
+            <strong>{{ expiringRawMaterials }}</strong>
+          </div>
+
+          <div class="alert-row warning">
+            <span>MP con stock bajo</span>
+            <strong>{{ lowRawMaterials }}</strong>
+          </div>
+
+          <div class="alert-row info">
+            <span>En control de calidad</span>
+            <strong>{{ qualityProductions }}</strong>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </section>
+
+  <section class="dashboard-section">
+    <ion-card class="panel-card production-card">
+      <ion-card-content>
+        <div class="panel-title">
+          <h2>Producción y entregas</h2>
+          <p>Estado final del flujo magistral.</p>
+        </div>
+
+        <div class="flow-grid">
+          <div>
+            <span>Producciones listas</span>
+            <strong>{{ finishedProductions }}</strong>
+          </div>
+
+          <div>
+            <span>Entregas realizadas</span>
+            <strong>{{ deliveredOrders }}</strong>
+          </div>
+
+          <div>
+            <span>Total recetas</span>
+            <strong>{{ totalPrescriptions }}</strong>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </section>
+
+  <section class="dashboard-section activity-section">
+    <div class="section-heading">
+      <h2>Actividad reciente</h2>
+      <p>Últimos movimientos registrados en auditoría.</p>
+    </div>
+
+    <ion-card class="activity-card">
+      <ion-card-content>
+        @if(recentLogs.length === 0){
+          <p class="empty-text">No hay actividad registrada.</p>
+        }
+
+        @for(log of recentLogs; track log.id){
+          <div class="activity-item">
+            <div class="activity-topline">
+              <span>{{ log.module }}</span>
+              <small>{{ log.date }}</small>
+            </div>
+
+            <strong>{{ log.action }}</strong>
+            <p>{{ log.description }}</p>
+          </div>
+        }
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>

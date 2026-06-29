@@ -2,16 +2,13 @@ import { Component } from '@angular/core';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonCard,
   IonCardContent,
-  IonButton
+  IonButton,
+  IonMenuButton,
 } from '@ionic/angular/standalone';
 
-import { saveAs }
-from 'file-saver';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-backup',
@@ -20,109 +17,51 @@ from 'file-saver';
   standalone: true,
   imports: [
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonCard,
     IonCardContent,
-    IonButton
-  ]
+    IonButton,
+    IonMenuButton,
+  ],
 })
 export class BackupPage {
-
   exportBackup() {
-
     const backup: any = {};
 
-    for (
-      let i = 0;
-      i < localStorage.length;
-      i++
-    ) {
-
-      const key =
-        localStorage.key(i);
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
 
       if (key) {
-
-        backup[key] =
-          localStorage.getItem(
-            key
-          );
-
+        backup[key] = localStorage.getItem(key);
       }
-
     }
 
-    const blob =
-      new Blob(
-        [
-          JSON.stringify(
-            backup,
-            null,
-            2
-          )
-        ],
-        {
-          type:
-            'application/json'
-        }
-      );
+    const blob = new Blob([JSON.stringify(backup, null, 2)], {
+      type: 'application/json',
+    });
 
-    saveAs(
-      blob,
-      'backup-qf.json'
-    );
-
-    alert(
-      'Backup generado correctamente'
-    );
-
+    saveAs(blob, 'backup-qf.json');
+    alert('Backup generado correctamente');
   }
 
-  importBackup(
-    event: any
-  ) {
-
-    const file =
-      event.target.files[0];
+  importBackup(event: any) {
+    const file = event.target.files[0];
 
     if (!file) {
       return;
     }
 
-    const reader =
-      new FileReader();
+    const reader = new FileReader();
 
-    reader.onload =
-      (e: any) => {
+    reader.onload = (e: any) => {
+      const backup = JSON.parse(e.target.result);
 
-        const backup =
-          JSON.parse(
-            e.target.result
-          );
+      Object.keys(backup).forEach((key) => {
+        localStorage.setItem(key, backup[key]);
+      });
 
-        Object.keys(
-          backup
-        ).forEach(key => {
+      alert('Backup restaurado correctamente. Recargue la aplicación.');
+    };
 
-          localStorage.setItem(
-            key,
-            backup[key]
-          );
-
-        });
-
-        alert(
-          'Backup restaurado correctamente. Recargue la aplicación.'
-        );
-
-      };
-
-    reader.readAsText(
-      file
-    );
-
+    reader.readAsText(file);
   }
-
 }

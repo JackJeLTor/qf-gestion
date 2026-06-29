@@ -1,0 +1,268 @@
+ion-content {
+
+  --background: #F4F7FA;
+
+}
+
+.page-header {
+
+  background: linear-gradient(
+    135deg,
+    #009A82,
+    #00B89A
+  );
+
+  padding: 10px 14px;
+
+  border-bottom-left-radius: 18px;
+
+  border-bottom-right-radius: 18px;
+
+  box-shadow:
+    0 4px 14px rgba(
+      0,
+      154,
+      130,
+      .18
+    );
+
+}
+
+.header-top {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 50px;
+
+}
+
+ion-menu-button,
+.search-toggle {
+
+  --color: white;
+
+}
+
+.header-title {
+
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+}
+
+.header-title h1 {
+
+  margin: 0;
+
+  color: white;
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+}
+
+.header-search {
+
+  flex: 1;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    .18
+  );
+
+  border-radius: 12px;
+
+  padding: 0 10px;
+
+}
+
+.header-search ion-input {
+
+  --color: white;
+
+  --placeholder-color: rgba(
+    255,
+    255,
+    255,
+    .75
+  );
+
+}
+
+.stats-grid {
+
+  padding: 0 8px;
+
+}
+
+.stat-card {
+
+  margin: 0;
+
+  border-radius: 16px;
+
+  text-align: center;
+
+}
+
+.stat-card h2 {
+
+  margin: 0;
+
+  font-size: 26px;
+
+  font-weight: 800;
+
+}
+
+.stat-card p {
+
+  margin:
+    6px
+    0
+    0;
+
+  color: #6B7280;
+
+  font-size: 13px;
+
+}
+
+.stat-card.total {
+
+  border-top: 4px solid #009A82;
+
+}
+
+.stat-card.recipes {
+
+  border-top: 4px solid #3B82F6;
+
+}
+
+.stat-card.production {
+
+  border-top: 4px solid #8B5CF6;
+
+}
+
+.stat-card.quality {
+
+  border-top: 4px solid #F59E0B;
+
+}
+
+.filters-card {
+
+  margin: 14px;
+
+  background: white;
+
+  border-radius: 16px;
+
+  padding: 14px;
+
+  box-shadow:
+    0 4px 14px rgba(
+      0,
+      0,
+      0,
+      .05
+    );
+
+}
+
+.filters-card ion-item {
+
+  --background: #F9FAFB;
+
+  border-radius: 12px;
+
+  margin-bottom: 12px;
+
+}
+
+.filters-card ion-button {
+
+  --border-radius: 42px;
+
+  font-weight: 600;
+
+}
+
+.log-card {
+
+  margin: 14px;
+
+  border-radius: 18px;
+
+}
+
+.log-module {
+
+  color: #009A82;
+
+  font-weight: 700;
+
+  font-size: 15px;
+
+  margin-bottom: 8px;
+
+}
+
+.log-info {
+
+  margin-bottom: 6px;
+
+  color: #374151;
+
+  font-size: 14px;
+
+}
+
+.log-description {
+
+  color: #6B7280;
+
+  margin:
+    8px
+    0;
+
+  line-height: 1.5;
+
+}
+
+.empty-card {
+
+  margin: 14px;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+}
+ion-card,
+.stat-card,
+.filters-card,
+.log-card,
+.empty-card {
+  --background: #FFFFFF;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .06);
+}
+
+.log-card:last-child,
+.empty-card:last-child {
+  margin-bottom: calc(132px + env(safe-area-inset-bottom));
+}

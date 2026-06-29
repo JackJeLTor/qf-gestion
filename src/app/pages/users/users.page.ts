@@ -32,6 +32,7 @@ import {
 import { UserService } from '../../services/user.service';
 
 import { AuditService } from '../../services/audit.service';
+import { AppModulePermission, PermissionService } from '../../services/permission.service';
 
 @Component({
   selector: 'app-users',
@@ -77,22 +78,7 @@ export class UsersPage {
 
   permissions: string[] = [];
 
-  availablePermissions = [
-    'dashboard',
-    'patients',
-    'doctors',
-    'laboratories',
-    'raw-materials',
-    'production-consumption',
-    'prescriptions',
-    'productions',
-    'quality-control',
-    'delivery',
-    'audit',
-    'backup',
-    'users',
-    'reports',
-  ];
+  availablePermissions: AppModulePermission[] = [];
 
   users: any[] = [];
 
@@ -102,18 +88,17 @@ export class UsersPage {
 
   constructor(
     private userService: UserService,
-
     private auditService: AuditService,
+    private permissionService: PermissionService,
   ) {
-
     addIcons({
       closeOutline,
       addOutline,
     });
-
   }
 
   ngOnInit() {
+    this.availablePermissions = this.permissionService.getAssignableModules();
     this.loadUsers();
   }
 
@@ -122,9 +107,15 @@ export class UsersPage {
   }
 
   saveUser() {
-    if (!this.username || !this.password || !this.fullName || !this.role) {
+    if (!this.username || !this.fullName || !this.role) {
       return;
     }
+
+    if (!this.editingUserId && !this.password) {
+      return;
+    }
+
+    const assignedPermissions = this.getAssignedPermissions();
 
     if (this.editingUserId) {
       const user = this.userService.getUserById(this.editingUserId);
@@ -134,23 +125,19 @@ export class UsersPage {
       }
 
       user.username = this.username;
-
-      user.password = this.password;
-
       user.fullName = this.fullName;
-
       user.role = this.role;
 
-      user.permissions = this.permissions;
+      if (this.password && this.password !== user.password) {
+        user.password = this.password;
+        user.passwordChangedDate = new Date().toLocaleString();
+      }
 
+      user.permissions = assignedPermissions;
       user.email = this.email;
-
       user.phone = this.phone;
-
       user.active = this.active;
-
       user.updatedDate = new Date().toLocaleString();
-
       user.updatedBy = 'Administrador';
 
       this.userService.updateUser(user);
@@ -164,37 +151,21 @@ export class UsersPage {
     } else {
       this.userService.addUser({
         id: Date.now(),
-
         username: this.username,
-
         password: this.password,
-
         fullName: this.fullName,
-
         role: this.role,
-
-        permissions: this.permissions,
-
+        permissions: assignedPermissions,
         email: this.email,
-
         phone: this.phone,
-
         active: this.active,
-
         createdDate: new Date().toLocaleString(),
-
         updatedDate: '',
-
         createdBy: 'Administrador',
-
         updatedBy: '',
-
         lastLogin: '-',
-
         passwordChangedDate: new Date().toLocaleString(),
-
         failedAttempts: 0,
-
         locked: false,
       });
 
@@ -207,68 +178,67 @@ export class UsersPage {
     }
 
     this.clearForm();
-
     this.closeUserModal();
-
     this.loadUsers();
   }
 
   openNewUserModal() {
-
     this.clearForm();
-
     this.showUserModal = true;
-
   }
 
   closeUserModal() {
-
     this.showUserModal = false;
-
     this.clearForm();
-
   }
 
   editUser(user: any) {
     this.editingUserId = user.id;
-
     this.username = user.username;
-
-    this.password = user.password;
-
+    this.password = '';
     this.fullName = user.fullName;
-
     this.role = user.role;
-
     this.permissions = user.permissions || [];
-
     this.email = user.email;
-
     this.phone = user.phone;
-
     this.active = user.active;
-
     this.showUserModal = true;
   }
 
   clearForm() {
     this.editingUserId = null;
-
     this.username = '';
-
     this.password = '';
-
     this.fullName = '';
-
     this.role = '';
-
     this.permissions = [];
-
     this.email = '';
-
     this.phone = '';
-
     this.active = true;
+  }
+
+  syncRolePermissions() {
+    if (this.role === 'Administrador') {
+      this.permissions = this.availablePermissions.map((permission) => permission.key);
+    }
+  }
+
+  formatPermissions(permissions: string[] = []): string {
+    if (permissions.length === 0) {
+      return 'Sin permisos asignados';
+    }
+
+    return permissions
+      .map((permission) => this.permissionService.getModuleLabel(permission))
+      .join(', ');
+  }
+
+  private getAssignedPermissions(): string[] {
+    if (this.role === 'Administrador') {
+      return this.availablePermissions.map((permission) => permission.key);
+    }
+
+    return this.permissions;
   }
 
   toggleStatus(user: any) {
@@ -312,7 +282,6 @@ export class UsersPage {
     );
 
     this.userService.deleteUser(user.id);
-
     this.loadUsers();
   }
 }

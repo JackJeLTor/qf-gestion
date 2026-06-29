@@ -1,91 +1,297 @@
-.menu-header {
-  padding: 30px 20px;
-  background: linear-gradient(
-    135deg,
-    #1e3a8a,
-    #2563eb
-  );
-  color: white;
-  text-align: center;
-}
+/* ==========================================================
+   APP GENERAL
+========================================================== */
 
-.menu-header h2 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-}
+:host {
 
-.menu-avatar {
-
-  width: 70px;
-
-  height: 70px;
-
-  border-radius: 50%;
-
-  background: rgba(
-    255,
-    255,
-    255,
-    .2
-  );
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  margin: 0 auto 10px;
-
-  font-size: 34px;
-
-}
-
-.menu-user {
-
-  font-size: 14px;
-
-  opacity: .9;
-
-  margin-top: 10px;
-
-}
-
-ion-menu {
-
-  --width: 280px;
-
-}
-
-ion-item {
-
-  --padding-start: 20px;
-
-  font-size: 15px;
-
-  font-weight: 500;
-
-}
-
-.avatar-image {
+  display: block;
 
   width: 100%;
 
   height: 100%;
 
-  object-fit: cover;
+}
+
+/* ==========================================================
+   CONTENEDOR PRINCIPAL
+========================================================== */
+
+.app-shell {
+
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+
+  width: 100%;
+
+  height: 100vh;
+
+  overflow: hidden;
+
+  background: #F6F8FB;
 
 }
 
+/* ==========================================================
+   CONTENIDO PRINCIPAL
+========================================================== */
+
+.app-content {
+
+  flex: 1;
+
+  position: relative;
+
+  overflow: auto;
+
+  background: #F6F8FB;
+
+  transition:
+    padding .25s ease,
+    margin .25s ease;
+
+}
+
+/* Cuando existe BottomNav */
+
+.app-content.has-bottom-nav {
+
+  padding-bottom: 0;
+
+}
+
+/* ==========================================================
+   ROUTER OUTLET
+========================================================== */
+
+ion-router-outlet {
+
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+}
+
+/* ==========================================================
+   MENÚ LATERAL
+========================================================== */
+
+ion-menu {
+
+  --width: 290px;
+
+  --background: #FFFFFF;
+
+}
+
+/* ==========================================================
+   CONTENIDO DEL MENÚ
+========================================================== */
+
+.menu-content {
+
+  --background: #F8FAFC;
+
+}
+
+/* ==========================================================
+   CABECERA DEL MENÚ
+========================================================== */
+
+.menu-header {
+
+  background: linear-gradient(
+    135deg,
+    #009A82,
+    #00B894
+  );
+
+  color: white;
+
+  padding:
+
+    32px
+
+    20px
+
+    24px;
+
+  border-radius:
+
+    0
+
+    0
+
+    18px
+
+    18px;
+
+  margin-bottom: 12px;
+
+}
+
+.menu-header h2 {
+
+  margin: 0;
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+}
+
+.menu-header p {
+
+  margin-top: 8px;
+
+  margin-bottom: 0;
+
+  opacity: .90;
+
+  font-size: 14px;
+
+}
+
+/* ==========================================================
+   LISTA DEL MENÚ
+========================================================== */
+
+ion-list {
+
+  background: transparent;
+
+  padding: 12px;
+
+}
+
+/* ==========================================================
+   OPCIONES DEL MENÚ
+========================================================== */
+
 ion-item {
 
-  cursor: pointer;
+  --background: transparent;
+
+  --border-radius: 12px;
+
+  --padding-start: 16px;
+
+  --inner-padding-end: 12px;
+
+  --min-height: 48px;
+
+  margin-bottom: 6px;
+
+  font-size: 15px;
+
+  font-weight: 500;
+
+  transition: all .20s ease;
 
 }
 
 ion-item:hover {
 
-  --background: #eef4ff;
+  --background: rgba(
+    0,
+    154,
+    130,
+    .08
+  );
 
+}
+
+ion-item.item-native {
+
+  border-radius: 12px;
+
+}
+
+/* ==========================================================
+   SCROLL
+========================================================== */
+
+::-webkit-scrollbar {
+
+  width: 8px;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+  background: #D5D8DD;
+
+  border-radius: 20px;
+
+}
+
+::-webkit-scrollbar-track {
+
+  background: transparent;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:768px) {
+
+  ion-menu {
+
+    --width: 270px;
+
+  }
+
+  .menu-header {
+
+    padding:
+
+      26px
+
+      18px
+
+      22px;
+
+  }
+
+}
+
+.menu-header span {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .16);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+ion-item ion-icon {
+  color: #009A82;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.logout-item {
+  color: #B91C1C;
+}
+
+.logout-item ion-icon {
+  color: #B91C1C;
+}
+/* ==========================================================
+   ESPACIO REAL PARA BARRA INFERIOR
+========================================================== */
+
+.app-content.has-bottom-nav ion-content {
+  --padding-bottom: calc(132px + env(safe-area-inset-bottom));
+}
+
+.app-content.has-bottom-nav ion-router-outlet {
+  padding-bottom: calc(92px + env(safe-area-inset-bottom));
 }

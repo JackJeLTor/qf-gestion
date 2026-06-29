@@ -1,72 +1,46 @@
-<ion-header>
+<ion-content>
+  <div class="page-header">
+    <div class="header-top">
+      <ion-menu-button></ion-menu-button>
+      <div class="header-title">
+        <h1>Backup</h1>
+      </div>
+    </div>
+  </div>
 
-  <ion-toolbar>
+  <section class="backup-intro">
+    <h2>Respaldo del sistema</h2>
+    <p>Exporta o restaura la información local de QF Gestión con control manual.</p>
+  </section>
 
-    <ion-title>
-
-      Backup del Sistema
-
-    </ion-title>
-
-  </ion-toolbar>
-
-</ion-header>
-
-<ion-content class="ion-padding">
-
-  <ion-card>
-
+  <ion-card class="backup-card">
     <ion-card-content>
+      <div class="backup-card-header">
+        <span>Exportar</span>
+        <h2>Descargar backup</h2>
+      </div>
 
-      <h2>
+      <p>Genera un archivo JSON con toda la información almacenada en este equipo.</p>
 
-        💾 Exportar Backup
-
-      </h2>
-
-      <p>
-
-        Guarda toda la información
-        del sistema en un archivo JSON.
-
-      </p>
-
-      <ion-button
-        expand="block"
-        (click)="exportBackup()">
-
-        Descargar Backup
-
+      <ion-button expand="block" (click)="exportBackup()">
+        Descargar backup
       </ion-button>
-
     </ion-card-content>
-
   </ion-card>
 
-  <ion-card>
-
+  <ion-card class="backup-card restore-card">
     <ion-card-content>
+      <div class="backup-card-header">
+        <span>Restaurar</span>
+        <h2>Cargar backup</h2>
+      </div>
 
-      <h2>
+      <p>Selecciona un archivo backup-qf.json para restaurar la información.</p>
 
-        📥 Restaurar Backup
-
-      </h2>
-
-      <p>
-
-        Selecciona un archivo
-        backup-qf.json
-
-      </p>
-
-      <input
-        type="file"
-        accept=".json"
-        (change)="importBackup($event)">
-
+      <label class="file-picker">
+        Seleccionar archivo
+        <input type="file" accept=".json" (change)="importBackup($event)">
+      </label>
     </ion-card-content>
-
   </ion-card>
-
 </ion-content>
