@@ -1,15 +1,107 @@
-ion-card {
-
-  margin-top: 15px;
-
-  border-radius: 16px;
-
+ion-content {
+  --background: #F4F7FA;
 }
 
-h2 {
+.page-header {
+  background: linear-gradient(135deg, #009A82, #00B89A);
+  padding: 10px 14px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 154, 130, .18);
+}
 
-  color: #2144d8;
+.header-top {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  font-weight: bold;
+ion-menu-button {
+  --color: #FFFFFF;
+}
 
+.header-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header-title h1 {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.form-card,
+.laboratory-card,
+.empty-card {
+  margin: 14px;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .06);
+}
+
+.section-title {
+  margin-bottom: 12px;
+  color: #009A82;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.list-title {
+  margin: 18px 16px 8px;
+}
+
+ion-item {
+  --background: #F9FAFB;
+  --border-color: #E5E7EB;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.save-button,
+.laboratory-card ion-button {
+  --border-radius: 42px;
+  font-weight: 800;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card-header-row h2 {
+  margin: 0;
+  color: #009A82;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.card-header-row span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #E6FFFB;
+  color: #00806E;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.info-row {
+  margin-bottom: 8px;
+  color: #374151;
+  font-size: 14px;
+}
+
+.info-row strong {
+  color: #1F2937;
+}
+
+.empty-card {
+  text-align: center;
+  color: #6B7280;
 }

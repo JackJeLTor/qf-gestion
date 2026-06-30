@@ -34,4 +34,178 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* Dark system palette disabled to keep QF Gestion visually consistent. */
+
+/* Shared mobile shell fixes */
+ion-modal {
+  z-index: 10000;
+  --width: min(960px, calc(100vw - 24px));
+  --height: min(92vh, calc(100vh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+  --border-radius: 18px;
+}
+
+ion-modal ion-content {
+  --padding-bottom: calc(28px + env(safe-area-inset-bottom));
+}
+
+ion-fab[vertical="bottom"] {
+  margin-bottom: calc(116px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 768px) {
+  ion-fab[vertical="bottom"] {
+    margin-bottom: 20px;
+  }
+}
+/* Professional shared module theme */
+:root {
+  --qf-primary: #009A82;
+  --qf-primary-strong: #00806E;
+  --qf-primary-soft: #E6FFFB;
+  --qf-surface: #FFFFFF;
+  --qf-page: #F4F7FA;
+  --qf-border: #E5E7EB;
+  --qf-text: #1F2937;
+  --qf-muted: #6B7280;
+}
+
+ion-content {
+  --background: var(--qf-page);
+}
+
+.page-header,
+.dashboard-header {
+  background: linear-gradient(135deg, var(--qf-primary), #00B89A);
+  box-shadow: 0 8px 22px rgba(0, 154, 130, .18);
+}
+
+ion-card,
+.patient-card,
+.doctor-card,
+.prescription-card,
+.material-card,
+.product-card,
+.user-card,
+.consumption-card,
+.profile-card,
+.report-card,
+.summary-card,
+.alert-card,
+.warning-card,
+.info-card,
+.activity-card,
+.form-card,
+.empty-card {
+  border: 1px solid rgba(229, 231, 235, .85);
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .06);
+}
+
+.form-section {
+  border: 1px solid rgba(229, 231, 235, .9);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .05);
+}
+
+.form-section h3,
+.patient-card h2,
+.doctor-card h2,
+.prescription-card h2,
+.material-card h2,
+.product-card h2,
+.user-card h2,
+.profile-name,
+.patient-name {
+  color: var(--qf-primary);
+}
+
+ion-button,
+ion-fab-button {
+  --background: var(--qf-primary);
+  --background-hover: #00B89A;
+  --background-activated: var(--qf-primary-strong);
+}
+
+.modal-form {
+  padding-bottom: calc(32px + env(safe-area-inset-bottom));
+}
+
+ion-modal ion-toolbar {
+  --background: var(--qf-primary);
+  --color: #FFFFFF;
+}
+
+@media (max-width: 520px) {
+  .page-header,
+  .dashboard-header {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  ion-card,
+  .patient-card,
+  .doctor-card,
+  .prescription-card,
+  .material-card,
+  .product-card,
+  .user-card,
+  .consumption-card,
+  .profile-card,
+  .report-card,
+  .summary-card,
+  .alert-card,
+  .warning-card,
+  .info-card,
+  .activity-card,
+  .form-card,
+  .empty-card {
+    border-radius: 14px;
+  }
+}
+/* Force QF Gestion light professional palette */
+html,
+body,
+ion-app,
+ion-content,
+ion-card,
+ion-card-content,
+ion-item,
+ion-list,
+ion-modal {
+  color-scheme: light;
+}
+
+ion-card,
+ion-card-content,
+ion-list,
+ion-item,
+.form-section,
+.filters-card,
+.panel-card,
+.activity-card,
+.profile-card,
+.form-card,
+.empty-card,
+.log-card,
+.summary-card,
+.consumption-card,
+.access-card,
+.backup-card,
+.laboratory-card {
+  --background: #FFFFFF;
+  background: #FFFFFF;
+  color: #1F2937;
+}
+
+ion-item {
+  --color: #1F2937;
+  --background: #F9FAFB;
+}
+
+.app-content.has-bottom-nav ion-content {
+  --padding-bottom: calc(148px + env(safe-area-inset-bottom));
+}
+
+.app-content.has-bottom-nav ion-content::part(scroll) {
+  padding-bottom: calc(148px + env(safe-area-inset-bottom));
+  scroll-padding-bottom: calc(148px + env(safe-area-inset-bottom));
+}

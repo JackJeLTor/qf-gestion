@@ -1,197 +1,352 @@
-<ion-header>
+<ion-content>
 
-  <ion-toolbar>
+  <div class="page-header">
 
-    <ion-title>
+    <div class="header-top">
 
-      Reportes Ejecutivos
+      <ion-menu-button>
+      </ion-menu-button>
 
-    </ion-title>
+      <div class="header-title">
 
-  </ion-toolbar>
+        <h1>
 
-</ion-header>
+          Reportes
 
-<ion-content class="ion-padding">
+        </h1>
 
-  <ion-card class="report-card products">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="section-title">
+
+    Indicadores Magistrales
+
+  </div>
+
+  <ion-grid>
+
+    <ion-row>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card prescriptions">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ totalPrescriptions }}
+
+            </h2>
+
+            <p>
+
+              Recetas Registradas
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card pending">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ pendingPrescriptions }}
+
+            </h2>
+
+            <p>
+
+              Recetas Pendientes
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card production">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ activeProductions }}
+
+            </h2>
+
+            <p>
+
+              Producciones Activas
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card finished">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ finishedProductions }}
+
+            </h2>
+
+            <p>
+
+              Producciones Finalizadas
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card patients">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ totalPatients }}
+
+            </h2>
+
+            <p>
+
+              Pacientes
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card doctors">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ totalDoctors }}
+
+            </h2>
+
+            <p>
+
+              Médicos
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card materials">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ totalRawMaterials }}
+
+            </h2>
+
+            <p>
+
+              Materias Primas
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card warning">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ lowRawMaterials }}
+
+            </h2>
+
+            <p>
+
+              MP Stock Bajo
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card delivery">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ pendingDeliveries }}
+
+            </h2>
+
+            <p>
+
+              Entregas Pendientes
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="report-card completed">
+
+          <ion-card-content>
+
+            <h2>
+
+              {{ deliveredOrders }}
+
+            </h2>
+
+            <p>
+
+              Entregas Completadas
+
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+
+  <div class="section-title">
+
+    Exportar Información
+
+  </div>
+
+  <ion-card class="export-card">
 
     <ion-card-content>
 
-      <h2>📦 Productos</h2>
+      <ion-button
+        expand="block"
+        class="export-button"
+        (click)="exportExcel(
+          patientService.getPatients(),
+          'Pacientes'
+        )">
 
-      <h1>{{ totalProducts }}</h1>
+        Exportar Pacientes
+
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        class="export-button"
+        (click)="exportExcel(
+          doctorService.getDoctors(),
+          'Medicos'
+        )">
+
+        Exportar Médicos
+
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        class="export-button"
+        (click)="exportExcel(
+          prescriptionService.getPrescriptions(),
+          'Recetas'
+        )">
+
+        Exportar Recetas
+
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        class="export-button"
+        (click)="exportExcel(
+          productionService.getProductions(),
+          'Producciones'
+        )">
+
+        Exportar Producción
+
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        class="export-button"
+        (click)="exportExcel(
+          rawMaterialService.getRawMaterials(),
+          'MateriasPrimas'
+        )">
+
+        Exportar Materias Primas
+
+      </ion-button>
 
     </ion-card-content>
 
   </ion-card>
-
-  <ion-card class="report-card orders">
-
-    <ion-card-content>
-
-      <h2>🛒 Pedidos</h2>
-
-      <h1>{{ totalOrders }}</h1>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card class="report-card sales">
-
-    <ion-card-content>
-
-      <h2>💰 Ventas Totales</h2>
-
-      <h1>S/. {{ totalSales.toFixed(2) }}</h1>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card class="report-card prescriptions">
-
-    <ion-card-content>
-
-      <h2>🧪 Recetas Registradas</h2>
-
-      <h1>{{ totalPrescriptions }}</h1>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card class="report-card pending">
-
-    <ion-card-content>
-
-      <h2>⏳ Recetas Pendientes</h2>
-
-      <h1>{{ pendingPrescriptions }}</h1>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card class="report-card production">
-
-    <ion-card-content>
-
-      <h2>🏭 Producciones Activas</h2>
-
-      <h1>{{ activeProductions }}</h1>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card class="report-card finished">
-
-    <ion-card-content>
-
-      <h2>✅ Producciones Finalizadas</h2>
-
-      <h1>{{ finishedProductions }}</h1>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card class="report-card warning">
-
-    <ion-card-content>
-
-      <h2>⚠ Stock Bajo</h2>
-
-      <h1>{{ lowStockProducts }}</h1>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card class="report-card expire">
-
-    <ion-card-content>
-
-      <h2>📅 Próximos a Vencer</h2>
-
-      <h1>{{ expiringProducts }}</h1>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card>
-
-  <ion-card-content>
-
-    <h2>
-
-      📥 Exportar Información
-
-    </h2>
-
-    <button
-      (click)="exportExcel(
-        patientService.getPatients(),
-        'Pacientes'
-      )">
-
-      Exportar Pacientes
-
-    </button>
-
-    <br><br>
-
-    <button
-      (click)="exportExcel(
-        doctorService.getDoctors(),
-        'Medicos'
-      )">
-
-      Exportar Médicos
-
-    </button>
-
-    <br><br>
-
-    <button
-      (click)="exportExcel(
-        prescriptionService.getPrescriptions(),
-        'Recetas'
-      )">
-
-      Exportar Recetas
-
-    </button>
-
-    <br><br>
-
-    <button
-      (click)="exportExcel(
-        productionService.getProductions(),
-        'Producciones'
-      )">
-
-      Exportar Producción
-
-    </button>
-
-    <br><br>
-
-    <button
-      (click)="exportExcel(
-        rawMaterialService.getRawMaterials(),
-        'MateriasPrimas'
-      )">
-
-      Exportar Materias Primas
-
-    </button>
-
-  </ion-card-content>
-
-</ion-card>
 
 </ion-content>

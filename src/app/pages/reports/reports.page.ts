@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonButton,
+  IonMenuButton,
 } from '@ionic/angular/standalone';
 
-import { ProductService } from '../../services/product.service';
-import { OrderService } from '../../services/order.service';
 import { PrescriptionService } from '../../services/prescription.service';
 import { ProductionService } from '../../services/production.service';
 import { PatientService } from '../../services/patient.service';
@@ -32,21 +32,16 @@ from '../../services/audit.service';
   standalone: true,
   imports: [
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonCard,
-    IonCardContent
+    IonCardContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonMenuButton,
   ]
 })
 export class ReportsPage {
-
-  totalProducts = 0;
-  totalOrders = 0;
-  totalSales = 0;
-
-  lowStockProducts = 0;
-  expiringProducts = 0;
 
   totalPrescriptions = 0;
   pendingPrescriptions = 0;
@@ -67,12 +62,6 @@ export class ReportsPage {
   lowRawMaterials = 0;
 
   constructor(
-  private productService:
-    ProductService,
-
-  private orderService:
-    OrderService,
-
   public prescriptionService:
     PrescriptionService,
 
@@ -155,12 +144,6 @@ exportExcel(
 
   ionViewWillEnter() {
 
-    const products =
-      this.productService.getProducts();
-
-    const orders =
-      this.orderService.getOrders();
-
     const prescriptions =
       this.prescriptionService.getPrescriptions();
 
@@ -178,12 +161,6 @@ exportExcel(
 
     const rawMaterials =
       this.rawMaterialService.getRawMaterials();
-
-    this.totalProducts =
-      products.length;
-
-    this.totalOrders =
-      orders.length;
 
     this.totalPatients =
       patients.length;
@@ -206,12 +183,12 @@ exportExcel(
 
     this.activeProductions =
       productions.filter(
-        p => p.status !== 'Finalizado'
+        p => p.status !== 'Finalizado' && p.status !== 'Lista para Entrega'
       ).length;
 
     this.finishedProductions =
       productions.filter(
-        p => p.status === 'Finalizado'
+        p => p.status === 'Finalizado' || p.status === 'Lista para Entrega'
       ).length;
 
     this.observedProductions =
@@ -239,41 +216,6 @@ exportExcel(
       rawMaterials.filter(
         m => m.stock <= m.minimumStock
       ).length;
-
-    this.totalSales =
-      orders.reduce(
-        (total, order) =>
-          total + (order.total || 0),
-        0
-      );
-
-    this.lowStockProducts =
-      products.filter(
-        product => product.stock < 10
-      ).length;
-
-    const currentDate =
-      new Date();
-
-    this.expiringProducts =
-      products.filter(product => {
-
-        const expirationDate =
-          new Date(
-            product.expirationDate
-          );
-
-        const difference =
-          expirationDate.getTime() -
-          currentDate.getTime();
-
-        const days =
-          difference /
-          (1000 * 60 * 60 * 24);
-
-        return days <= 180;
-
-      }).length;
   }
 
 }

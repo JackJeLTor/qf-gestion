@@ -1,11 +1,95 @@
-ion-card {
-
-  margin-bottom: 20px;
-
+ion-content {
+  --background: #F4F7FA;
 }
 
-h2 {
+.page-header {
+  background: linear-gradient(135deg, #009A82, #00B89A);
+  padding: 10px 14px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 154, 130, .18);
+}
 
-  margin-bottom: 10px;
+.header-top {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+ion-menu-button {
+  --color: #FFFFFF;
+}
+
+.header-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header-title h1 {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.backup-intro {
+  padding: 18px 16px 4px;
+}
+
+.backup-intro h2 {
+  margin: 0;
+  color: #1F2937;
+  font-size: 19px;
+  font-weight: 850;
+}
+
+.backup-intro p,
+.backup-card p {
+  color: #6B7280;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.backup-card {
+  margin: 14px;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .06);
+}
+
+.backup-card-header span {
+  color: #009A82;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.backup-card-header h2 {
+  margin: 4px 0 10px;
+  color: #1F2937;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+ion-button,
+.file-picker {
+  --border-radius: 42px;
+  font-weight: 800;
+}
+
+.file-picker {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 42px;
+  background: #009A82;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.file-picker input {
+  display: none;
 }

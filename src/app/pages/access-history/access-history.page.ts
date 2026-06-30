@@ -2,15 +2,12 @@ import { Component } from '@angular/core';
 
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonMenuButton,
 } from '@ionic/angular/standalone';
 
-import { AccessLogService }
-from '../../services/access-log.service';
+import { AccessLogService } from '../../services/access-log.service';
 
 @Component({
   selector: 'app-access-history',
@@ -18,31 +15,18 @@ from '../../services/access-log.service';
   styleUrls: ['./access-history.page.scss'],
   standalone: true,
   imports: [
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonCard,
-  IonCardContent
-]
+    IonContent,
+    IonCard,
+    IonCardContent,
+    IonMenuButton,
+  ],
 })
 export class AccessHistoryPage {
-
   logs: any[] = [];
 
-  constructor(
-    private accessLogService:
-      AccessLogService
-  ) {}
+  constructor(private accessLogService: AccessLogService) {}
 
   ionViewWillEnter() {
-
-    this.logs =
-      this.accessLogService
-        .getLogs()
-        .slice()
-        .reverse();
-
+    this.logs = this.accessLogService.getLogs().slice().reverse();
   }
-
 }

@@ -1,152 +1,54 @@
 <ion-app>
-
   <ion-menu
     menuId="mainMenu"
     contentId="main-content"
     side="start"
     swipeGesture="true">
 
-    <ion-content>
-
+    <ion-content class="menu-content">
       <div class="menu-header">
+        <h2>QF Gestión</h2>
 
-        <h2>
-          QF Gestión App
-        </h2>
-
-        @if(currentUser){
-
-          <p>
-            {{ currentUser.fullName }}
-          </p>
-
+        @if (currentUser) {
+          <p>{{ currentUser.fullName }}</p>
+          <span>{{ currentUser.role }}</span>
         }
-
       </div>
 
       <ion-list>
+        @for (item of menuItems; track item.key) {
+          <ion-menu-toggle auto-hide="true">
+            <ion-item [routerLink]="item.path" button>
+              <ion-icon slot="start" [name]="item.icon || 'ellipse-outline'"></ion-icon>
+              {{ item.label }}
+            </ion-item>
+          </ion-menu-toggle>
+        }
 
         <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/dashboard">
-            🏠 Dashboard
+          <ion-item routerLink="/profile" button>
+            <ion-icon slot="start" name="person-outline"></ion-icon>
+            Perfil
           </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/patients">
-            👤 Pacientes
-          </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/doctors">
-            👨‍⚕️ Médicos
-          </ion-item>
-
         </ion-menu-toggle>
 
         <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/prescriptions">
-            � Recetas
+          <ion-item button (click)="logout()" class="logout-item">
+            <ion-icon slot="start" name="log-out-outline"></ion-icon>
+            Cerrar Sesión
           </ion-item>
-
         </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/laboratories">
-            🏢 Laboratorios
-          </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/raw-materials">
-            🧪 Materias Primas
-          </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/production-consumption">
-            ⚗️ Consumo MP
-          </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/audit">
-            📋 Auditoría
-          </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/users">
-            👥 Usuarios
-          </ion-item>
-
-        </ion-menu-toggle>
-
-         <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/quality-control">
-            🧪 Control de Calidad
-          </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/backup">
-            💾 Backup
-          </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item routerLink="/access-history">
-            🔐 Historial Accesos
-          </ion-item>
-
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="true">
-
-          <ion-item
-            button
-            (click)="logout()">
-
-            🚪 Cerrar Sesión
-
-          </ion-item>
-
-        </ion-menu-toggle>
-
       </ion-list>
-
     </ion-content>
-
   </ion-menu>
 
-  <div
-    class="ion-page"
-    id="main-content">
+  <div id="main-content" class="ion-page app-shell">
+    <main class="app-content" [class.has-bottom-nav]="showBottomNav">
+      <ion-router-outlet></ion-router-outlet>
+    </main>
 
-    <ion-router-outlet>
-    </ion-router-outlet>
-
+    @if (showBottomNav) {
+      <app-bottom-nav></app-bottom-nav>
+    }
   </div>
-
 </ion-app>

@@ -54,6 +54,8 @@ export class UserService {
             'users',
 
             'reports',
+
+            'access-history',
           ],
 
           email: 'admin@qfgestion.com',
